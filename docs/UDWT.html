@@ -443,7 +443,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/0e6a2d9c42094f5f87e442ea257e7cd93be35fbc" target="_blank">0e6a2d9</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/b9deae07aee21083b82af2750a75375318790ec2" target="_blank">b9deae0</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -482,6 +482,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b9deae07aee21083b82af2750a75375318790ec2/analysis/UDWT.Rmd" target="_blank">b9deae0</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-14
+</td>
+<td style="text-align:left;">
+analysis on n=512 and n=128
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/480317d44fa645d624ebb08cb6acae241bcc949f/docs/UDWT.html" target="_blank">480317d</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-14
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/KaiqianZhang/susie-np/blob/0e6a2d9c42094f5f87e442ea257e7cd93be35fbc/analysis/UDWT.Rmd" target="_blank">0e6a2d9</a>
 </td>
 <td style="text-align:left;">
@@ -499,149 +533,149 @@ Publish the initial files for myproject
 </ul>
 <p></details></p>
 <hr />
-<p>In this vignette, we explore undecimated wavelet transform for sparse regression. We simulate piecewise constant data <code>y</code> which has <code>n=2^7=128</code> samples. We use two different bases:</p>
+<p>In this vignette, we apply undecimated wavelet bases on our sparse regression method <code>SuSiE</code> and try to investigate the performance. We compare two different bases:</p>
 <ol style="list-style-type: decimal">
 <li><p>Discrete wavelet transform (DWT): each basis are orthonormal to each other;</p></li>
 <li><p>Undecimated wavelet transform (UDWT): we have n*log2(n) bases and they are not orthogonal.</p></li>
 </ol>
-<p>We expect that the fit by UDWT will be smoother than that by DWT.</p>
-<pre class="r"><code>library(wavethresh)</code></pre>
-<pre><code>Loading required package: MASS</code></pre>
-<pre><code>WaveThresh: R wavelet software, release 4.6.8, installed</code></pre>
-<pre><code>Copyright Guy Nason and others 1993-2016</code></pre>
-<pre><code>Note: nlevels has been renamed to nlevelsWT</code></pre>
-<pre class="r"><code>library(binhf) #Package for shift function</code></pre>
-<pre><code>Loading required package: adlift</code></pre>
-<pre><code>Loading required package: EbayesThresh</code></pre>
-<pre><code>
- **********************************************
- adlift: a package to perform wavelet lifting schemes
-
- --- Written by Matt Nunes and Marina Knight ---
-   Current package version:  1.4-1  ( 2018-07-09 ) 
-
-             -+ packaged by MAN +-           
- **********************************************
- 
- adlift 1.4-1 loaded</code></pre>
-<pre><code>
-Attaching package: &#39;adlift&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:EbayesThresh&#39;:
-
-    postmean.cauchy</code></pre>
-<pre><code>
- **********************************************
- binhf: Haar-Fisz functions for binomial data
-
- --- Written by Matt Nunes ---
-   Current package version:  1.0-3  ( 2018-07-18 ) 
-
- 
- **********************************************
- 
- binhf 1.0-3 loaded</code></pre>
-<pre><code>
-Attaching package: &#39;binhf&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:EbayesThresh&#39;:
-
-    negloglik.laplace</code></pre>
-<pre><code>The following object is masked from &#39;package:base&#39;:
-
-    norm</code></pre>
-<pre class="r"><code>library(susieR)</code></pre>
-<div id="create-dwt-and-udwt-matrix" class="section level2">
-<h2>Create DWT and UDWT matrix</h2>
-<pre class="r"><code>J = 7
-n = 2^J</code></pre>
-<pre class="r"><code>Haar_matrix &lt;- t(GenW(n=n, filter.number=1, family=&quot;DaubExPhase&quot;))</code></pre>
-<pre class="r"><code>Haar_matrix_inv &lt;- t(Haar_matrix)
-dim(Haar_matrix_inv)</code></pre>
-<pre><code>[1] 128 128</code></pre>
-<pre class="r"><code>n_Haar_matrix_inv &lt;- Haar_matrix_inv
+<p>We expect that fit by UDWT will be smoother than that by DWT.</p>
+<div id="last-time-investigation" class="section level2">
+<h2>Last time investigation</h2>
+<p>Last time, we simulated piecewise constant data of size <code>n = 512</code>. We discovered that using discrete wavelet bases (DWT) actually is better than using redundant ones (UDWT). We can observe this by red lines in the figures <code>SuSiE-DWT n=512</code> and <code>SuSiE-UDWT n=512</code>.</p>
+<p>We hypothesize that the worse fit for UDWT might due to convergence to local optimum problem. So we initialize <code>SuSiE</code> from DWT fit, using coefficients that have absolute value greater than 0.01. Then we fit the model with UDWT bases using our initialization. Please see green line in the figure <code>SuSiE-UDWT n=512</code> below. The fit is not very good. So my questions are:</p>
+<ol style="list-style-type: decimal">
+<li><p>Does the performance of green line suggest the convergence to local optimum problem? I expect that with DWT initialization, the fit will be more like DWT fit. But it turns out not.</p></li>
+<li><p>Blue lines below indicate we estimate prior variance when fitting SuSiE. I assume estimating prior variance would always improve the fit. But in the figure <code>SuSiE-DWT n=512</code>, estimating prior variance on the other hand makes the fit worse.</p></li>
+</ol>
+<div id="simulate-data-n512" class="section level3">
+<h3>Simulate data <code>n=512</code></h3>
+<p>We simulate piecewise constant data of size <code>n=512</code>.</p>
+<pre class="r"><code>n &lt;- 512
+set.seed(1)
+beta1 &lt;- c(rep(0,100),rep(1,100),rep(3,100),rep(-2,100),rep(0,n-400))
+y1 &lt;- beta1 + rnorm(n, sd=0.1)</code></pre>
+</div>
+<div id="create-dwt-and-udwt-matrices-as-input-x" class="section level3">
+<h3>Create DWT and UDWT matrices as input <code>X</code></h3>
+<p>We create matrices using DWT and UDWT bases when <code>n=512</code>.</p>
+<pre class="r"><code>Haar_matrix &lt;- t(GenW(n=n, filter.number=1, family=&quot;DaubExPhase&quot;))
+DWT_W_T &lt;- t(Haar_matrix)
+n_Haar_matrix_inv &lt;- DWT_W_T
 for(i in 1:(n-1)){
   order &lt;- shift(seq(n),i)
   Haar_matrix_shifted_inv &lt;- t(Haar_matrix[,order])
   n_Haar_matrix_inv &lt;- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
-}</code></pre>
-<pre class="r"><code>duplicated_columns &lt;- duplicated(t(n_Haar_matrix_inv))
-W_T_Haar_nlog2n &lt;- n_Haar_matrix_inv[, !duplicated_columns]</code></pre>
-<pre class="r"><code>dim(W_T_Haar_nlog2n)</code></pre>
-<pre><code>[1] 128 897</code></pre>
-<p>Notice that matrix <code>X</code> used in DWT is 128 by 128 (<code>Haar_matrix_inv</code>) and matrix X used in UDWT is 128 by 897. (<code>W_T_Haar_nlog2n</code>)</p>
+}
+duplicated_columns &lt;- duplicated(t(n_Haar_matrix_inv))
+UDWT_W_T &lt;- n_Haar_matrix_inv[, !duplicated_columns]</code></pre>
 </div>
-<div id="simulate-data-y" class="section level2">
-<h2>Simulate data <code>y</code></h2>
-<pre class="r"><code>set.seed(1)
-beta &lt;- c(rep(0,10),rep(1,20),rep(-2,10),rep(0,n-40))
-y &lt;- beta + rnorm(n, sd=0.1)</code></pre>
+<div id="fit-susie-with-dwt-bases" class="section level3">
+<h3>Fit SuSiE with DWT bases</h3>
+<p>We fit SuSiE with DWT bases when <code>n=512</code>. The red line is SuSiE fit, and the blue line is SuSiE fit with <code>estimate_prior_variance=TRUE</code>.</p>
+<pre class="r"><code>fit_susie_DWT = susie(DWT_W_T, y1, L=30)</code></pre>
+<pre class="r"><code>fit_susie_DWT_prior = susie(DWT_W_T, y1, L=50, estimate_prior_variance=TRUE)</code></pre>
+<pre class="r"><code>plot(y1,pch=20, col=&quot;grey&quot;, main=&quot;SuSiE-DWT n=512&quot;)
+lines(beta1,col=&quot;black&quot;,lwd=2)
+lines(predict(fit_susie_DWT), col=&#39;red&#39;, lwd=2)
+lines(predict(fit_susie_DWT_prior), col=&#39;blue&#39;, lwd=2)</code></pre>
+<p><img src="figure/UDWT.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="fit-susie-with-dwt-bases" class="section level2">
-<h2>Fit SuSiE with DWT bases</h2>
-<pre class="r"><code>fit_susie_Haar &lt;- susie(Haar_matrix_inv, y, L=100)</code></pre>
-<pre class="r"><code>plot(y,pch=20, col=&quot;grey&quot;, main=&quot;SuSiE-DWT&quot;)
-lines(beta,col=&quot;black&quot;,lwd=2)
-lines(predict(fit_susie_Haar),col=&quot;red&quot;,lwd=2)</code></pre>
-<p><img src="figure/UDWT.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="fit-susie-with-udwt-bases" class="section level3">
+<h3>Fit SuSiE with UDWT bases</h3>
+<p>We fit SuSiE with UDWT bases when <code>n=512</code>. The red line is SuSiE fit, the blue line is SuSiE fit with <code>estimate_prior_variance=TRUE</code>, and the green line is SuSiE fit with initialization from DWT fit.</p>
+<pre class="r"><code>fit_susie_UDWT = susie(UDWT_W_T, y1, L=30)</code></pre>
+<pre class="r"><code>fit_susie_UDWT_prior = susie(UDWT_W_T, y1, L=30, estimate_prior_variance=TRUE)</code></pre>
+<pre class="r"><code>coef_index &lt;- which(abs(coef(fit_susie_DWT))&gt;0.01)
+coef_value &lt;- coef(fit_susie_DWT)[coef_index]
+coef_index &lt;- coef_index[2:length(coef_index)]-1
+coef_value &lt;- coef_value[2:length(coef_value)]
+p &lt;- dim(UDWT_W_T)[2]
+susie_initDWT &lt;- susie_init_coef(coef_index, coef_value, p)</code></pre>
+<pre class="r"><code>fit_susie_UDWT_init &lt;- susie(UDWT_W_T, y1, s_init = susie_initDWT)</code></pre>
+<pre class="r"><code>plot(y1,pch=20, col=&quot;grey&quot;, main=&quot;SuSiE-UDWT n=512&quot;)
+lines(beta1,col=&quot;black&quot;,lwd=2)
+lines(predict(fit_susie_UDWT), col=&#39;red&#39;, lwd=2)
+lines(predict(fit_susie_UDWT_prior), col=&#39;blue&#39;, lwd=2)
+lines(predict(fit_susie_UDWT_init), col=&#39;green&#39;, lwd=2)</code></pre>
+<p><img src="figure/UDWT.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="fit-susie-with-udwt-bases" class="section level2">
-<h2>Fit SuSiE with UDWT bases</h2>
-<pre class="r"><code>fit_susie_Haar_nlog2n &lt;- susie(W_T_Haar_nlog2n, y, L=100)</code></pre>
-<pre class="r"><code>plot(y,pch=20, col=&quot;grey&quot;, main=&quot;SuSiE-UDWT&quot;)
-lines(beta,col=&quot;black&quot;,lwd=2)
-lines(predict(fit_susie_Haar_nlog2n),col=&quot;red&quot;,lwd=2)</code></pre>
-<p><img src="figure/UDWT.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>If we further estimate prior variance in SuSiE,</p>
-<pre class="r"><code>fit_susie_Haar_nlog2n_prior &lt;- susie(W_T_Haar_nlog2n, y, L=100, estimate_prior_variance = TRUE)</code></pre>
-<pre class="r"><code>plot(y,pch=20, col=&quot;grey&quot;, main=&quot;SuSiE-UDWT with prior variance estimated&quot;)
-lines(beta,col=&quot;black&quot;,lwd=2)
-#lines(predict(fit_susie_Haar_nlog2n),col=&quot;red&quot;,lwd=2)
-lines(predict(fit_susie_Haar_nlog2n_prior), col=&#39;blue&#39;, lwd=2)</code></pre>
-<p><img src="figure/UDWT.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>library(smashr)
-smashr_y = smash.gaus(y)</code></pre>
-<pre><code>Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm
-Due to absence of package REBayes, switching to EM algorithm</code></pre>
-<pre class="r"><code>plot(y,pch=20, col=&quot;grey&quot;, main=&quot;smashr&quot;)
-lines(beta,col=&quot;black&quot;,lwd=2)
-lines(smashr_y,col=&quot;red&quot;,lwd=2)</code></pre>
+</div>
+<div id="investigation-with-smaller-sample-size" class="section level2">
+<h2>Investigation with smaller sample size</h2>
+<p>To understand what is going on, we simplify the sample size to <code>n=128</code>. When my sample size becomes <code>n=128</code>, I notice that using UDWT and estimating prior variance would be better than using DWT. But I still do not know why it is worse when estimating prior variance in the DWT case.</p>
+<div id="simulate-data-n128" class="section level3">
+<h3>Simulate data <code>n=128</code></h3>
+<pre class="r"><code>n &lt;- 128
+set.seed(1)
+beta2 &lt;- c(rep(0,50),rep(-2,50),rep(0,n-100))
+y2 &lt;- beta2 + rnorm(n, sd=0.1)</code></pre>
+</div>
+<div id="create-dwt-and-udwt-matrices-as-input-x-1" class="section level3">
+<h3>Create DWT and UDWT matrices as input <code>X</code></h3>
+<p>We create matrices using DWT and UDWT bases when <code>n=128</code>.</p>
+<pre class="r"><code>Haar_matrix &lt;- t(GenW(n=n, filter.number=1, family=&quot;DaubExPhase&quot;))
+DWT_W_T &lt;- t(Haar_matrix)
+n_Haar_matrix_inv &lt;- DWT_W_T
+for(i in 1:(n-1)){
+  order &lt;- shift(seq(n),i)
+  Haar_matrix_shifted_inv &lt;- t(Haar_matrix[,order])
+  n_Haar_matrix_inv &lt;- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
+}
+duplicated_columns &lt;- duplicated(t(n_Haar_matrix_inv))
+UDWT_W_T &lt;- n_Haar_matrix_inv[, !duplicated_columns]</code></pre>
+</div>
+<div id="fit-susie-with-dwt-bases-1" class="section level3">
+<h3>Fit SuSiE with DWT bases</h3>
+<p>We fit SuSiE with DWT bases when <code>n=128</code>. The red line is SuSiE fit, and the blue line is SuSiE fit with <code>estimate_prior_variance=TRUE</code>.</p>
+<pre class="r"><code>fit_susie_DWT = susie(DWT_W_T, y2, L=30)</code></pre>
+<pre class="r"><code>fit_susie_DWT_prior = susie(DWT_W_T, y2, L=50, estimate_prior_variance=TRUE)</code></pre>
+<pre class="r"><code>plot(y2,pch=20, col=&quot;grey&quot;, main=&quot;SuSiE-DWT n=128&quot;)
+lines(beta2,col=&quot;black&quot;,lwd=2)
+lines(predict(fit_susie_DWT), col=&#39;red&#39;, lwd=2)
+lines(predict(fit_susie_DWT_prior), col=&#39;blue&#39;, lwd=2)</code></pre>
 <p><img src="figure/UDWT.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-16-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/480317d44fa645d624ebb08cb6acae241bcc949f/docs/figure/UDWT.Rmd/unnamed-chunk-16-1.png" target="_blank">480317d</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-14
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
-<div id="what-is-going-wrong-try-initialization" class="section level2">
-<h2>What is going wrong? Try initialization</h2>
-<p>We observe that the performance of <code>SuSiE-DWT</code> is not decent but <code>SuSiE-trend filering</code> has a great performance. And we want to understand whether the bad performance of <code>SuSiE with UDWT</code> is due to convergence of local optimum. So we initialize SuSiE from its trend filtering fit and then fit the <code>SuSiE with UDWT</code> model. But the result is not in my expectation (I expect a good fit due to initialization) and what other steps I could take to understand why?</p>
-<pre class="r"><code>fit_susie_trendfilter&lt;- susie_trendfilter(y, order=0)</code></pre>
-<pre class="r"><code>plot(y,pch=20, col=&quot;grey&quot;, main=&quot;SuSiE-trend filtering&quot;)
-lines(beta,col=&quot;black&quot;,lwd=2)
-lines(predict(fit_susie_trendfilter),col=&quot;red&quot;,lwd=2)</code></pre>
-<p><img src="figure/UDWT.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>coef_index &lt;- seq(1,127)
-coef_value &lt;- coef(fit_susie_trendfilter)[2:128]
-p &lt;- dim(W_T_Haar_nlog2n)[2]
-susie_init_trendfilter = susie_init_coef(coef_index, coef_value, p)</code></pre>
-<pre class="r"><code>fit_susie_UDWT_init &lt;- susie(W_T_Haar_nlog2n, y, s_init=susie_init_trendfilter)</code></pre>
-<pre class="r"><code>plot(y,pch=20, col=&quot;grey&quot;, main=&quot;SuSiE-UWDT with trend filtering initialization&quot;)
-lines(beta,col=&quot;black&quot;,lwd=2)
-lines(predict(fit_susie_UDWT_init),col=&quot;red&quot;,lwd=2)</code></pre>
-<p><img src="figure/UDWT.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="fit-susie-with-udwt-bases-1" class="section level3">
+<h3>Fit SuSiE with UDWT bases</h3>
+<p>We fit SuSiE with UDWT bases when <code>n=128</code>. The red line is SuSiE fit, the blue line is SuSiE fit with <code>estimate_prior_variance=TRUE</code>.</p>
+<pre class="r"><code>fit_susie_UDWT = susie(UDWT_W_T, y2, L=30)</code></pre>
+<pre class="r"><code>fit_susie_UDWT_prior = susie(UDWT_W_T, y2, L=30, estimate_prior_variance=TRUE)</code></pre>
+<pre class="r"><code>plot(y2,pch=20, col=&quot;grey&quot;, main=&quot;SuSiE-UDWT n=128&quot;)
+lines(beta2,col=&quot;black&quot;,lwd=2)
+lines(predict(fit_susie_UDWT), col=&#39;red&#39;, lwd=2)
+lines(predict(fit_susie_UDWT_prior), col=&#39;blue&#39;, lwd=2)</code></pre>
+<p><img src="figure/UDWT.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
@@ -661,24 +695,19 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] smashr_1.2-0        susieR_0.6.2.0390   binhf_1.0-3        
-[4] adlift_1.4-1        EbayesThresh_1.4-12 wavethresh_4.6.8   
-[7] MASS_7.3-51.1      
+[1] susieR_0.6.2.0390   binhf_1.0-3         adlift_1.4-1       
+[4] EbayesThresh_1.4-12 wavethresh_4.6.8    MASS_7.3-51.1      
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.0         compiler_3.4.3     git2r_0.24.0      
- [4] workflowr_1.1.1    bitops_1.0-6       R.methodsS3_1.7.1 
- [7] R.utils_2.7.0      iterators_1.0.10   tools_3.4.3       
-[10] digest_0.6.18      evaluate_0.12      lattice_0.20-38   
-[13] Matrix_1.2-15      foreach_1.4.4      yaml_2.2.0        
-[16] parallel_3.4.3     xfun_0.4           stringr_1.3.1     
-[19] knitr_1.21         caTools_1.17.1.1   rprojroot_1.3-2   
-[22] grid_3.4.3         data.table_1.11.8  rmarkdown_1.11    
-[25] ashr_2.2-7         magrittr_1.5       whisker_0.3-2     
-[28] backports_1.1.3    codetools_0.2-16   htmltools_0.3.6   
-[31] matrixStats_0.54.0 assertthat_0.2.0   stringi_1.2.4     
-[34] doParallel_1.0.14  pscl_1.5.2         truncnorm_1.0-8   
-[37] SQUAREM_2017.10-1  R.oo_1.22.0       </code></pre>
+ [1] Rcpp_1.0.0         knitr_1.21         whisker_0.3-2     
+ [4] magrittr_1.5       workflowr_1.1.1    lattice_0.20-38   
+ [7] stringr_1.3.1      tools_3.4.3        grid_3.4.3        
+[10] xfun_0.4           R.oo_1.22.0        git2r_0.24.0      
+[13] matrixStats_0.54.0 htmltools_0.3.6    yaml_2.2.0        
+[16] digest_0.6.18      rprojroot_1.3-2    Matrix_1.2-15     
+[19] R.utils_2.7.0      evaluate_0.12      rmarkdown_1.11    
+[22] stringi_1.2.4      compiler_3.4.3     backports_1.1.3   
+[25] R.methodsS3_1.7.1 </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
