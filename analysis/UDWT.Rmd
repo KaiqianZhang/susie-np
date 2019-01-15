@@ -8,153 +8,163 @@ output: pdf_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-In this vignette, we explore undecimated wavelet transform for sparse regression. We simulate piecewise constant data `y` which has `n=2^7=128` samples. We use two different bases:
+
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+```
+In this vignette, we apply undecimated wavelet bases on our sparse regression method `SuSiE` and try to investigate the performance. We compare two different bases:
 
 1) Discrete wavelet transform (DWT): each basis are orthonormal to each other;
 
 2) Undecimated wavelet transform (UDWT): we have n*log2(n) bases and they are not orthogonal.
 
-We expect that the fit by UDWT will be smoother than that by DWT. 
+We expect that fit by UDWT will be smoother than that by DWT. 
 
-```{r, warning=FALSE}
-library(wavethresh)
-library(binhf) #Package for shift function
-library(susieR)
-```
+## Last time investigation
+Last time, we simulated piecewise constant data of size `n = 512`. We discovered that using discrete wavelet bases (DWT) actually is better than using redundant ones (UDWT). We can observe this by red lines in the figures `SuSiE-DWT n=512` and `SuSiE-UDWT n=512`.  
 
-## Create DWT and UDWT matrix
+We hypothesize that the worse fit for UDWT might due to convergence to local optimum problem. So we initialize `SuSiE` from DWT fit, using coefficients that have absolute value greater than 0.01. Then we fit the model with UDWT bases using our initialization. Please see green line in the figure `SuSiE-UDWT n=512` below. The fit is not very good. So my questions are:
+
+1) Does the performance of green line suggest the convergence to local optimum problem? I expect that with DWT initialization, the fit will be more like DWT fit. But it turns out not.
+
+2) Blue lines below indicate we estimate prior variance when fitting SuSiE. I assume estimating prior variance would always improve the fit. But in the figure `SuSiE-DWT n=512`, estimating prior variance on the other hand makes the fit worse. 
+
+### Simulate data `n=512`
+We simulate piecewise constant data of size `n=512`.
 ```{r}
-J = 7
-n = 2^J
+n <- 512
+set.seed(1)
+beta1 <- c(rep(0,100),rep(1,100),rep(3,100),rep(-2,100),rep(0,n-400))
+y1 <- beta1 + rnorm(n, sd=0.1)
 ```
 
+### Create DWT and UDWT matrices as input `X`
+We create matrices using DWT and UDWT bases when `n=512`. 
 ```{r}
 Haar_matrix <- t(GenW(n=n, filter.number=1, family="DaubExPhase"))
-```
-
-```{r}
-Haar_matrix_inv <- t(Haar_matrix)
-dim(Haar_matrix_inv)
-```
-
-```{r}
-n_Haar_matrix_inv <- Haar_matrix_inv
+DWT_W_T <- t(Haar_matrix)
+n_Haar_matrix_inv <- DWT_W_T
 for(i in 1:(n-1)){
   order <- shift(seq(n),i)
   Haar_matrix_shifted_inv <- t(Haar_matrix[,order])
   n_Haar_matrix_inv <- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
 }
-```
-
-```{r}
 duplicated_columns <- duplicated(t(n_Haar_matrix_inv))
-W_T_Haar_nlog2n <- n_Haar_matrix_inv[, !duplicated_columns]
+UDWT_W_T <- n_Haar_matrix_inv[, !duplicated_columns]
+```
+
+### Fit SuSiE with DWT bases
+We fit SuSiE with DWT bases when `n=512`. The red line is SuSiE fit, and the blue line is SuSiE fit with `estimate_prior_variance=TRUE`. 
+```{r}
+fit_susie_DWT = susie(DWT_W_T, y1, L=30)
 ```
 
 ```{r}
-dim(W_T_Haar_nlog2n)
+fit_susie_DWT_prior = susie(DWT_W_T, y1, L=50, estimate_prior_variance=TRUE)
 ```
 
-Notice that matrix `X` used in DWT is `r n` by `r n` (`Haar_matrix_inv`) and matrix X used in UDWT is `r dim(W_T_Haar_nlog2n)[1]` by `r dim(W_T_Haar_nlog2n)[2]`. (`W_T_Haar_nlog2n`)
+```{r}
+plot(y1,pch=20, col="grey", main="SuSiE-DWT n=512")
+lines(beta1,col="black",lwd=2)
+lines(predict(fit_susie_DWT), col='red', lwd=2)
+lines(predict(fit_susie_DWT_prior), col='blue', lwd=2)
+```
 
-## Simulate data `y`
+### Fit SuSiE with UDWT bases
+We fit SuSiE with UDWT bases when `n=512`. The red line is SuSiE fit, the blue line is SuSiE fit with `estimate_prior_variance=TRUE`, and the green line is SuSiE fit with initialization from DWT fit.
 
 ```{r}
+fit_susie_UDWT = susie(UDWT_W_T, y1, L=30)
+```
+
+```{r}
+fit_susie_UDWT_prior = susie(UDWT_W_T, y1, L=30, estimate_prior_variance=TRUE)
+```
+
+```{r}
+coef_index <- which(abs(coef(fit_susie_DWT))>0.01)
+coef_value <- coef(fit_susie_DWT)[coef_index]
+coef_index <- coef_index[2:length(coef_index)]-1
+coef_value <- coef_value[2:length(coef_value)]
+p <- dim(UDWT_W_T)[2]
+susie_initDWT <- susie_init_coef(coef_index, coef_value, p)
+```
+
+```{r}
+fit_susie_UDWT_init <- susie(UDWT_W_T, y1, s_init = susie_initDWT)
+```
+
+```{r}
+plot(y1,pch=20, col="grey", main="SuSiE-UDWT n=512")
+lines(beta1,col="black",lwd=2)
+lines(predict(fit_susie_UDWT), col='red', lwd=2)
+lines(predict(fit_susie_UDWT_prior), col='blue', lwd=2)
+lines(predict(fit_susie_UDWT_init), col='green', lwd=2)
+```
+
+## Investigation with smaller sample size
+To understand what is going on, we simplify the sample size to `n=128`. When my sample size becomes `n=128`, I notice that using UDWT and estimating prior variance would be better than using DWT. But I still do not know why it is worse when estimating prior variance in the DWT case. 
+
+### Simulate data `n=128`
+```{r}
+n <- 128
 set.seed(1)
-beta <- c(rep(0,10),rep(1,20),rep(-2,10),rep(0,n-40))
-y <- beta + rnorm(n, sd=0.1)
+beta2 <- c(rep(0,50),rep(-2,50),rep(0,n-100))
+y2 <- beta2 + rnorm(n, sd=0.1)
 ```
 
-## Fit SuSiE with DWT bases
+### Create DWT and UDWT matrices as input `X`
+We create matrices using DWT and UDWT bases when `n=128`. 
 ```{r}
-fit_susie_Haar <- susie(Haar_matrix_inv, y, L=100)
+Haar_matrix <- t(GenW(n=n, filter.number=1, family="DaubExPhase"))
+DWT_W_T <- t(Haar_matrix)
+n_Haar_matrix_inv <- DWT_W_T
+for(i in 1:(n-1)){
+  order <- shift(seq(n),i)
+  Haar_matrix_shifted_inv <- t(Haar_matrix[,order])
+  n_Haar_matrix_inv <- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
+}
+duplicated_columns <- duplicated(t(n_Haar_matrix_inv))
+UDWT_W_T <- n_Haar_matrix_inv[, !duplicated_columns]
 ```
 
+### Fit SuSiE with DWT bases
+We fit SuSiE with DWT bases when `n=128`. The red line is SuSiE fit, and the blue line is SuSiE fit with `estimate_prior_variance=TRUE`. 
 ```{r}
-plot(y,pch=20, col="grey", main="SuSiE-DWT")
-lines(beta,col="black",lwd=2)
-lines(predict(fit_susie_Haar),col="red",lwd=2)
-```
-
-## Fit SuSiE with UDWT bases
-```{r}
-fit_susie_Haar_nlog2n <- susie(W_T_Haar_nlog2n, y, L=100)
-```
-
-```{r}
-plot(y,pch=20, col="grey", main="SuSiE-UDWT")
-lines(beta,col="black",lwd=2)
-lines(predict(fit_susie_Haar_nlog2n),col="red",lwd=2)
-```
-
-If we further estimate prior variance in SuSiE,
-
-```{r}
-fit_susie_Haar_nlog2n_prior <- susie(W_T_Haar_nlog2n, y, L=100, estimate_prior_variance = TRUE)
+fit_susie_DWT = susie(DWT_W_T, y2, L=30)
 ```
 
 ```{r}
-plot(y,pch=20, col="grey", main="SuSiE-UDWT with prior variance estimated")
-lines(beta,col="black",lwd=2)
-#lines(predict(fit_susie_Haar_nlog2n),col="red",lwd=2)
-lines(predict(fit_susie_Haar_nlog2n_prior), col='blue', lwd=2)
-```
-
-
-
-```{r}
-library(smashr)
-smashr_y = smash.gaus(y)
-```
-
-
-```{r}
-plot(y,pch=20, col="grey", main="smashr")
-lines(beta,col="black",lwd=2)
-lines(smashr_y,col="red",lwd=2)
-```
-
-## What is going wrong? Try initialization
-
-We observe that the performance of `SuSiE-DWT` is not decent but `SuSiE-trend filering` has a great performance. And we want to understand whether the bad performance of `SuSiE with UDWT` is due to convergence of local optimum. So we initialize SuSiE from its trend filtering fit and then fit the `SuSiE with UDWT` model. But the result is not in my expectation (I expect a good fit due to initialization) and what other steps I could take to understand why?
-```{r}
-fit_susie_trendfilter<- susie_trendfilter(y, order=0)
+fit_susie_DWT_prior = susie(DWT_W_T, y2, L=50, estimate_prior_variance=TRUE)
 ```
 
 ```{r}
-plot(y,pch=20, col="grey", main="SuSiE-trend filtering")
-lines(beta,col="black",lwd=2)
-lines(predict(fit_susie_trendfilter),col="red",lwd=2)
+plot(y2,pch=20, col="grey", main="SuSiE-DWT n=128")
+lines(beta2,col="black",lwd=2)
+lines(predict(fit_susie_DWT), col='red', lwd=2)
+lines(predict(fit_susie_DWT_prior), col='blue', lwd=2)
+```
+
+
+### Fit SuSiE with UDWT bases
+We fit SuSiE with UDWT bases when `n=128`. The red line is SuSiE fit, the blue line is SuSiE fit with `estimate_prior_variance=TRUE`.
+
+```{r}
+fit_susie_UDWT = susie(UDWT_W_T, y2, L=30)
 ```
 
 ```{r}
-coef_index <- seq(1,127)
-coef_value <- coef(fit_susie_trendfilter)[2:128]
-p <- dim(W_T_Haar_nlog2n)[2]
-susie_init_trendfilter = susie_init_coef(coef_index, coef_value, p)
+fit_susie_UDWT_prior = susie(UDWT_W_T, y2, L=30, estimate_prior_variance=TRUE)
 ```
 
 ```{r}
-fit_susie_UDWT_init <- susie(W_T_Haar_nlog2n, y, s_init=susie_init_trendfilter)
+plot(y2,pch=20, col="grey", main="SuSiE-UDWT n=128")
+lines(beta2,col="black",lwd=2)
+lines(predict(fit_susie_UDWT), col='red', lwd=2)
+lines(predict(fit_susie_UDWT_prior), col='blue', lwd=2)
 ```
-
-```{r}
-plot(y,pch=20, col="grey", main="SuSiE-UWDT with trend filtering initialization")
-lines(beta,col="black",lwd=2)
-lines(predict(fit_susie_UDWT_init),col="red",lwd=2)
-```
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
