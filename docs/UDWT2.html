@@ -460,7 +460,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/a59765c931ebd7f4b709ec2d0b9404be88273eec" target="_blank">a59765c</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/f7b907b6fb772985a5141b5c0c69623409ce5c7c" target="_blank">f7b907b</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -499,6 +499,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/f7b907b6fb772985a5141b5c0c69623409ce5c7c/analysis/UDWT2.Rmd" target="_blank">f7b907b</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+<td style="text-align:left;">
+change setup
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/ee412d843a8ebdbfb20abe961e97f8bd11b20f26/docs/UDWT2.html" target="_blank">ee412d8</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -589,8 +623,8 @@ add UDWT2 and change index
 </ul>
 <p></details></p>
 <hr />
-<div id="setup" class="section level3">
-<h3>Setup</h3>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
 <p>Start from simple, we simulate <code>n=128</code> data points, whose underlying trend is piecewise constant. We also create corresponsding DWT and UDWT matrices. Notice that the dimension of DWT is 128 by 128, and that of UDWT is 128 by 897.</p>
 <pre class="r"><code>n &lt;- 128
 set.seed(1)
