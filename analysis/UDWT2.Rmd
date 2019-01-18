@@ -1,0 +1,71 @@
+---
+title: "Undecimatd Wavelet Transform Analysis 2"
+author: "Kaiqian Zhang"
+date: "1/18/2019"
+output:
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+```
+
+### Setup
+Start from simple, we simulate `n=128` data points, whose underlying trend is piecewise constant. We also create corresponsding DWT and UDWT matrices. Notice that the dimension of DWT is 128 by 128, and that of UDWT is 128 by 897.
+```{r}
+n <- 128
+set.seed(1)
+beta2 <- c(rep(0,50),rep(-2,50),rep(0,n-100))
+y2 <- beta2 + rnorm(n, sd=0.1)
+
+Haar_matrix <- t(GenW(n=n, filter.number=1, family="DaubExPhase"))
+DWT_W_T <- t(Haar_matrix)
+n_Haar_matrix_inv <- DWT_W_T
+for(i in 1:(n-1)){
+  order <- shift(seq(n),i)
+  Haar_matrix_shifted_inv <- t(Haar_matrix[,order])
+  n_Haar_matrix_inv <- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
+}
+duplicated_columns <- duplicated(t(n_Haar_matrix_inv))
+UDWT_W_T <- n_Haar_matrix_inv[, !duplicated_columns]
+```
+
+## Run SuSiE using DWT and UDWT bases
+We perform SuSiE on DWT and UDWT bases. We also try the option of estimating prior variance. Further we also investigate the UDWT with and without standardization. 
+```{r}
+fit_susie_DWT <- susie(DWT_W_T, y2, L=10)
+fit_susie_DWT_prior <- susie(DWT_W_T, y2, L=10, estimate_prior_variance=TRUE)
+```
+
+```{r}
+fit_susie_UDWT <- susie(UDWT_W_T, y2, L=10)
+fit_susie_UDWT_prior <- susie(UDWT_W_T, y2, L=10, estimate_prior_variance=TRUE)
+fit_susie_UDWT_prior_nostd <- susie(UDWT_W_T, y2, L=10, estimate_prior_variance=TRUE, standardize=FALSE)
+```
+
+## Results
+The following figure shows the performance when using DWT and UDWT bases and we both estimate prior variance here. The purple line is `DWT-with-prior`, and the orange line is `UDWT-with-prior`. We cannot observe much difference from these two fits.
+```{r}
+plot(y2,pch=20, col="grey", main="DWT-with-prior versus UDWT-with-prior")
+lines(beta2,col="black",lwd=2)
+lines(predict(fit_susie_DWT_prior), col='purple', lwd=2)
+lines(predict(fit_susie_UDWT_prior), col='orange', lwd=2)
+```
+
+As suggested, we also apply UDWT bases with and without standardization. The blue line is `UDWT without standardization` and the orange line is `UDWT with standardization`. We oberve that the blue line is on top of the orange one. So there is no difference in the UDWT case with standardization or not. 
+```{r}
+plot(y2,pch=20, col="grey", main="UDWT-standardize versus UDWT-no-standardize")
+lines(beta2,col="black",lwd=2)
+lines(predict(fit_susie_UDWT_prior), col='orange', lwd=2)
+lines(predict(fit_susie_UDWT_prior_nostd), col='blue', lwd=2)
+```
+
+
+

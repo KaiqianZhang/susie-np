@@ -8,4 +8,6 @@ output:
 
 Welcome to Kaiqian's research project: susie-np.
 
-Click on this [link](UDWT.html) to see my results.
+* Click on this [UDWT1](UDWT.html) to see my results on undecimated wavelet transform analysis 1.
+
+* Click on this [UDWT2](UDWT2.html) to see my results on undecimated wavelet transform analysis 2.
