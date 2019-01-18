@@ -17,7 +17,7 @@ library(binhf) #Package for shift function
 library(susieR)
 ```
 
-### Setup
+## Setup
 Start from simple, we simulate `n=128` data points, whose underlying trend is piecewise constant. We also create corresponsding DWT and UDWT matrices. Notice that the dimension of DWT is 128 by 128, and that of UDWT is 128 by 897.
 ```{r}
 n <- 128
