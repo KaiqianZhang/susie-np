@@ -443,7 +443,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/63a16cae00c8fdb45008cebf4c08031fda3ae4ea" target="_blank">63a16ca</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/7bf2c7c7828846cb4a9669b98192366a7b59e134" target="_blank">7bf2c7c</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -482,6 +482,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/7bf2c7c7828846cb4a9669b98192366a7b59e134/analysis/UDWT2.Rmd" target="_blank">7bf2c7c</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+<td style="text-align:left;">
+add UDWT2 and change index
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/3ae18cc85a1c8bbc9fe02608ba106ccc6728de9a/docs/UDWT2.html" target="_blank">3ae18cc</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -540,12 +574,72 @@ lines(beta2,col=&quot;black&quot;,lwd=2)
 lines(predict(fit_susie_DWT_prior), col=&#39;purple&#39;, lwd=2)
 lines(predict(fit_susie_UDWT_prior), col=&#39;orange&#39;, lwd=2)</code></pre>
 <p><img src="figure/UDWT2.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/3ae18cc85a1c8bbc9fe02608ba106ccc6728de9a/docs/figure/UDWT2.Rmd/unnamed-chunk-5-1.png" target="_blank">3ae18cc</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>As suggested, we also apply UDWT bases with and without standardization. The blue line is <code>UDWT without standardization</code> and the orange line is <code>UDWT with standardization</code>. We oberve that the blue line is on top of the orange one. So there is no difference in the UDWT case with standardization or not.</p>
-<pre class="r"><code>plot(y2,pch=20, col=&quot;grey&quot;, main=&quot;UDWT-standardize versus UDWT-no-standardize&quot;)
+<pre class="r"><code>plot(y2,pch=20, col=&quot;grey&quot;, main=&quot;UDWT-with-std versus UDWT-without-std&quot;)
 lines(beta2,col=&quot;black&quot;,lwd=2)
 lines(predict(fit_susie_UDWT_prior), col=&#39;orange&#39;, lwd=2)
 lines(predict(fit_susie_UDWT_prior_nostd), col=&#39;blue&#39;, lwd=2)</code></pre>
 <p><img src="figure/UDWT2.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/3ae18cc85a1c8bbc9fe02608ba106ccc6728de9a/docs/figure/UDWT2.Rmd/unnamed-chunk-6-1.png" target="_blank">3ae18cc</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-18
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
