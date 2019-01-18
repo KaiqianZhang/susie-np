@@ -7,10 +7,6 @@ output:
     code_folding: hide
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ```{r, warning=FALSE, include=FALSE}
 library(wavethresh)
 library(binhf) #Package for shift function
@@ -61,7 +57,7 @@ lines(predict(fit_susie_UDWT_prior), col='orange', lwd=2)
 
 As suggested, we also apply UDWT bases with and without standardization. The blue line is `UDWT without standardization` and the orange line is `UDWT with standardization`. We oberve that the blue line is on top of the orange one. So there is no difference in the UDWT case with standardization or not. 
 ```{r}
-plot(y2,pch=20, col="grey", main="UDWT-standardize versus UDWT-no-standardize")
+plot(y2,pch=20, col="grey", main="UDWT-with-std versus UDWT-without-std")
 lines(beta2,col="black",lwd=2)
 lines(predict(fit_susie_UDWT_prior), col='orange', lwd=2)
 lines(predict(fit_susie_UDWT_prior_nostd), col='blue', lwd=2)
