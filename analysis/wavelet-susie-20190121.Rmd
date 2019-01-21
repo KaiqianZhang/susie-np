@@ -1,0 +1,104 @@
+---
+title: "Wavelet-based SuSiE Analysis 20190121"
+author: "Kaiqian Zhang"
+date: "1/21/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+```
+
+Previously, we simulated `n=128` piecewise-constant data points and apply both DWT and UDWT methods with prior estimated. There is not much difference between two fits. So I asked a question:
+
+* what is advantage we expect that UDWT could bring over DWT?
+
+Suggested by Matthew, I read the paper `Translation-Invariant De-Noising` [link](https://web.stanford.edu/dept/statistics/cgi-bin/donoho/wp-content/uploads/2018/08/TIDeNoise.pdf) and learned that:
+
+* Using UDWT can reduce visual artifacts. For example, in the wavelet-denoising case, the artifacts have to do with behavior near singularities. In the neighborhood of discontinuities, wavelet de-noising can exhibit pusedo-Gibbs phenomena.
+
+* Gibbs phenomena is something would happen in the Fourier-based de-noising: you will observe upshooting and downshoot of a specific target level at the discontinuity of jumps. 
+
+* Importantly, the size of those artifacts is connected intimately with the actual location of the discontinuity. For example, when using Haar wavelets, a discontinuity precisely at location `n/2` will lead to essentially no pseudo-Gibbs oscillations;
+a discontinuity near a binary irrational like `n/3` will lead to significant pseudo-Gibbs oscillations. 
+
+## Pseudo-Gibbs phenomena and discontinuities
+
+Based on my reading, I want to investigate the relationship between pseudo-Gibbs phenomena and the location of discontinuities. I expect to see that in the DWT, I would not see visual artifacts if the discontinuity happens at `n/2`. And I would observe visual artifacts if the discontinuity is at `n/3`. 
+
+We observe from the following two figures `DWT for fitting data with discontinuity at n/2` and `DWT for fitting data with discontinuity at n/3` that:
+
+* SuSiE fits really well when the discontinuity happens at n/2.
+
+* We do have visual artifacts when the jump is not at n/2.
+
+```{r}
+n = 64
+beta_jump2 = c(rep(0,32), rep(5,32))
+beta_jump3 = c(rep(0,21), rep(5,43))
+set.seed(1)
+y_jump2 = beta_jump2 + rnorm(n, sd=0.1)
+set.seed(1)
+y_jump3 = beta_jump3 + rnorm(n, sd=0.1)
+```
+
+```{r}
+Haar_matrix <- t(GenW(n=n, filter.number=1, family="DaubExPhase"))
+DWT_W_T <- t(Haar_matrix)
+```
+
+```{r}
+s_jump2_DWT = susie(DWT_W_T, y_jump2, estimate_prior_variance = TRUE)
+```
+
+```{r}
+plot(y_jump2,pch=20, col="grey", main="DWT for fitting data with discontinuity at n/2")
+lines(beta_jump2,col="black",lwd=2)
+lines(predict(s_jump2_DWT), col='red', lwd=2)
+```
+
+```{r}
+s_jump3_DWT = susie(DWT_W_T, y_jump3, estimate_prior_variance = TRUE)
+```
+
+
+```{r}
+plot(y_jump3,pch=20, col="grey", main="DWT for fitting data with discontinuity at n/3")
+lines(beta_jump3,col="black",lwd=2)
+lines(predict(s_jump3_DWT), col='red', lwd=2)
+```
+
+## What about UDWT?
+I want to further look at how UDWT behaves. I expect that UDWT can solve the visual artifacts. But the following figure is not what I expected. My hypothesis: my UDWT matrix is wrong?
+
+```{r}
+n_Haar_matrix_inv <- DWT_W_T
+for(i in 1:(n-1)){
+  order <- shift(seq(n),i)
+  Haar_matrix_shifted_inv <- t(Haar_matrix[,order])
+  n_Haar_matrix_inv <- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
+}
+duplicated_columns <- duplicated(t(n_Haar_matrix_inv))
+UDWT_W_T <- n_Haar_matrix_inv[, !duplicated_columns]
+```
+
+```{r}
+s_jump3_UDWT = susie(UDWT_W_T, y_jump3, estimate_prior_variance = TRUE)
+```
+
+```{r}
+plot(y_jump3,pch=20, col="grey", main="UDWT for fitting data with discontinuity at n/3")
+lines(beta_jump3,col="black",lwd=2)
+lines(predict(s_jump3_UDWT), col='blue', lwd=2)
+```
+
+
+
