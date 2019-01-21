@@ -9,9 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Kaiqian Zhang" />
 
 
-<title>Home</title>
+<title>Wavelet-based SuSiE Analysis 20190117</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +20,11 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -263,7 +268,110 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -311,9 +419,19 @@ div.section {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Home</h1>
+
+<h1 class="title toc-ignore">Wavelet-based SuSiE Analysis 20190117</h1>
+<h4 class="author"><em>Kaiqian Zhang</em></h4>
+<h4 class="date"><em>1/17/2019</em></h4>
 
 </div>
 
@@ -327,6 +445,21 @@ div.section {
 </details>
 </li>
 <li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20190114)</code> </summary></p>
+<p>The command <code>set.seed(20190114)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
 <p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/ca2f50d46d3808d2ed675b1a098f829ca0a58adb" target="_blank">ca2f50d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
@@ -337,7 +470,6 @@ Ignored files:
     Ignored:    analysis/.DS_Store
 
 Untracked files:
-    Untracked:  docs/figure/wavelet-susie-20190117.Rmd/
     Untracked:  docs/figure/wavelet-susie-20190121.Rmd/
 
 Unstaged changes:
@@ -348,142 +480,82 @@ Unstaged changes:
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
 </ul>
-<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
-<ul>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-File
-</th>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-<th style="text-align:left;">
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/cd739b250a488812828c87f0c1849440c507a89d/docs/index.html" target="_blank">cd739b2</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-01-18
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/3ae18cc85a1c8bbc9fe02608ba106ccc6728de9a/docs/index.html" target="_blank">3ae18cc</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-01-18
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/c4ac8c966f3b5abeadc0c10e467b6248bd73e32c/docs/index.html" target="_blank">c4ac8c9</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-01-14
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/KaiqianZhang/susie-np/blob/e130e4718a2ffe34e911837f34df6441788cf27b/analysis/index.Rmd" target="_blank">e130e47</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-01-14
-</td>
-<td style="text-align:left;">
-add the link
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/480317d44fa645d624ebb08cb6acae241bcc949f/docs/index.html" target="_blank">480317d</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-01-14
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/KaiqianZhang/susie-np/blob/e6651c725ebb125a30573d17c9e05df3cb2064ed/analysis/index.Rmd" target="_blank">e6651c7</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-01-14
-</td>
-<td style="text-align:left;">
-Start workflowr project.
-</td>
-</tr>
-</tbody>
-</table>
-</ul>
-<p></details></p>
 <hr />
-<p>Welcome to Kaiqian’s research project: susie-np.</p>
-<ul>
-<li><p>Click on this <a href="UDWT.html">UDWT</a> to see my results on initial undecimated wavelet transform analysis.</p></li>
-<li><p>Click on this <a href="wavelet-susie-20190117.html">wavelet-susie-20190117</a> to see my results.</p></li>
-<li><p>Click on this <a href="wavelet-susie-20190121.html">wavelet-susie-20190121</a> to see my results.</p></li>
-</ul>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>Start from simple, we simulate <code>n=128</code> data points, whose underlying trend is piecewise constant. We also create corresponsding DWT and UDWT matrices. Notice that the dimension of DWT is 128 by 128, and that of UDWT is 128 by 897.</p>
+<pre class="r"><code>n &lt;- 128
+set.seed(1)
+beta2 &lt;- c(rep(0,50),rep(-2,50),rep(0,n-100))
+y2 &lt;- beta2 + rnorm(n, sd=0.1)
+
+Haar_matrix &lt;- t(GenW(n=n, filter.number=1, family=&quot;DaubExPhase&quot;))
+DWT_W_T &lt;- t(Haar_matrix)
+n_Haar_matrix_inv &lt;- DWT_W_T
+for(i in 1:(n-1)){
+  order &lt;- shift(seq(n),i)
+  Haar_matrix_shifted_inv &lt;- t(Haar_matrix[,order])
+  n_Haar_matrix_inv &lt;- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
+}
+duplicated_columns &lt;- duplicated(t(n_Haar_matrix_inv))
+UDWT_W_T &lt;- n_Haar_matrix_inv[, !duplicated_columns]</code></pre>
+</div>
+<div id="run-susie-using-dwt-and-udwt-bases" class="section level2">
+<h2>Run SuSiE using DWT and UDWT bases</h2>
+<p>We perform SuSiE on DWT and UDWT bases. We also try the option of estimating prior variance. Further we also investigate the UDWT with and without standardization.</p>
+<pre class="r"><code>fit_susie_DWT &lt;- susie(DWT_W_T, y2, L=10)
+fit_susie_DWT_prior &lt;- susie(DWT_W_T, y2, L=10, estimate_prior_variance=TRUE)</code></pre>
+<pre class="r"><code>fit_susie_UDWT &lt;- susie(UDWT_W_T, y2, L=10)
+fit_susie_UDWT_prior &lt;- susie(UDWT_W_T, y2, L=10, estimate_prior_variance=TRUE)
+fit_susie_UDWT_prior_nostd &lt;- susie(UDWT_W_T, y2, L=10, estimate_prior_variance=TRUE, standardize=FALSE)</code></pre>
+</div>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<p>The following figure shows the performance when using DWT and UDWT bases and we both estimate prior variance here. The purple line is <code>DWT-with-prior</code>, and the orange line is <code>UDWT-with-prior</code>. We cannot observe much difference from these two fits.</p>
+<pre class="r"><code>plot(y2,pch=20, col=&quot;grey&quot;, main=&quot;DWT-with-prior versus UDWT-with-prior&quot;)
+lines(beta2,col=&quot;black&quot;,lwd=2)
+lines(predict(fit_susie_DWT_prior), col=&#39;purple&#39;, lwd=2)
+lines(predict(fit_susie_UDWT_prior), col=&#39;orange&#39;, lwd=2)</code></pre>
+<p><img src="figure/wavelet-susie-20190117.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>As suggested, we also apply UDWT bases with and without standardization. The blue line is <code>UDWT without standardization</code> and the orange line is <code>UDWT with standardization</code>. We oberve that the blue line is on top of the orange one. So there is no difference in the UDWT case with standardization or not.</p>
+<pre class="r"><code>plot(y2,pch=20, col=&quot;grey&quot;, main=&quot;UDWT-with-std versus UDWT-without-std&quot;)
+lines(beta2,col=&quot;black&quot;,lwd=2)
+lines(predict(fit_susie_UDWT_prior), col=&#39;orange&#39;, lwd=2)
+lines(predict(fit_susie_UDWT_prior_nostd), col=&#39;blue&#39;, lwd=2)</code></pre>
+<p><img src="figure/wavelet-susie-20190117.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.3 (2017-11-30)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Sierra 10.12.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] susieR_0.6.4.0427   binhf_1.0-3         adlift_1.4-1       
+[4] EbayesThresh_1.4-12 wavethresh_4.6.8    MASS_7.3-51.1      
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.0         knitr_1.21         whisker_0.3-2     
+ [4] magrittr_1.5       workflowr_1.1.1    lattice_0.20-38   
+ [7] stringr_1.3.1      tools_3.4.3        grid_3.4.3        
+[10] xfun_0.4           R.oo_1.22.0        git2r_0.24.0      
+[13] matrixStats_0.54.0 htmltools_0.3.6    yaml_2.2.0        
+[16] digest_0.6.18      rprojroot_1.3-2    Matrix_1.2-15     
+[19] R.utils_2.7.0      evaluate_0.12      rmarkdown_1.11    
+[22] stringi_1.2.4      compiler_3.4.3     backports_1.1.3   
+[25] R.methodsS3_1.7.1 </code></pre>
+</div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
@@ -506,6 +578,8 @@ footer is added to webpages before the MathJax javascript. -->
 <hr>
 
 
+</div>
+</div>
 
 </div>
 
