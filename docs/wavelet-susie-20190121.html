@@ -460,7 +460,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/5c77d6974bf5307675d547fe84764efd26067bed" target="_blank">5c77d69</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/07a4b32f5c56d882b1bc9a0d7f06acaf10cac454" target="_blank">07a4b32</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -500,6 +500,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/07a4b32f5c56d882b1bc9a0d7f06acaf10cac454/analysis/wavelet-susie-20190121.Rmd" target="_blank">07a4b32</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-22
+</td>
+<td style="text-align:left;">
+debug UDWT matrix
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/3f2bc3b1d9634a1374e8d3fafb12982593f9457e/docs/wavelet-susie-20190121.html" target="_blank">3f2bc3b</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-22
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -710,16 +744,76 @@ pred_glmnetcv = predict(s_glmnetcv, newx = UDWT_W_T, s = &quot;lambda.min&quot;)
 lines(beta_jump3,col=&quot;black&quot;,lwd=2)
 lines(pred_glmnetcv, col=&#39;orange&#39;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190121.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-12-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/3f2bc3b1d9634a1374e8d3fafb12982593f9457e/docs/figure/wavelet-susie-20190121.Rmd/unnamed-chunk-12-1.png" target="_blank">3f2bc3b</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>s_glmnetcv_DWT = cv.glmnet(DWT_W_T, y_jump3, type.measure = &quot;mse&quot;, nfolds = 20)
 pred_glmnetcv_DWT = predict(s_glmnetcv_DWT, newx = DWT_W_T, s = &quot;lambda.min&quot;)</code></pre>
 <pre class="r"><code>plot(y_jump3,pch=20, col=&quot;grey&quot;, main=&quot;glmnet-DWT for fitting data with discontinuity at n/3&quot;)
 lines(beta_jump3,col=&quot;black&quot;,lwd=2)
 lines(pred_glmnetcv_DWT, col=&#39;orange&#39;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190121.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-14-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/3f2bc3b1d9634a1374e8d3fafb12982593f9457e/docs/figure/wavelet-susie-20190121.Rmd/unnamed-chunk-14-1.png" target="_blank">3f2bc3b</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-22
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="fix-udwt-matrix" class="section level2">
 <h2>Fix UDWT matrix</h2>
-<p>Let’s start from something simple and try to debug here. Set <code>n=8</code>.</p>
+<p>Let’s start from something simple and try to debug here. Set <code>n=8</code>. My Haar matrix looks like this:</p>
 <pre class="r"><code>n = 8
 Haar_matrix &lt;- t(GenW(n=n, filter.number=1, family=&quot;DaubExPhase&quot;))
 DWT_W_T &lt;- t(Haar_matrix)
@@ -743,6 +837,7 @@ Haar_matrix</code></pre>
 [6,]    1    1   -1   -1    0    0    0    0
 [7,]    0    0    0    0    1    1   -1   -1
 [8,]    1    1    1    1   -1   -1   -1   -1</code></pre>
+<p>Here is my <code>UDWT_W_T</code> matrix.</p>
 <pre class="r"><code>UDWT_W_T[UDWT_W_T&gt;0] = 1
 UDWT_W_T[UDWT_W_T&lt;0] = -1
 UDWT_W_T</code></pre>
