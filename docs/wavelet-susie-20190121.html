@@ -436,7 +436,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-01-21</p>
+<p><strong>Last updated:</strong> 2019-01-22</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -460,7 +460,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/ca2f50d46d3808d2ed675b1a098f829ca0a58adb" target="_blank">ca2f50d</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/5c77d6974bf5307675d547fe84764efd26067bed" target="_blank">5c77d69</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -468,9 +468,6 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
-
-Untracked files:
-    Untracked:  docs/figure/wavelet-susie-20190117.Rmd/
 
 Unstaged changes:
     Modified:   analysis/UDWT.Rmd
@@ -508,6 +505,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/5c77d6974bf5307675d547fe84764efd26067bed/analysis/wavelet-susie-20190121.Rmd" target="_blank">5c77d69</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-22
+</td>
+<td style="text-align:left;">
+debug UDWT matrix
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/8a002a8f86b2ab8df59b7bb5b3292fe78274603f/docs/wavelet-susie-20190121.html" target="_blank">8a002a8</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-21
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/KaiqianZhang/susie-np/blob/ca2f50d46d3808d2ed675b1a098f829ca0a58adb/analysis/wavelet-susie-20190121.Rmd" target="_blank">ca2f50d</a>
 </td>
 <td style="text-align:left;">
@@ -532,7 +563,7 @@ add my third wavelet-susie analysis
 <p>Suggested by Matthew, I read the paper <code>Translation-Invariant De-Noising</code> <a href="https://web.stanford.edu/dept/statistics/cgi-bin/donoho/wp-content/uploads/2018/08/TIDeNoise.pdf">link</a> and learned that:</p>
 <ul>
 <li><p>Using UDWT can reduce visual artifacts. For example, in the wavelet-denoising case, the artifacts have to do with behavior near singularities. In the neighborhood of discontinuities, wavelet de-noising can exhibit pusedo-Gibbs phenomena.</p></li>
-<li><p>Gibbs phenomena is something would happen in the Fourier-based de-noising: you will observe upshooting and downshoot of a specific target level at the discontinuity of jumps.</p></li>
+<li><p>Gibbs phenomena is something would happen in the Fourier-based de-noising: you will observe upshoot and downshoot of a specific target level at the discontinuity of jumps.</p></li>
 <li><p>Importantly, the size of those artifacts is connected intimately with the actual location of the discontinuity. For example, when using Haar wavelets, a discontinuity precisely at location <code>n/2</code> will lead to essentially no pseudo-Gibbs oscillations; a discontinuity near a binary irrational like <code>n/3</code> will lead to significant pseudo-Gibbs oscillations.</p></li>
 </ul>
 <div id="pseudo-gibbs-phenomena-and-discontinuities" class="section level2">
@@ -557,11 +588,71 @@ DWT_W_T &lt;- t(Haar_matrix)</code></pre>
 lines(beta_jump2,col=&quot;black&quot;,lwd=2)
 lines(predict(s_jump2_DWT), col=&#39;red&#39;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190121.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/8a002a8f86b2ab8df59b7bb5b3292fe78274603f/docs/figure/wavelet-susie-20190121.Rmd/unnamed-chunk-5-1.png" target="_blank">8a002a8</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>s_jump3_DWT = susie(DWT_W_T, y_jump3, estimate_prior_variance = TRUE)</code></pre>
 <pre class="r"><code>plot(y_jump3,pch=20, col=&quot;grey&quot;, main=&quot;DWT for fitting data with discontinuity at n/3&quot;)
 lines(beta_jump3,col=&quot;black&quot;,lwd=2)
 lines(predict(s_jump3_DWT), col=&#39;red&#39;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190121.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-7-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/8a002a8f86b2ab8df59b7bb5b3292fe78274603f/docs/figure/wavelet-susie-20190121.Rmd/unnamed-chunk-7-1.png" target="_blank">8a002a8</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="what-about-udwt" class="section level2">
 <h2>What about UDWT?</h2>
@@ -569,7 +660,7 @@ lines(predict(s_jump3_DWT), col=&#39;red&#39;, lwd=2)</code></pre>
 <pre class="r"><code>n_Haar_matrix_inv &lt;- DWT_W_T
 for(i in 1:(n-1)){
   order &lt;- shift(seq(n),i)
-  Haar_matrix_shifted_inv &lt;- t(Haar_matrix[,order])
+  Haar_matrix_shifted_inv &lt;- t(Haar_matrix[,order]) 
   n_Haar_matrix_inv &lt;- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
 }
 duplicated_columns &lt;- duplicated(t(n_Haar_matrix_inv))
@@ -579,6 +670,109 @@ UDWT_W_T &lt;- n_Haar_matrix_inv[, !duplicated_columns]</code></pre>
 lines(beta_jump3,col=&quot;black&quot;,lwd=2)
 lines(predict(s_jump3_UDWT), col=&#39;blue&#39;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190121.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-10-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/8a002a8f86b2ab8df59b7bb5b3292fe78274603f/docs/figure/wavelet-susie-20190121.Rmd/unnamed-chunk-10-1.png" target="_blank">8a002a8</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-21
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="other-sparse-regression-methods" class="section level2">
+<h2>Other sparse regression methods</h2>
+<p>Is it really the problem of my undecimated wavelet matrix <code>UDWT_W_T</code> or it is a problem with SuSiE? So I tried other sparse regression methods. The fit using UDWT bases and glmnet is still bad. So something is wrong with my <code>UDWT_W_T</code> matrix.</p>
+<pre class="r"><code>s_glmnetcv = cv.glmnet(UDWT_W_T, y_jump3, type.measure = &quot;mse&quot;, nfolds = 20)
+pred_glmnetcv = predict(s_glmnetcv, newx = UDWT_W_T, s = &quot;lambda.min&quot;)</code></pre>
+<pre class="r"><code>plot(y_jump3,pch=20, col=&quot;grey&quot;, main=&quot;glmnet-UDWT for fitting data with discontinuity at n/3&quot;)
+lines(beta_jump3,col=&quot;black&quot;,lwd=2)
+lines(pred_glmnetcv, col=&#39;orange&#39;, lwd=2)</code></pre>
+<p><img src="figure/wavelet-susie-20190121.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>s_glmnetcv_DWT = cv.glmnet(DWT_W_T, y_jump3, type.measure = &quot;mse&quot;, nfolds = 20)
+pred_glmnetcv_DWT = predict(s_glmnetcv_DWT, newx = DWT_W_T, s = &quot;lambda.min&quot;)</code></pre>
+<pre class="r"><code>plot(y_jump3,pch=20, col=&quot;grey&quot;, main=&quot;glmnet-DWT for fitting data with discontinuity at n/3&quot;)
+lines(beta_jump3,col=&quot;black&quot;,lwd=2)
+lines(pred_glmnetcv_DWT, col=&#39;orange&#39;, lwd=2)</code></pre>
+<p><img src="figure/wavelet-susie-20190121.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="fix-udwt-matrix" class="section level2">
+<h2>Fix UDWT matrix</h2>
+<p>Let’s start from something simple and try to debug here. Set <code>n=8</code>.</p>
+<pre class="r"><code>n = 8
+Haar_matrix &lt;- t(GenW(n=n, filter.number=1, family=&quot;DaubExPhase&quot;))
+DWT_W_T &lt;- t(Haar_matrix)
+n_Haar_matrix_inv &lt;- DWT_W_T
+for(i in 1:(n-1)){
+  order &lt;- shift(seq(n),i)
+  Haar_matrix_shifted_inv &lt;- t(Haar_matrix[,order]) 
+  n_Haar_matrix_inv &lt;- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
+}
+duplicated_columns &lt;- duplicated(t(n_Haar_matrix_inv))
+UDWT_W_T &lt;- n_Haar_matrix_inv[, !duplicated_columns]</code></pre>
+<pre class="r"><code>Haar_matrix[Haar_matrix&gt;0] = 1
+Haar_matrix[Haar_matrix&lt;0] = -1
+Haar_matrix</code></pre>
+<pre><code>     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+[1,]    1    1    1    1    1    1    1    1
+[2,]    1   -1    0    0    0    0    0    0
+[3,]    0    0    1   -1    0    0    0    0
+[4,]    0    0    0    0    1   -1    0    0
+[5,]    0    0    0    0    0    0    1   -1
+[6,]    1    1   -1   -1    0    0    0    0
+[7,]    0    0    0    0    1    1   -1   -1
+[8,]    1    1    1    1   -1   -1   -1   -1</code></pre>
+<pre class="r"><code>UDWT_W_T[UDWT_W_T&gt;0] = 1
+UDWT_W_T[UDWT_W_T&lt;0] = -1
+UDWT_W_T</code></pre>
+<pre><code>     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+[1,]    1    1    0    0    0    1    0    1    0     0     0    -1     0
+[2,]    1   -1    0    0    0    1    0    1    1     0     0     0     1
+[3,]    1    0    1    0    0   -1    0    1   -1     0     0     0     1
+[4,]    1    0   -1    0    0   -1    0    1    0     1     0     0    -1
+[5,]    1    0    0    1    0    0    1   -1    0    -1     0     0    -1
+[6,]    1    0    0   -1    0    0    1   -1    0     0     1     0     0
+[7,]    1    0    0    0    1    0   -1   -1    0     0    -1     0     0
+[8,]    1    0    0    0   -1    0   -1   -1    0     0     0     1     0
+     [,14] [,15] [,16] [,17] [,18] [,19] [,20] [,21] [,22] [,23] [,24]
+[1,]    -1    -1     0    -1    -1     0     1    -1    -1     1     1
+[2,]     0     1     0    -1    -1     0    -1    -1    -1    -1     1
+[3,]     0     1     1     0     1     0    -1    -1    -1    -1    -1
+[4,]     0     1     1     0     1     1     0     1    -1    -1    -1
+[5,]     0     1    -1     0     1     1     0     1     1    -1    -1
+[6,]     1    -1    -1     0     1    -1     0     1     1     1    -1
+[7,]     1    -1     0     1    -1    -1     0     1     1     1     1
+[8,]    -1    -1     0     1    -1     0     1    -1     1     1     1
+     [,25]
+[1,]     1
+[2,]     1
+[3,]     1
+[4,]    -1
+[5,]    -1
+[6,]    -1
+[7,]    -1
+[8,]     1</code></pre>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
@@ -598,19 +792,20 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] susieR_0.6.4.0427   binhf_1.0-3         adlift_1.4-1       
-[4] EbayesThresh_1.4-12 wavethresh_4.6.8    MASS_7.3-51.1      
+[1] glmnet_2.0-16       foreach_1.4.4       Matrix_1.2-15      
+[4] susieR_0.6.4.0427   binhf_1.0-3         adlift_1.4-1       
+[7] EbayesThresh_1.4-12 wavethresh_4.6.8    MASS_7.3-51.1      
 
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.0         knitr_1.21         whisker_0.3-2     
  [4] magrittr_1.5       workflowr_1.1.1    lattice_0.20-38   
  [7] stringr_1.3.1      tools_3.4.3        grid_3.4.3        
 [10] xfun_0.4           R.oo_1.22.0        git2r_0.24.0      
-[13] matrixStats_0.54.0 htmltools_0.3.6    yaml_2.2.0        
-[16] digest_0.6.18      rprojroot_1.3-2    Matrix_1.2-15     
-[19] R.utils_2.7.0      evaluate_0.12      rmarkdown_1.11    
-[22] stringi_1.2.4      compiler_3.4.3     backports_1.1.3   
-[25] R.methodsS3_1.7.1 </code></pre>
+[13] matrixStats_0.54.0 iterators_1.0.10   htmltools_0.3.6   
+[16] yaml_2.2.0         digest_0.6.18      rprojroot_1.3-2   
+[19] codetools_0.2-16   R.utils_2.7.0      evaluate_0.12     
+[22] rmarkdown_1.11     stringi_1.2.4      compiler_3.4.3    
+[25] backports_1.1.3    R.methodsS3_1.7.1 </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
