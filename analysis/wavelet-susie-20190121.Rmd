@@ -128,7 +128,7 @@ lines(pred_glmnetcv_DWT, col='orange', lwd=2)
 ```
 
 ## Fix UDWT matrix
-Let's start from something simple and try to debug here. Set `n=8`. 
+Let's start from something simple and try to debug here. Set `n=8`. My Haar matrix looks like this:
 ```{r}
 n = 8
 Haar_matrix <- t(GenW(n=n, filter.number=1, family="DaubExPhase"))
@@ -149,6 +149,7 @@ Haar_matrix[Haar_matrix<0] = -1
 Haar_matrix
 ```
 
+Here is my `UDWT_W_T` matrix. 
 ```{r}
 UDWT_W_T[UDWT_W_T>0] = 1
 UDWT_W_T[UDWT_W_T<0] = -1
