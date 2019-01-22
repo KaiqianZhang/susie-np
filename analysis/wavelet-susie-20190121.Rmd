@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(wavethresh)
 library(binhf) #Package for shift function
 library(susieR)
+library(glmnet)
 ```
 
 Previously, we simulated `n=128` piecewise-constant data points and apply both DWT and UDWT methods with prior estimated. There is not much difference between two fits. So I asked a question:
@@ -25,7 +26,7 @@ Suggested by Matthew, I read the paper `Translation-Invariant De-Noising` [link]
 
 * Using UDWT can reduce visual artifacts. For example, in the wavelet-denoising case, the artifacts have to do with behavior near singularities. In the neighborhood of discontinuities, wavelet de-noising can exhibit pusedo-Gibbs phenomena.
 
-* Gibbs phenomena is something would happen in the Fourier-based de-noising: you will observe upshooting and downshoot of a specific target level at the discontinuity of jumps. 
+* Gibbs phenomena is something would happen in the Fourier-based de-noising: you will observe upshoot and downshoot of a specific target level at the discontinuity of jumps. 
 
 * Importantly, the size of those artifacts is connected intimately with the actual location of the discontinuity. For example, when using Haar wavelets, a discontinuity precisely at location `n/2` will lead to essentially no pseudo-Gibbs oscillations;
 a discontinuity near a binary irrational like `n/3` will lead to significant pseudo-Gibbs oscillations. 
@@ -83,7 +84,7 @@ I want to further look at how UDWT behaves. I expect that UDWT can solve the vis
 n_Haar_matrix_inv <- DWT_W_T
 for(i in 1:(n-1)){
   order <- shift(seq(n),i)
-  Haar_matrix_shifted_inv <- t(Haar_matrix[,order])
+  Haar_matrix_shifted_inv <- t(Haar_matrix[,order]) 
   n_Haar_matrix_inv <- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
 }
 duplicated_columns <- duplicated(t(n_Haar_matrix_inv))
@@ -99,6 +100,70 @@ plot(y_jump3,pch=20, col="grey", main="UDWT for fitting data with discontinuity 
 lines(beta_jump3,col="black",lwd=2)
 lines(predict(s_jump3_UDWT), col='blue', lwd=2)
 ```
+
+## Other sparse regression methods
+
+Is it really the problem of my undecimated wavelet matrix `UDWT_W_T` or it is a problem with SuSiE? So I tried other sparse regression methods. The fit using UDWT bases and glmnet is still bad. So something is wrong with my `UDWT_W_T` matrix. 
+
+```{r}
+s_glmnetcv = cv.glmnet(UDWT_W_T, y_jump3, type.measure = "mse", nfolds = 20)
+pred_glmnetcv = predict(s_glmnetcv, newx = UDWT_W_T, s = "lambda.min")
+```
+
+```{r}
+plot(y_jump3,pch=20, col="grey", main="glmnet-UDWT for fitting data with discontinuity at n/3")
+lines(beta_jump3,col="black",lwd=2)
+lines(pred_glmnetcv, col='orange', lwd=2)
+```
+
+```{r}
+s_glmnetcv_DWT = cv.glmnet(DWT_W_T, y_jump3, type.measure = "mse", nfolds = 20)
+pred_glmnetcv_DWT = predict(s_glmnetcv_DWT, newx = DWT_W_T, s = "lambda.min")
+```
+
+```{r}
+plot(y_jump3,pch=20, col="grey", main="glmnet-DWT for fitting data with discontinuity at n/3")
+lines(beta_jump3,col="black",lwd=2)
+lines(pred_glmnetcv_DWT, col='orange', lwd=2)
+```
+
+## Fix UDWT matrix
+Let's start from something simple and try to debug here. Set `n=8`. 
+```{r}
+n = 8
+Haar_matrix <- t(GenW(n=n, filter.number=1, family="DaubExPhase"))
+DWT_W_T <- t(Haar_matrix)
+n_Haar_matrix_inv <- DWT_W_T
+for(i in 1:(n-1)){
+  order <- shift(seq(n),i)
+  Haar_matrix_shifted_inv <- t(Haar_matrix[,order]) 
+  n_Haar_matrix_inv <- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
+}
+duplicated_columns <- duplicated(t(n_Haar_matrix_inv))
+UDWT_W_T <- n_Haar_matrix_inv[, !duplicated_columns]
+```
+
+```{r}
+Haar_matrix[Haar_matrix>0] = 1
+Haar_matrix[Haar_matrix<0] = -1
+Haar_matrix
+```
+
+```{r}
+UDWT_W_T[UDWT_W_T>0] = 1
+UDWT_W_T[UDWT_W_T<0] = -1
+UDWT_W_T
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
