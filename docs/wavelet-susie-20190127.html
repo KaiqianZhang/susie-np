@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Kaiqian Zhang" />
+
+
+<title>Wavelet-based SuSiE Analysis 20190127</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">susie-np</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Wavelet-based SuSiE Analysis 20190127</h1>
+<h4 class="author"><em>Kaiqian Zhang</em></h4>
+<h4 class="date"><em>1/27/2019</em></h4>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2019-01-28</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20190114)</code> </summary></p>
+<p>The command <code>set.seed(20190114)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/21e6a42c98006a7c587b6f2d27148fdde6ebb977" target="_blank">21e6a42</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+
+Unstaged changes:
+    Modified:   analysis/UDWT.Rmd
+    Deleted:    analysis/UDWT2.Rmd
+    Modified:   analysis/wavelet-susie-20190121.Rmd
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/21e6a42c98006a7c587b6f2d27148fdde6ebb977/analysis/wavelet-susie-20190127.Rmd" target="_blank">21e6a42</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-28
+</td>
+<td style="text-align:left;">
+add non-equispaced wavelet-susie analysis
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<p>In this analysis, we use DWT (i.e. orthogonal wavelet basis) in the SuSiE. Our goal is to apply wavelet-based method on non-equispaced data with sample size not necessarily a power of 2. We try a new interpolation approach proposed by Asad et al. in 2018 <a href="https://papers.nips.cc/paper/8112-wavelet-regression-and-additive-models-for-irregularly-spaced-data.pdf">(paper link)</a>.</p>
+<div id="wavelet-based-susie-problem" class="section level2">
+<h2>wavelet-based SuSiE problem</h2>
+<p>A non-parametric regression problem in the wavelet context is</p>
+<p><span class="math display">\[
+\hat{b} = \underset{b}{\mathrm{argmin}} \frac{1}{2}|| y- b||_2^2 + \lambda||Wb||_1,
+\]</span> where <span class="math inline">\(W\)</span> is the discrete wavelet transform (UWD) matrix.</p>
+<p>Let <span class="math inline">\(\beta=Wb\)</span>. Then <span class="math inline">\(b = W^T\beta\)</span> since <span class="math inline">\(W\)</span> is orthogonal. The above problem becomes</p>
+<p><span class="math display">\[\hat{\beta} = \underset{\beta}{\mathrm{argmin}} \frac{1}{2}||y- W^T\beta||_2^2 + \lambda||\beta||_1.\]</span></p>
+</div>
+<div id="asads-interpolation-matrix" class="section level2">
+<h2>Asad’s interpolation matrix</h2>
+<p>Given that <span class="math inline">\(y\)</span> has <span class="math inline">\(n\)</span> data points, <span class="math inline">\(W\)</span> is an <span class="math inline">\(n\)</span> by <span class="math inline">\(n\)</span> matrix. The DWT, however, requires <span class="math inline">\(n\)</span> to be a power of 2. We here try a novel interpolation method to solve this restriction.</p>
+<p>Asad et al. proposed an n by K interpolation matrix <span class="math inline">\(R\)</span>:</p>
+<p><span class="math display">\[
+R_{ij}:=
+ \begin{cases} 
+      1 &amp; j=1, x_i \leq 1/K \\
+      (j+1)-Kx_i &amp; j = \lfloor K x_i \rfloor, x_i \in (1/K,1] \\
+      Kx_i - (j-1) &amp; j = \lceil Kx_i \rceil, x_i \in (1/K,1] \\
+      0 &amp; \text{otherwise},
+   \end{cases}
+\]</span> where <span class="math inline">\(K = 2^{\lceil log_2 n \rceil}\)</span>.</p>
+<p>Then we can instead solve the following optimization problem <span class="math display">\[
+\hat{\beta} = \underset{\beta}{\mathrm{argmin}} \frac{1}{2}||y- RW^T\beta||_2^2 + \lambda||\beta||_1,
+\]</span> where data points of <span class="math inline">\(x_i\)</span> is non-equispaced and <span class="math inline">\(n\)</span> is not necessarily a power of 2.</p>
+</div>
+<div id="implement-the-interpolation-matrix" class="section level2">
+<h2>implement the interpolation matrix</h2>
+<pre class="r"><code>#&#39; @param x is an n-vector of data
+#&#39; @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 &amp; x[i] &lt;= 1/K){
+        R[i,j] = 1
+      } else if (j == floor(K*x[i]) &amp; x[i] &gt; 1/K &amp; x[i] &lt;=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) &amp; x[i] &gt; 1/K &amp; x[i] &lt;=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}</code></pre>
+<p>Here is a minimal example of interpolation matrix <code>R</code> when <code>n=7</code> and given non-equispaced data <code>x</code>.</p>
+<pre class="r"><code>n = 7
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+R = create_interpolation_matrix(x)
+R</code></pre>
+<pre><code>          [,1]      [,2]      [,3]      [,4]      [,5] [,6]      [,7]
+[1,] 0.3865446 0.6134554 0.0000000 0.0000000 0.0000000    0 0.0000000
+[2,] 0.0000000 0.8759307 0.1240693 0.0000000 0.0000000    0 0.0000000
+[3,] 0.0000000 0.0230088 0.9769912 0.0000000 0.0000000    0 0.0000000
+[4,] 0.0000000 0.0000000 0.0000000 0.4171731 0.5828269    0 0.0000000
+[5,] 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000    0 0.8128825
+[6,] 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000    0 0.7343377
+[7,] 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000    0 0.4425979
+          [,8]
+[1,] 0.0000000
+[2,] 0.0000000
+[3,] 0.0000000
+[4,] 0.0000000
+[5,] 0.1871175
+[6,] 0.2656623
+[7,] 0.5574021</code></pre>
+</div>
+<div id="simulation-and-performance" class="section level2">
+<h2>simulation and performance</h2>
+<div id="example-that-works" class="section level3">
+<h3>example that works</h3>
+<p>We use the example from <code>SuSiE Trend Filtering</code> vignette. We simulate <code>n=1000</code> data points with <code>x</code> randomly drawn from a uniform distribution (0,1) i.e. <code>x</code> is not equally-spaced, and <code>y</code> has a piecewise-constant trend. Also notice that <code>n=1000</code> is not a power of two. The following graph shows the susie fit.</p>
+<pre class="r"><code>n = 1000
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+beta = c(rep(0,100),rep(1,100),rep(3,100),rep(-2,100),rep(0,600))
+set.seed(1)
+y = beta + rnorm(n, sd=0.1)</code></pre>
+<pre class="r"><code>W &lt;- t(GenW(n=K, filter.number=1, family=&quot;DaubExPhase&quot;))
+R = create_interpolation_matrix(x)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t = tcrossprod(R, W)</code></pre>
+<pre class="r"><code>s = susie(RW_t, y, L = 30, estimate_prior_variance = TRUE)</code></pre>
+<pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;)
+lines(x, beta, col=&quot;black&quot;, lwd=2)
+lines(x, predict(s), col=&#39;red&#39;, lwd=2)</code></pre>
+<p><img src="figure/wavelet-susie-20190127.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here is another example with more jumps.</p>
+<pre class="r"><code>n1 = 1000
+K1 = 2^(ceiling(log2(n1)))
+set.seed(1)
+x1 = sort(runif(n1, 0,1))
+beta1 = c(rep(0,10),rep(1,20),rep(3,100),rep(-2,100),rep(0,50),rep(8,50),rep(3,50), rep(10,50), rep(0,(n-430)))
+set.seed(1)
+y1 = beta1 + rnorm(n1, sd=0.1)</code></pre>
+<pre class="r"><code>W1 &lt;- t(GenW(n=K1, filter.number=1, family=&quot;DaubExPhase&quot;))
+R1 = create_interpolation_matrix(x1)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t1 = tcrossprod(R1, W1)</code></pre>
+<pre class="r"><code>s1 = susie(RW_t1, y1, L = 50, estimate_prior_variance = TRUE)</code></pre>
+<pre class="r"><code>plot(x1, y1, pch=20, col=&quot;grey&quot;)
+lines(x1, beta1, col=&quot;black&quot;, lwd=2)
+lines(x1, predict(s1), col=&#39;red&#39;, lwd=2)</code></pre>
+<p><img src="figure/wavelet-susie-20190127.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="example-that-fails" class="section level3">
+<h3>example that fails</h3>
+<p>I observe many bad fits when <code>n</code> is small and <code>y</code> has more than 2 jumps. The following is one of those examples. Here we simulate <code>n=150</code> data points with non-equispaced <code>x</code>. When fitting SuSiE, I have increased <code>L=80</code> but I still get an unsatisfactory fit.</p>
+<pre class="r"><code>n2 = 150
+K2 = 2^(ceiling(log2(n2)))
+set.seed(1)
+x2 = sort(runif(n2, 0,1))
+beta2 = c(rep(0,10),rep(1,20),rep(3,100),rep(-2,20))
+set.seed(1)
+y2 = beta2 + rnorm(n2, sd=0.1)</code></pre>
+<pre class="r"><code>W2 &lt;- t(GenW(n=K2, filter.number=1, family=&quot;DaubExPhase&quot;))
+R2 = create_interpolation_matrix(x2)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t2 = tcrossprod(R2, W2)</code></pre>
+<pre class="r"><code>s2 = susie(RW_t2, y2, L = 80, estimate_prior_variance = TRUE)</code></pre>
+<pre class="r"><code>plot(x2, y2, pch=20, col=&quot;grey&quot;)
+lines(x2, beta2, col=&quot;black&quot;, lwd=2)
+lines(x2, predict(s2), col=&#39;red&#39;, lwd=2)</code></pre>
+<p><img src="figure/wavelet-susie-20190127.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.3 (2017-11-30)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Sierra 10.12.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] smashr_1.2-0        glmnet_2.0-16       foreach_1.4.4      
+ [4] Matrix_1.2-15       susieR_0.6.4.0427   binhf_1.0-3        
+ [7] adlift_1.4-1        EbayesThresh_1.4-12 wavethresh_4.6.8   
+[10] MASS_7.3-51.1      
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.0         compiler_3.4.3     git2r_0.24.0      
+ [4] workflowr_1.1.1    bitops_1.0-6       R.methodsS3_1.7.1 
+ [7] R.utils_2.7.0      iterators_1.0.10   tools_3.4.3       
+[10] digest_0.6.18      evaluate_0.12      lattice_0.20-38   
+[13] yaml_2.2.0         parallel_3.4.3     xfun_0.4          
+[16] stringr_1.3.1      knitr_1.21         caTools_1.17.1.1  
+[19] rprojroot_1.3-2    grid_3.4.3         data.table_1.11.8 
+[22] rmarkdown_1.11     ashr_2.2-7         magrittr_1.5      
+[25] whisker_0.3-2      matrixStats_0.54.0 backports_1.1.3   
+[28] codetools_0.2-16   htmltools_0.3.6    stringi_1.2.4     
+[31] doParallel_1.0.14  pscl_1.5.2         truncnorm_1.0-8   
+[34] SQUAREM_2017.10-1  R.oo_1.22.0       </code></pre>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
