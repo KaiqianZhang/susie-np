@@ -1,0 +1,186 @@
+---
+title: "Wavelet-based SuSiE Analysis 20190127"
+author: "Kaiqian Zhang"
+date: "1/27/2019"
+header-includes:
+   - \usepackage{amsmath}
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+library(glmnet)
+library(smashr)
+```
+
+In this analysis, we use DWT (i.e. orthogonal wavelet basis) in the SuSiE. Our goal is to apply wavelet-based method on non-equispaced data with sample size not necessarily a power of 2. We try a new interpolation approach proposed by Asad et al. in 2018 [(paper link)](https://papers.nips.cc/paper/8112-wavelet-regression-and-additive-models-for-irregularly-spaced-data.pdf). 
+
+## wavelet-based SuSiE problem
+
+A non-parametric regression problem in the wavelet context is 
+
+$$
+\hat{b} = \underset{b}{\mathrm{argmin}} \frac{1}{2}|| y- b||_2^2 + \lambda||Wb||_1,
+$$
+where $W$ is the discrete wavelet transform (UWD) matrix. 
+
+Let $\beta=Wb$. Then $b = W^T\beta$ since $W$ is orthogonal. The above problem becomes
+
+$$\hat{\beta} = \underset{\beta}{\mathrm{argmin}} \frac{1}{2}||y- W^T\beta||_2^2 + \lambda||\beta||_1.$$
+
+## Asad's interpolation matrix
+
+Given that $y$ has $n$ data points, $W$ is an $n$ by $n$ matrix. The DWT, however, requires $n$ to be a power of 2. We here try a novel interpolation method to solve this restriction. 
+
+Asad et al. proposed an n by K interpolation matrix $R$:
+
+$$
+R_{ij}:=
+ \begin{cases} 
+      1 & j=1, x_i \leq 1/K \\
+      (j+1)-Kx_i & j = \lfloor K x_i \rfloor, x_i \in (1/K,1] \\
+      Kx_i - (j-1) & j = \lceil Kx_i \rceil, x_i \in (1/K,1] \\
+      0 & \text{otherwise},
+   \end{cases}
+$$
+where $K = 2^{\lceil log_2 n \rceil}$.
+
+Then we can instead solve the following optimization problem
+$$
+\hat{\beta} = \underset{\beta}{\mathrm{argmin}} \frac{1}{2}||y- RW^T\beta||_2^2 + \lambda||\beta||_1,
+$$
+where data points of $x_i$ is non-equispaced and $n$ is not necessarily a power of 2.
+
+## implement the interpolation matrix 
+```{r}
+#' @param x is an n-vector of data
+#' @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 & x[i] <= 1/K){
+        R[i,j] = 1
+      } else if (j == floor(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}
+```
+
+Here is a minimal example of interpolation matrix `R` when `n=7` and given non-equispaced data `x`. 
+```{r}
+n = 7
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+R = create_interpolation_matrix(x)
+R
+```
+
+## simulation and performance
+
+### example that works
+
+We use the example from `SuSiE Trend Filtering` vignette. We simulate `n=1000` data points with `x` randomly drawn from a uniform distribution (0,1) i.e. `x` is not equally-spaced, and `y` has a piecewise-constant trend. Also notice that `n=1000` is not a power of two. The following graph shows the susie fit. 
+```{r}
+n = 1000
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+beta = c(rep(0,100),rep(1,100),rep(3,100),rep(-2,100),rep(0,600))
+set.seed(1)
+y = beta + rnorm(n, sd=0.1)
+```
+
+```{r}
+W <- t(GenW(n=K, filter.number=1, family="DaubExPhase"))
+R = create_interpolation_matrix(x)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t = tcrossprod(R, W)
+```
+
+```{r}
+s = susie(RW_t, y, L = 30, estimate_prior_variance = TRUE)
+```
+
+```{r}
+plot(x, y, pch=20, col="grey")
+lines(x, beta, col="black", lwd=2)
+lines(x, predict(s), col='red', lwd=2)
+```
+
+Here is another example with more jumps.
+```{r}
+n1 = 1000
+K1 = 2^(ceiling(log2(n1)))
+set.seed(1)
+x1 = sort(runif(n1, 0,1))
+beta1 = c(rep(0,10),rep(1,20),rep(3,100),rep(-2,100),rep(0,50),rep(8,50),rep(3,50), rep(10,50), rep(0,(n-430)))
+set.seed(1)
+y1 = beta1 + rnorm(n1, sd=0.1)
+```
+
+```{r}
+W1 <- t(GenW(n=K1, filter.number=1, family="DaubExPhase"))
+R1 = create_interpolation_matrix(x1)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t1 = tcrossprod(R1, W1)
+```
+
+```{r}
+s1 = susie(RW_t1, y1, L = 50, estimate_prior_variance = TRUE)
+```
+
+```{r}
+plot(x1, y1, pch=20, col="grey")
+lines(x1, beta1, col="black", lwd=2)
+lines(x1, predict(s1), col='red', lwd=2)
+```
+
+### example that fails
+
+I observe many bad fits when `n` is small and `y` has more than 2 jumps. The following is one of those examples. Here we simulate `n=150` data points with non-equispaced `x`. When fitting SuSiE, I have increased `L=80` but I still get an unsatisfactory fit. 
+
+```{r}
+n2 = 150
+K2 = 2^(ceiling(log2(n2)))
+set.seed(1)
+x2 = sort(runif(n2, 0,1))
+beta2 = c(rep(0,10),rep(1,20),rep(3,100),rep(-2,20))
+set.seed(1)
+y2 = beta2 + rnorm(n2, sd=0.1)
+```
+
+```{r}
+W2 <- t(GenW(n=K2, filter.number=1, family="DaubExPhase"))
+R2 = create_interpolation_matrix(x2)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t2 = tcrossprod(R2, W2)
+```
+
+```{r}
+s2 = susie(RW_t2, y2, L = 80, estimate_prior_variance = TRUE)
+```
+
+```{r}
+plot(x2, y2, pch=20, col="grey")
+lines(x2, beta2, col="black", lwd=2)
+lines(x2, predict(s2), col='red', lwd=2)
+```
+
+
