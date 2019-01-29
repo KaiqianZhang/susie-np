@@ -5,4 +5,4 @@ output:
     toc: false
 ---
 
-Describe your project.
+The project susie-np is to use [SuSiE](https://stephenslab.github.io/susieR/) framework to solve non-parametric regression problem. We mainly focus on two methods: trend filtering and wavelet-based transformation. 

@@ -1,0 +1,20 @@
+---
+title: "Wavelet-based SuSiE Analysis 20190129"
+author: "Kaiqian Zhang"
+date: "1/29/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+library(glmnet)
+library(smashr)
+```

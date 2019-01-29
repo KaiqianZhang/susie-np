@@ -16,3 +16,4 @@ Welcome to Kaiqian's research project: susie-np.
 
 * Please click on [wavelet-susie-20190127](wavelet-susie-20190127.html) to see my results.
 
+* Please click on [wavelet-susie-20190129](wavelet-susie-20190129.html) to see my results.
