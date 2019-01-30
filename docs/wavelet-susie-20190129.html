@@ -436,7 +436,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2019-01-29</p>
+<p><strong>Last updated:</strong> 2019-01-30</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -460,7 +460,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/7d736391c860d389f6b5a8db7f1e5eeb7ea72b71" target="_blank">7d73639</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/d812586fbcf743f607ef07366038cdacc9167f55" target="_blank">d812586</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -501,6 +501,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/d812586fbcf743f607ef07366038cdacc9167f55/analysis/wavelet-susie-20190129.Rmd" target="_blank">d812586</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-30
+</td>
+<td style="text-align:left;">
+update 20190129, fix residual variance in the bad fit example
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/fb0735e0508d864792e467a76ba020e2a0129f4f/docs/wavelet-susie-20190129.html" target="_blank">fb0735e</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-29
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -595,6 +629,36 @@ RW_t = tcrossprod(R, W)</code></pre>
 lines(x, beta, col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&#39;red&#39;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190129.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-6-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/fb0735e0508d864792e467a76ba020e2a0129f4f/docs/figure/wavelet-susie-20190129.Rmd/unnamed-chunk-6-1.png" target="_blank">fb0735e</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-29
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>n = 100
 K = 2^(ceiling(log2(n)))
 set.seed(1)
@@ -611,6 +675,36 @@ RW_t = tcrossprod(R, W)</code></pre>
 lines(x, beta, col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&#39;red&#39;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190129.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-10-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/fb0735e0508d864792e467a76ba020e2a0129f4f/docs/figure/wavelet-susie-20190129.Rmd/unnamed-chunk-10-1.png" target="_blank">fb0735e</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-29
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Putting aside non-equispaced and not a power of 2 implementation, we first want to understand the following bad fit. Suppose we have <code>n=128</code> (i.e. n is a power of 2) equal-spaced data points with three jumps. Fitting with orthogoal wavelet basis, we still get a bad fit. We can observe this from Figure 3 below.</p>
 <pre class="r"><code>n = 128
 beta = c(rep(0,20), rep(3,20), rep(-3,20), rep(5,68))
@@ -622,12 +716,80 @@ y = beta + rnorm(n, sd=0.1)</code></pre>
 lines(beta, col=&quot;black&quot;, lwd=2)
 lines(predict(s), col=&#39;red&#39;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190129.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>We apply wavelet decomposition of truth and data and plot their coefficients. We notice that both decompositions identify three non-zeros around same locations. And the number of non-zeros indicates that beta is pretty sparse. Our question becomes if coefficients are the same, is there anything wrong with prediction?</p>
-<pre class="r"><code>s_true = susie(W_t, beta, L=50, estimate_prior_variance = TRUE)</code></pre>
-<pre class="r"><code>plot(coef(s_true), main=&#39;wavelet decomposition of truth&#39;)</code></pre>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-14-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/fb0735e0508d864792e467a76ba020e2a0129f4f/docs/figure/wavelet-susie-20190129.Rmd/unnamed-chunk-14-1.png" target="_blank">fb0735e</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-29
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<p>We apply wavelet decomposition of truth and data and plot their coefficients. We notice that both decompositions identify nine non-zeros around same locations. And the number of non-zeros indicates that beta is relatively sparse.</p>
+<pre class="r"><code># beta = Wb, b is data or truth, beta is coefficients
+plot((t(W_t) %*% beta), main=&#39;wavelet decomposition of truth&#39;)</code></pre>
+<p><img src="figure/wavelet-susie-20190129.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot((t(W_t) %*% y), main=&#39;wavelet decomposition of data&#39;)</code></pre>
 <p><img src="figure/wavelet-susie-20190129.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot(coef(s), main=&#39;wavelet decomposition of data&#39;)</code></pre>
-<p><img src="figure/wavelet-susie-20190129.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of unnamed-chunk-16-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/fb0735e0508d864792e467a76ba020e2a0129f4f/docs/figure/wavelet-susie-20190129.Rmd/unnamed-chunk-16-1.png" target="_blank">fb0735e</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-29
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<p>Matthew said looking further, it is a local optimum problem. As he suggested, I fixed residual variance in SuSiE and got a pretty good fit :)</p>
+<pre class="r"><code>s_true = susie(W_t, y, L=50, estimate_prior_variance = TRUE,residual_variance = .1, estimate_residual_variance=FALSE)
+susie_get_objective(s_true)</code></pre>
+<pre><code>[1] -50.83932</code></pre>
+<pre class="r"><code>plot(y, pch=20, col=&quot;grey&quot;, main=&quot;Figure 4: after setting residual variance&quot;)
+lines(beta, col=&quot;black&quot;, lwd=2)
+lines(predict(s_true), col=&#39;red&#39;, lwd=2)</code></pre>
+<p><img src="figure/wavelet-susie-20190129.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
