@@ -120,21 +120,28 @@ lines(beta, col="black", lwd=2)
 lines(predict(s), col='red', lwd=2)
 ```
 
-We apply wavelet decomposition of truth and data and plot their coefficients. We notice that both decompositions identify three non-zeros around same locations. And the number of non-zeros indicates that beta is pretty sparse. Our question becomes if coefficients are the same, is there anything wrong with prediction?
+We apply wavelet decomposition of truth and data and plot their coefficients. We notice that both decompositions identify nine non-zeros around same locations. And the number of non-zeros indicates that beta is relatively sparse. 
 ```{r}
-s_true = susie(W_t, beta, L=50, estimate_prior_variance = TRUE)
+# beta = Wb, b is data or truth, beta is coefficients
+plot((t(W_t) %*% beta), main='wavelet decomposition of truth')
 ```
 
 ```{r}
-plot(coef(s_true), main='wavelet decomposition of truth')
+plot((t(W_t) %*% y), main='wavelet decomposition of data')
+```
+
+Matthew said looking further, it is a local optimum problem. As he suggested, I fixed residual variance in SuSiE and got a pretty good fit :)
+
+```{r}
+s_true = susie(W_t, y, L=50, estimate_prior_variance = TRUE,residual_variance = .1, estimate_residual_variance=FALSE)
+susie_get_objective(s_true)
 ```
 
 ```{r}
-plot(coef(s), main='wavelet decomposition of data')
+plot(y, pch=20, col="grey", main="Figure 4: after setting residual variance")
+lines(beta, col="black", lwd=2)
+lines(predict(s_true), col='red', lwd=2)
 ```
-
-
-
 
 
 
