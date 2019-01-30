@@ -1,0 +1,159 @@
+---
+title: "Wavelet-based SuSiE Analysis 20190130"
+author: "Kaiqian Zhang"
+date: "1/30/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+library(glmnet)
+library(smashr)
+library(MASS)
+library(L0Learn)
+```
+
+```{r}
+#' @param x is an n-vector of data
+#' @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 & x[i] <= 1/K){
+        R[i,j] = 1
+      } else if (j == floor(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}
+```
+
+```{r}
+n = 100
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+beta = c(rep(0,20), rep(3,20), rep(-3,20), rep(5,40))
+set.seed(1)
+y = beta + rnorm(n, sd=0.1)
+```
+
+```{r}
+W <- t(GenW(n=K, filter.number=1, family="DaubExPhase"))
+R = create_interpolation_matrix(x)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t = tcrossprod(R, W)
+```
+
+## Fix residual variance
+
+We learned from previous analysis that if we fix residual variance in SuSiE, we could get a better fit. Let's see if this works in the non-equispaced data scenario. Figure 1 shows the bad fit we initially get when we apply wavelet-susie onto `n=100` (i.e. not a power of 2) non-equispaced data points. Figure 2 renders a better fit when we set `residual_variance = 0.01`. We can observe **[question 1]** a warning of IBSS convergence when we set `residual_variance` very small. 
+
+```{r}
+s = susie(RW_t, y, L = 50, estimate_prior_variance = TRUE)
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 1: non-equispaced fit")
+lines(x, beta, col="black", lwd=2)
+lines(x, predict(s), col='red', lwd=2)
+```
+```{r}
+s_fixvar = susie(RW_t, y, L = 50, estimate_prior_variance = TRUE, residual_variance = 0.01, estimate_residual_variance=FALSE)
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 2: non-equispaced fit with fixed residual variance")
+lines(x, beta, col="black", lwd=2)
+lines(x, predict(s_fixvar), col='red', lwd=2)
+```
+
+## Find a fixed residual variance
+
+As suggested by Matthew, we want to use other methods to help us find a fixed residual variance. We consider the following methods:
+
+* smashr
+
+* ridge regression, i.e. glmnet(..., alpha=0, ...)
+
+* glmnet in general
+
+* L0Learn
+
+### smashr for residual variance 
+
+**[question 2]** I found that `smash` can only take a power of 2 data points. So I did not try this method. Is there other way to get around a power of 2 at this point?
+
+### ridge regression for residual variance
+
+**[question 3]** The estimated residual variance I got from ridge regression is relatively large. I was wondering if this is the right way to find a residual variance. And why do we consider using ridge regression specifically here?
+
+```{r}
+cvfit <- cv.glmnet(RW_t, y, alpha=0)
+yhat = predict(cvfit, newx = RW_t, s = "lambda.min")
+var(y-yhat)
+```
+
+### general glmnet for residual variance
+
+The estimated residual variance from general glmnet is still large, compared to 0.01. 
+
+```{r}
+cvfit <- cv.glmnet(RW_t, y)
+yhat = predict(cvfit, newx = RW_t, s = "lambda.min")
+var(y-yhat)
+```
+
+### L0Learn for residual variance
+
+L0Learn gives me an estimated residual variance of 0.17. And Figure 3 gives a fit by using this residual variance. **[question 4]** All the methods I tried could not find a fixed residual variance as small as 0.01 for me. I was wondering if what I did here is wrong in terms of finding an estimated residual variance?  
+
+```{r}
+cvfit = L0Learn.cvfit(RW_t, y, nFolds=5, seed=1, penalty="L0L2", nGamma=5, gammaMin=0.0001, gammaMax=0.1, maxSuppSize=50)
+```
+
+```{r}
+lapply(cvfit$cvMeans, min)
+#This output indicates that the 2nd value of gamma achieves the lowest CV error 
+```
+
+```{r}
+optimalGammaIndex = 2 # index of the optimal gamma identified previously
+optimalLambdaIndex = which.min(cvfit$cvMeans[[optimalGammaIndex]])
+optimalLambda = cvfit$fit$lambda[[optimalGammaIndex]][optimalLambdaIndex]
+yhat = predict(cvfit, newx=RW_t, lambda=optimalLambda, gamma=cvfit$fit$gamma[2])
+var((y-yhat)[,1])
+```
+
+```{r}
+s_fixvar_L0 = susie(RW_t, y, L = 50, estimate_prior_variance = TRUE, residual_variance = 0.17, estimate_residual_variance=FALSE)
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 3: non-equispaced fit with fixed residual variance from L0Learn")
+lines(x, beta, col="black", lwd=2)
+lines(x, predict(s_fixvar_L0), col='red', lwd=2)
+```
+
+
+
+
+
+
+
+
