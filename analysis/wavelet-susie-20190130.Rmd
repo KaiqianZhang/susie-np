@@ -127,7 +127,7 @@ L0Learn gives me an estimated residual variance of 0.17. And Figure 3 gives a fi
 cvfit = L0Learn.cvfit(RW_t, y, nFolds=5, seed=1, penalty="L0L2", nGamma=5, gammaMin=0.0001, gammaMax=0.1, maxSuppSize=50)
 ```
 
-```{r}
+```{r, echo=FALSE}
 lapply(cvfit$cvMeans, min)
 #This output indicates that the 2nd value of gamma achieves the lowest CV error 
 ```
