@@ -460,7 +460,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/7ad2fbc6df9a7deaf4d51d7b74e3eed55294c8e4" target="_blank">7ad2fbc</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/3e17d283a4f2a9e540278f0bb770fa19afbbfe04" target="_blank">3e17d28</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -504,6 +504,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/3e17d283a4f2a9e540278f0bb770fa19afbbfe04/analysis/wavelet-susie-20190130.Rmd" target="_blank">3e17d28</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-30
+</td>
+<td style="text-align:left;">
+add 20190130 analysis
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/e62b35b1b4a5e098bd417243cbcbc5458aa646bb/docs/wavelet-susie-20190130.html" target="_blank">e62b35b</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-01-30
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -702,20 +736,8 @@ var(y-yhat)</code></pre>
 <h3>L0Learn for residual variance</h3>
 <p>L0Learn gives me an estimated residual variance of 0.17. And Figure 3 gives a fit by using this residual variance. <strong>[question 4]</strong> All the methods I tried could not find a fixed residual variance as small as 0.01 for me. I was wondering if what I did here is wrong in terms of finding an estimated residual variance?</p>
 <pre class="r"><code>cvfit = L0Learn.cvfit(RW_t, y, nFolds=5, seed=1, penalty=&quot;L0L2&quot;, nGamma=5, gammaMin=0.0001, gammaMax=0.1, maxSuppSize=50)</code></pre>
-<pre><code>[[1]]
-[1] 14.37451
-
-[[2]]
-[1] 13.41959
-
-[[3]]
-[1] 16.19537
-
-[[4]]
-[1] 16.21205
-
-[[5]]
-[1] 16.21209</code></pre>
+<pre class="r"><code>cv_gamma = lapply(cvfit$cvMeans, min)
+#This output indicates that the 2nd value of gamma achieves the lowest CV error </code></pre>
 <pre class="r"><code>optimalGammaIndex = 2 # index of the optimal gamma identified previously
 optimalLambdaIndex = which.min(cvfit$cvMeans[[optimalGammaIndex]])
 optimalLambda = cvfit$fit$lambda[[optimalGammaIndex]][optimalLambdaIndex]
