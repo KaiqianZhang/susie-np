@@ -1,0 +1,116 @@
+---
+title: "SuSiE Estimate Prior Variance Methods Comparison"
+author: "Kaiqian Zhang"
+date: "2/13/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Goal
+
+We use datasets from `dsc-finemap` and perform DSC simulations to compare three methods `uniroot`, `optim`, and `EM`. Implementations for those three methods are:
+
+* uniroot: 
+
+```
+V.u=uniroot(negloglik.grad.logscale,c(-10,10),extendInt = "upX",betahat=betahat,shat2=shat2,prior_weights=prior_weights)
+V = exp(V.u$root)
+if(loglik(0,betahat,shat2,prior_weights) >= loglik(V,betahat,shat2,prior_weights)){
+      V=0 
+  }
+```
+
+* optim:
+
+```
+lV = optim(par=log(max(betahat^2-shat2, na.rm = TRUE)), fn=neg.loglik.logscale, gr=negloglik.grad.logscale, betahat=betahat, shat2=shat2, prior_weights = prior_weights, method='Brent', lower = -10, upper = 10)$par
+V = exp(lV)
+if(loglik(0,betahat,shat2,prior_weights) >= loglik(V,betahat,shat2,prior_weights)){
+    V=0 
+  }
+```
+
+* EM:
+
+```
+V = sum(alpha*post_mean2)
+```
+
+## Evaluation criteria
+
+* converged: We perform two replicates in the simulation. If converged is 2, SuSiE converges.
+
+* objective: the objective of SuSiE fit. Since we have two replicates, we have objective1 and objective2 in our results. We expect that the higher the objective, the better the method. 
+
+## Results
+
+*Summary:*
+
+- In this simulation studies, all methods converge.
+
+- Objectives produced are very similar. But `optim` consistently and slightly outperforms the other two.
+
+## Tables and code details
+
+```{r}
+dscout = readRDS("/Users/Kaiqian /Desktop/wavelet/susie-np/data/dsc_em_output.RDS")
+```
+
+```{r}
+dscout.df = data.frame(dscout$method,dscout$simple_lm.n_signal, dscout$simple_lm.pve, dscout$score_susie.total, dscout$score_susie.valid, dscout$score_susie.size, dscout$score_susie.purity, dscout$score_susie.top, dscout$score_susie.objective.1, dscout$score_susie.objective.2, dscout$score_susie.converged)
+names(dscout.df) = c("method", "n_signal", "pve", "total", "valid", "size", "purity", "top", "objective1", "objective2", "converged")
+```
+
+```{r}
+unique(dscout$simple_lm.n_signal)
+```
+
+```{r}
+unique(dscout$simple_lm.pve)
+```
+
+```{r}
+dscout.df1 = dscout.df[dscout.df$n_signal==1,]
+dscout.df.n1o1.summary = aggregate(objective1~method+pve+converged, dscout.df1, mean)
+dscout.df.n1o2.summary = aggregate(objective2~method+pve+converged, dscout.df1, mean)
+dscout.df.n1o1.summary
+dscout.df.n1o2.summary
+```
+
+```{r}
+dscout.df2 = dscout.df[dscout.df$n_signal==2,]
+dscout.df.n2o1.summary = aggregate(objective1~method+pve+converged, dscout.df2, mean)
+dscout.df.n2o2.summary = aggregate(objective2~method+pve+converged, dscout.df2, mean)
+dscout.df.n2o1.summary
+dscout.df.n2o2.summary
+```
+
+```{r}
+dscout.df3 = dscout.df[dscout.df$n_signal==3,]
+dscout.df.n3o1.summary = aggregate(objective1~method+pve+converged, dscout.df3, mean)
+dscout.df.n3o2.summary = aggregate(objective2~method+pve+converged, dscout.df3, mean)
+dscout.df.n3o1.summary
+dscout.df.n3o2.summary
+```
+
+```{r}
+dscout.df4 = dscout.df[dscout.df$n_signal==4,]
+dscout.df.n4o1.summary = aggregate(objective1~method+pve+converged, dscout.df4, mean)
+dscout.df.n4o2.summary = aggregate(objective2~method+pve+converged, dscout.df4, mean)
+dscout.df.n4o1.summary
+dscout.df.n4o2.summary
+```
+
+```{r}
+dscout.df5 = dscout.df[dscout.df$n_signal==5,]
+dscout.df.n5o1.summary = aggregate(objective1~method+pve+converged, dscout.df5, mean)
+dscout.df.n5o2.summary = aggregate(objective2~method+pve+converged, dscout.df5, mean)
+dscout.df.n5o1.summary
+dscout.df.n5o2.summary
+```
