@@ -67,14 +67,17 @@ dscout.df = data.frame(dscout$method,dscout$simple_lm.n_signal, dscout$simple_lm
 names(dscout.df) = c("method", "n_signal", "pve", "total", "valid", "size", "purity", "top", "objective1", "objective2", "converged")
 ```
 
+We have the following number of signals in the simulation.
 ```{r}
 unique(dscout$simple_lm.n_signal)
 ```
 
+We have the following options for pve in the simulation.
 ```{r}
 unique(dscout$simple_lm.pve)
 ```
 
+When number of signals is 1, two objectives from two replicates are computed. 
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n_signal==1,]
 dscout.df.n1o1.summary = aggregate(objective1~method+pve+converged, dscout.df1, mean)
@@ -83,6 +86,7 @@ dscout.df.n1o1.summary
 dscout.df.n1o2.summary
 ```
 
+When number of signals is 2, two objectives from two replicates are computed. 
 ```{r}
 dscout.df2 = dscout.df[dscout.df$n_signal==2,]
 dscout.df.n2o1.summary = aggregate(objective1~method+pve+converged, dscout.df2, mean)
@@ -91,6 +95,7 @@ dscout.df.n2o1.summary
 dscout.df.n2o2.summary
 ```
 
+When number of signals is 3, two objectives from two replicates are computed. 
 ```{r}
 dscout.df3 = dscout.df[dscout.df$n_signal==3,]
 dscout.df.n3o1.summary = aggregate(objective1~method+pve+converged, dscout.df3, mean)
@@ -99,6 +104,7 @@ dscout.df.n3o1.summary
 dscout.df.n3o2.summary
 ```
 
+When number of signals is 4, two objectives from two replicates are computed. 
 ```{r}
 dscout.df4 = dscout.df[dscout.df$n_signal==4,]
 dscout.df.n4o1.summary = aggregate(objective1~method+pve+converged, dscout.df4, mean)
@@ -107,6 +113,7 @@ dscout.df.n4o1.summary
 dscout.df.n4o2.summary
 ```
 
+When number of signals is 5, two objectives from two replicates are computed. 
 ```{r}
 dscout.df5 = dscout.df[dscout.df$n_signal==5,]
 dscout.df.n5o1.summary = aggregate(objective1~method+pve+converged, dscout.df5, mean)
