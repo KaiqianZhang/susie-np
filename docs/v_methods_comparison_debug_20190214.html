@@ -12,7 +12,7 @@
 <meta name="author" content="Kaiqian Zhang" />
 
 
-<title>SuSiE Estimate Prior Variance Methods Comparison (DSC)</title>
+<title>SuSiE Estimate Prior Variance Methods Comparison (Debug)</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -429,9 +429,9 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">SuSiE Estimate Prior Variance Methods Comparison (DSC)</h1>
+<h1 class="title toc-ignore">SuSiE Estimate Prior Variance Methods Comparison (Debug)</h1>
 <h4 class="author"><em>Kaiqian Zhang</em></h4>
-<h4 class="date"><em>2/13/2019</em></h4>
+<h4 class="date"><em>2/14/2019</em></h4>
 
 </div>
 
@@ -475,7 +475,6 @@ Untracked files:
     Untracked:  analysis/wavelet-susie-20190131.Rmd
     Untracked:  analysis/wavelet-susie-20190213.Rmd
     Untracked:  data/dsc_em_output.RDS
-    Untracked:  docs/figure/v_methods_comparison_debug_20190214.Rmd/
     Untracked:  figure/
 
 Unstaged changes:
@@ -516,7 +515,7 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/KaiqianZhang/susie-np/blob/a3eab4f9e3b823edb21f2693ca11df29fbb9dfc5/analysis/v_methods_comparison_dsc_20190213.Rmd" target="_blank">a3eab4f</a>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/a3eab4f9e3b823edb21f2693ca11df29fbb9dfc5/analysis/v_methods_comparison_debug_20190214.Rmd" target="_blank">a3eab4f</a>
 </td>
 <td style="text-align:left;">
 kaiqian
@@ -528,323 +527,132 @@ kaiqian
 add debug analysis for comparing three v methods
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/7ba17d0554377a73a7b132a0b471c83fb10e2c7f/docs/v_methods_comparison_dsc_20190213.html" target="_blank">7ba17d0</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-02-13
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/KaiqianZhang/susie-np/blob/6250aec39e9a4e393dfd44a19c9d4acbea2a75d5/analysis/v_methods_comparison_dsc_20190213.Rmd" target="_blank">6250aec</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-02-13
-</td>
-<td style="text-align:left;">
-revise again dsc analysis for v methods comparison
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/62080bf9240d5ec6e16f6188d23706813abf0ff6/docs/v_methods_comparison_dsc_20190213.html" target="_blank">62080bf</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-02-13
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/KaiqianZhang/susie-np/blob/395431efade2b029408f4a092f65a9e4967b097f/analysis/v_methods_comparison_dsc_20190213.Rmd" target="_blank">395431e</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-02-13
-</td>
-<td style="text-align:left;">
-revise dsc analysis for v methods comparison
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/83dc777fb98139d1a686ac9dce21443c0299a808/docs/v_methods_comparison_dsc_20190213.html" target="_blank">83dc777</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-02-13
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/KaiqianZhang/susie-np/blob/f5655bc089a68308a693b69ccb17846d062fb2ab/analysis/v_methods_comparison_dsc_20190213.Rmd" target="_blank">f5655bc</a>
-</td>
-<td style="text-align:left;">
-kaiqian
-</td>
-<td style="text-align:left;">
-2019-02-13
-</td>
-<td style="text-align:left;">
-add dsc analysis for v methods comparison
-</td>
-</tr>
 </tbody>
 </table>
 </ul>
 <p></details></p>
 <hr />
-<div id="goal" class="section level2">
-<h2>Goal</h2>
-<p>We use datasets from <code>dsc-finemap</code> and perform DSC simulations to compare three methods <code>uniroot</code>, <code>optim</code>, and <code>EM</code>. Implementations for those three methods are:</p>
-<ul>
-<li>uniroot:</li>
-</ul>
-<pre><code>V.u=uniroot(negloglik.grad.logscale,c(-10,10),extendInt = &quot;upX&quot;,betahat=betahat,shat2=shat2,prior_weights=prior_weights)
-V = exp(V.u$root)
-if(loglik(0,betahat,shat2,prior_weights) &gt;= loglik(V,betahat,shat2,prior_weights)){
-      V=0 
-  }</code></pre>
-<ul>
-<li>optim:</li>
-</ul>
-<pre><code>lV = optim(par=log(max(betahat^2-shat2, na.rm = TRUE)), fn=neg.loglik.logscale, gr=negloglik.grad.logscale, betahat=betahat, shat2=shat2, prior_weights = prior_weights, method=&#39;Brent&#39;, lower = -10, upper = 10)$par
-V = exp(lV)
-if(loglik(0,betahat,shat2,prior_weights) &gt;= loglik(V,betahat,shat2,prior_weights)){
-    V=0 
-  }</code></pre>
-<ul>
-<li>EM:</li>
-</ul>
-<pre><code>V = sum(alpha*post_mean2)</code></pre>
-</div>
-<div id="evaluation-criteria" class="section level2">
-<h2>Evaluation criteria</h2>
-<ul>
-<li><p>converged: We perform two replicates in the simulation. If converged is 2, SuSiE converges.</p></li>
-<li><p>objective: the objective of SuSiE fit. Since we have two replicates, we have objective1 and objective2 in our results. We expect that the higher the objective, the better the method.</p></li>
-</ul>
-</div>
+<p>Since DSC simulation shows similar results of objectives for three methods, we consider again our previous debug example, where we have higher initial objective than fit objective. We simulate 1000 slightly different <code>X</code> matrices and use <code>resid.y</code> from our debug example. We apply SuSiE with three prior estimate methods.</p>
 <div id="results" class="section level2">
 <h2>Results</h2>
-<p><em>Summary:</em></p>
+<p><strong>Summary</strong></p>
 <ul>
-<li><p>In this simulation study, all methods converge.</p></li>
-<li><p>Objectives produced are very similar. But <code>optim</code> consistently and slightly outperforms the other two.</p></li>
+<li><p>We initialize SuSiE from a fit with fixed prior variance. <code>uniroot</code> has objective higher than initialization for only 71.3% of the time. But <code>EM</code> and <code>optim</code> both have objectives higher than initialization all the time in this example.</p></li>
+<li><p>We compare objectives obtained from <code>EM</code> and <code>optim</code> with that from <code>uniroot</code>. <code>EM</code> objective is higher <code>uniroot</code> objective for only 31.1% of the time. But <code>optim</code> objective is higher than <code>uniroot</code> objective for 85.4% of the time. We also observe that <code>optim</code> objective is always larger than <code>EM</code> objective but the difference is small from “Histogram of objectives.optim - objectives.em”.</p></li>
+<li><p>Microbenchmark shows that <code>uniroot</code> takes more time than the other two methods.</p></li>
 </ul>
 </div>
-<div id="tables-and-code-details" class="section level2">
-<h2>Tables and code details</h2>
-<pre class="r"><code>dscout = readRDS(&quot;/Users/Kaiqian /Desktop/wavelet/susie-np/data/dsc_em_output.RDS&quot;)</code></pre>
-<pre class="r"><code>dscout.df = data.frame(dscout$method,dscout$simple_lm.n_signal, dscout$simple_lm.pve, dscout$score_susie.total, dscout$score_susie.valid, dscout$score_susie.size, dscout$score_susie.purity, dscout$score_susie.top, dscout$score_susie.objective.1, dscout$score_susie.objective.2, dscout$score_susie.converged)
-names(dscout.df) = c(&quot;method&quot;, &quot;n_signal&quot;, &quot;pve&quot;, &quot;total&quot;, &quot;valid&quot;, &quot;size&quot;, &quot;purity&quot;, &quot;top&quot;, &quot;objective1&quot;, &quot;objective2&quot;, &quot;converged&quot;)</code></pre>
-<p>We have the following number of signals in the simulation.</p>
-<pre class="r"><code>unique(dscout$simple_lm.n_signal)</code></pre>
-<pre><code>[1] 1 2 3 4 5</code></pre>
-<p>We have the following options for pve in the simulation.</p>
-<pre class="r"><code>unique(dscout$simple_lm.pve)</code></pre>
-<pre><code>[1] 0.05 0.10 0.20 0.40</code></pre>
-<p>When the number of signals is 1, two objectives from two replicates are computed.</p>
-<pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n_signal==1,]
-dscout.df.n1o1.summary = aggregate(objective1~method+pve+converged, dscout.df1, mean)
-dscout.df.n1o2.summary = aggregate(objective2~method+pve+converged, dscout.df1, mean)
-dscout.df.n1o1.summary</code></pre>
-<pre><code>          method  pve converged objective1
-1       susie_em 0.05         2 -1271.5229
-2    susie_optim 0.05         2 -1271.4852
-3  susie_uniroot 0.05         2 -1271.7085
-4       susie_em 0.10         2 -1131.9453
-5    susie_optim 0.10         2 -1131.9025
-6  susie_uniroot 0.10         2 -1132.2652
-7       susie_em 0.20         2  -807.6252
-8    susie_optim 0.20         2  -807.5793
-9  susie_uniroot 0.20         2  -807.5739
-10      susie_em 0.40         2  -601.3369
-11   susie_optim 0.40         2  -601.2839
-12 susie_uniroot 0.40         2  -601.2760</code></pre>
-<pre class="r"><code>dscout.df.n1o2.summary</code></pre>
-<pre><code>          method  pve converged objective2
-1       susie_em 0.05         2 -1366.6595
-2    susie_optim 0.05         2 -1366.6075
-3  susie_uniroot 0.05         2 -1366.8508
-4       susie_em 0.10         2 -1161.4834
-5    susie_optim 0.10         2 -1161.4306
-6  susie_uniroot 0.10         2 -1162.0101
-7       susie_em 0.20         2  -906.0654
-8    susie_optim 0.20         2  -906.0128
-9  susie_uniroot 0.20         2  -906.0146
-10      susie_em 0.40         2  -503.1600
-11   susie_optim 0.40         2  -503.0984
-12 susie_uniroot 0.40         2  -503.0997</code></pre>
-<p>When the number of signals is 2, two objectives from two replicates are computed.</p>
-<pre class="r"><code>dscout.df2 = dscout.df[dscout.df$n_signal==2,]
-dscout.df.n2o1.summary = aggregate(objective1~method+pve+converged, dscout.df2, mean)
-dscout.df.n2o2.summary = aggregate(objective2~method+pve+converged, dscout.df2, mean)
-dscout.df.n2o1.summary</code></pre>
-<pre><code>          method  pve converged objective1
-1       susie_em 0.05         2 -1657.8752
-2    susie_optim 0.05         2 -1657.8152
-3  susie_uniroot 0.05         2 -1657.9898
-4       susie_em 0.10         2 -1550.9035
-5    susie_optim 0.10         2 -1550.8697
-6  susie_uniroot 0.10         2 -1551.0101
-7       susie_em 0.20         2 -1204.3110
-8    susie_optim 0.20         2 -1204.2281
-9  susie_uniroot 0.20         2 -1204.3814
-10      susie_em 0.40         2  -942.5145
-11   susie_optim 0.40         2  -942.4235
-12 susie_uniroot 0.40         2  -942.4738</code></pre>
-<pre class="r"><code>dscout.df.n2o2.summary</code></pre>
-<pre><code>          method  pve converged objective2
-1       susie_em 0.05         2 -1695.8130
-2    susie_optim 0.05         2 -1695.7524
-3  susie_uniroot 0.05         2 -1695.8259
-4       susie_em 0.10         2 -1477.5702
-5    susie_optim 0.10         2 -1477.5097
-6  susie_uniroot 0.10         2 -1477.8958
-7       susie_em 0.20         2 -1259.5279
-8    susie_optim 0.20         2 -1259.3938
-9  susie_uniroot 0.20         2 -1260.3747
-10      susie_em 0.40         2  -946.2606
-11   susie_optim 0.40         2  -946.1942
-12 susie_uniroot 0.40         2  -946.8573</code></pre>
-<p>When the number of signals is 3, two objectives from two replicates are computed.</p>
-<pre class="r"><code>dscout.df3 = dscout.df[dscout.df$n_signal==3,]
-dscout.df.n3o1.summary = aggregate(objective1~method+pve+converged, dscout.df3, mean)
-dscout.df.n3o2.summary = aggregate(objective2~method+pve+converged, dscout.df3, mean)
-dscout.df.n3o1.summary</code></pre>
-<pre><code>          method  pve converged objective1
-1       susie_em 0.05         2  -1875.482
-2    susie_optim 0.05         2  -1875.432
-3  susie_uniroot 0.05         2  -1875.633
-4       susie_em 0.10         2  -1665.532
-5    susie_optim 0.10         2  -1665.460
-6  susie_uniroot 0.10         2  -1665.669
-7       susie_em 0.20         2  -1421.903
-8    susie_optim 0.20         2  -1421.861
-9  susie_uniroot 0.20         2  -1422.228
-10      susie_em 0.40         2  -1142.077
-11   susie_optim 0.40         2  -1141.956
-12 susie_uniroot 0.40         2  -1142.536</code></pre>
-<pre class="r"><code>dscout.df.n3o2.summary</code></pre>
-<pre><code>          method  pve converged objective2
-1       susie_em 0.05         2  -1882.660
-2    susie_optim 0.05         2  -1882.616
-3  susie_uniroot 0.05         2  -1882.668
-4       susie_em 0.10         2  -1656.023
-5    susie_optim 0.10         2  -1655.966
-6  susie_uniroot 0.10         2  -1656.356
-7       susie_em 0.20         2  -1442.632
-8    susie_optim 0.20         2  -1442.541
-9  susie_uniroot 0.20         2  -1442.959
-10      susie_em 0.40         2  -1158.562
-11   susie_optim 0.40         2  -1158.455
-12 susie_uniroot 0.40         2  -1159.207</code></pre>
-<p>When the number of signals is 4, two objectives from two replicates are computed.</p>
-<pre class="r"><code>dscout.df4 = dscout.df[dscout.df$n_signal==4,]
-dscout.df.n4o1.summary = aggregate(objective1~method+pve+converged, dscout.df4, mean)
-dscout.df.n4o2.summary = aggregate(objective2~method+pve+converged, dscout.df4, mean)
-dscout.df.n4o1.summary</code></pre>
-<pre><code>          method  pve converged objective1
-1       susie_em 0.05         2  -1963.594
-2    susie_optim 0.05         2  -1963.538
-3  susie_uniroot 0.05         2  -1963.675
-4       susie_em 0.10         2  -1768.731
-5    susie_optim 0.10         2  -1768.642
-6  susie_uniroot 0.10         2  -1768.785
-7       susie_em 0.20         2  -1531.941
-8    susie_optim 0.20         2  -1531.867
-9  susie_uniroot 0.20         2  -1532.067
-10      susie_em 0.40         2  -1268.204
-11   susie_optim 0.40         2  -1268.162
-12 susie_uniroot 0.40         2  -1268.538</code></pre>
-<pre class="r"><code>dscout.df.n4o2.summary</code></pre>
-<pre><code>          method  pve converged objective2
-1       susie_em 0.05         2  -1990.807
-2    susie_optim 0.05         2  -1990.753
-3  susie_uniroot 0.05         2  -1990.783
-4       susie_em 0.10         2  -1807.747
-5    susie_optim 0.10         2  -1807.630
-6  susie_uniroot 0.10         2  -1807.667
-7       susie_em 0.20         2  -1527.908
-8    susie_optim 0.20         2  -1527.806
-9  susie_uniroot 0.20         2  -1528.160
-10      susie_em 0.40         2  -1240.681
-11   susie_optim 0.40         2  -1240.585
-12 susie_uniroot 0.40         2  -1240.956</code></pre>
-<p>When the number of signals is 5, two objectives from two replicates are computed.</p>
-<pre class="r"><code>dscout.df5 = dscout.df[dscout.df$n_signal==5,]
-dscout.df.n5o1.summary = aggregate(objective1~method+pve+converged, dscout.df5, mean)
-dscout.df.n5o2.summary = aggregate(objective2~method+pve+converged, dscout.df5, mean)
-dscout.df.n5o1.summary</code></pre>
-<pre><code>          method  pve converged objective1
-1       susie_em 0.05         2  -2074.842
-2    susie_optim 0.05         2  -2074.785
-3  susie_uniroot 0.05         2  -2074.913
-4       susie_em 0.10         2  -1828.696
-5    susie_optim 0.10         2  -1828.656
-6  susie_uniroot 0.10         2  -1828.757
-7       susie_em 0.20         2  -1672.555
-8    susie_optim 0.20         2  -1672.412
-9  susie_uniroot 0.20         2  -1672.688
-10      susie_em 0.40         2  -1346.861
-11   susie_optim 0.40         2  -1346.731
-12 susie_uniroot 0.40         2  -1347.315</code></pre>
-<pre class="r"><code>dscout.df.n5o2.summary</code></pre>
-<pre><code>          method  pve converged objective2
-1       susie_em 0.05         2  -2075.738
-2    susie_optim 0.05         2  -2075.683
-3  susie_uniroot 0.05         2  -2075.773
-4       susie_em 0.10         2  -1852.777
-5    susie_optim 0.10         2  -1852.697
-6  susie_uniroot 0.10         2  -1852.789
-7       susie_em 0.20         2  -1622.078
-8    susie_optim 0.20         2  -1621.961
-9  susie_uniroot 0.20         2  -1622.127
-10      susie_em 0.40         2  -1329.573
-11   susie_optim 0.40         2  -1329.393
-12 susie_uniroot 0.40         2  -1329.907</code></pre>
+<div id="analysis-and-code-details" class="section level2">
+<h2>Analysis and code details</h2>
+<div id="simulations-using-debug-example" class="section level3">
+<h3>1000 simulations using debug example</h3>
+<p>We simulate 1000 <code>X</code> matrices and use <code>resid.y</code> from the debug example. Then we start from an initialization with a fixed prior variance and apply three methods.</p>
+<pre class="r"><code>#&#39; @param x is an n-vector of data
+#&#39; @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 &amp; x[i] &lt;= 1/K){
+        R[i,j] = 1 
+      } else if (j == floor(K*x[i]) &amp; x[i] &gt; 1/K &amp; x[i] &lt;=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) &amp; x[i] &gt; 1/K &amp; x[i] &lt;=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}</code></pre>
+<pre class="r"><code>n = 100
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+W &lt;- t(GenW(n=K, filter.number=1, family=&quot;DaubExPhase&quot;))
+R = create_interpolation_matrix(x)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t = tcrossprod(R, W)
+RW_t = RW_t[,-which(colSums(RW_t)==0)]</code></pre>
+<pre class="r"><code>resid.y = readRDS(&quot;/Users/Kaiqian /Desktop/wavelet/susie-np/analysis/resid.RDS&quot;)
+s.fix = susie(RW_t, resid.y, L=1)</code></pre>
+<pre class="r"><code>n = 100
+K = 2^(ceiling(log2(n)))
+X.list = list()
+for (i in 1:1000){
+  set.seed(i)
+  x = sort(runif(n, 0,1))
+  W &lt;- t(GenW(n=K, filter.number=1, family=&quot;DaubExPhase&quot;))
+  R = create_interpolation_matrix(x)
+  # tcrossprod(R,W) computes R %*% t(W)
+  RW_t = tcrossprod(R, W)
+  RW_t = RW_t[,-which(colSums(RW_t)==0)]
+  X.list[[i]] = RW_t
+}</code></pre>
+<pre class="r"><code>s.fix.list = list()
+s.uniroot.list = list()
+s.em.list = list()
+s.optim.list = list()
+for (i in 1:1000) {
+  s.fix = susie(X.list[[i]], resid.y, L=1)
+  s.uniroot = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = &#39;uniroot&#39;, s_init = s.fix, L=1)
+  s.em = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = &#39;EM&#39;, s_init = s.fix, L=1)
+  s.optim = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = &#39;optim&#39;, s_init = s.fix, L=1)
+  
+  s.fix.list[[i]] = s.fix
+  s.uniroot.list[[i]] = s.uniroot
+  s.em.list[[i]] = s.em
+  s.optim.list[[i]] = s.optim
+}</code></pre>
+<pre class="r"><code>objectives.fix = unlist(lapply(s.fix.list, susie_get_objective))
+objectives.uniroot = unlist(lapply(s.uniroot.list, susie_get_objective))
+objectives.em = unlist(lapply(s.em.list, susie_get_objective))
+objectives.optim = unlist(lapply(s.optim.list, susie_get_objective))</code></pre>
+</div>
+<div id="whether-fit-objective-is-higher-than-initialization" class="section level3">
+<h3>Whether fit objective is higher than initialization?</h3>
+<p><code>uniroot</code> only has objective higher than the initialization for 71.3% of the time.</p>
+<pre class="r"><code>sum(objectives.uniroot &gt; objectives.fix)/1000</code></pre>
+<pre><code>[1] 0.713</code></pre>
+<p>The objective of <code>EM</code> is always higher than initialization.</p>
+<pre class="r"><code>sum(objectives.em &gt; objectives.fix)/1000</code></pre>
+<pre><code>[1] 1</code></pre>
+<p>The objective of <code>optim</code> is always higher than initialization in this simulation example.</p>
+<pre class="r"><code>sum(objectives.optim &gt; objectives.fix)/1000</code></pre>
+<pre><code>[1] 1</code></pre>
+</div>
+<div id="whether-fit-objectives-of-em-and-optim-are-higher-than-that-of-uniroot" class="section level3">
+<h3>Whether fit objectives of <code>EM</code> and <code>optim</code> are higher than that of <code>uniroot</code>?</h3>
+<p>The objective of <code>EM</code> is only higher than that of <code>uniroot</code> for 31.1% of the time.</p>
+<pre class="r"><code>sum(objectives.em &gt; objectives.uniroot)/1000</code></pre>
+<pre><code>[1] 0.311</code></pre>
+<pre class="r"><code>hist(objectives.em-objectives.uniroot)</code></pre>
+<p><img src="figure/v_methods_comparison_debug_20190214.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The objective of <code>optim</code> is higher than that of <code>uniroot</code> for 85.4% of the time. But the histogram is similar as above.</p>
+<pre class="r"><code>sum(objectives.optim &gt; objectives.uniroot)/1000</code></pre>
+<pre><code>[1] 0.854</code></pre>
+<pre class="r"><code>hist(objectives.optim-objectives.uniroot)</code></pre>
+<p><img src="figure/v_methods_comparison_debug_20190214.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Even though the objective of <code>optim</code> is always higher than that of <code>EM</code>, the difference is relatively small.</p>
+<pre class="r"><code>sum(objectives.optim &gt; objectives.em)/1000</code></pre>
+<pre><code>[1] 1</code></pre>
+<pre class="r"><code>hist(objectives.optim - objectives.em, xlim=c(-0.1,0.1))</code></pre>
+<p><img src="figure/v_methods_comparison_debug_20190214.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="microbenchmark-for-three-methods" class="section level3">
+<h3>Microbenchmark for three methods</h3>
+<p>With respect to time, <code>optim</code> and <code>EM</code> outperform <code>uniroot</code>.</p>
+<pre class="r"><code>uniroot.vs.EM.vs.optim = microbenchmark(
+  uniroot = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = &#39;uniroot&#39;, s_init = s.fix),
+  EM = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = &#39;EM&#39;, s_init = s.fix),
+  optim = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = &#39;optim&#39;, s_init = s.fix),
+  times = 50
+)</code></pre>
+<pre class="r"><code>autoplot(uniroot.vs.EM.vs.optim)</code></pre>
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<p><img src="figure/v_methods_comparison_debug_20190214.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
@@ -863,14 +671,26 @@ locale:
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+[1] ggplot2_3.1.0        microbenchmark_1.4-6 wavethresh_4.6.8    
+[4] MASS_7.3-51.1        susieR_0.6.4.0438   
+
 loaded via a namespace (and not attached):
- [1] workflowr_1.1.1   Rcpp_1.0.0        rprojroot_1.3-2  
- [4] digest_0.6.18     R.methodsS3_1.7.1 backports_1.1.3  
- [7] git2r_0.24.0      magrittr_1.5      evaluate_0.12    
-[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
-[13] R.utils_2.7.0     rmarkdown_1.11    tools_3.4.3      
-[16] stringr_1.3.1     xfun_0.4          yaml_2.2.0       
-[19] compiler_3.4.3    htmltools_0.3.6   knitr_1.21       </code></pre>
+ [1] Rcpp_1.0.0         bindr_0.1.1        compiler_3.4.3    
+ [4] pillar_1.3.1       git2r_0.24.0       plyr_1.8.4        
+ [7] workflowr_1.1.1    R.methodsS3_1.7.1  R.utils_2.7.0     
+[10] tools_3.4.3        digest_0.6.18      evaluate_0.12     
+[13] tibble_2.0.0       gtable_0.2.0       lattice_0.20-38   
+[16] pkgconfig_2.0.2    rlang_0.3.1        Matrix_1.2-15     
+[19] yaml_2.2.0         xfun_0.4           bindrcpp_0.2.2    
+[22] withr_2.1.2        stringr_1.3.1      dplyr_0.7.8       
+[25] knitr_1.21         tidyselect_0.2.5   rprojroot_1.3-2   
+[28] grid_3.4.3         glue_1.3.0         R6_2.3.0          
+[31] rmarkdown_1.11     purrr_0.2.5        magrittr_1.5      
+[34] whisker_0.3-2      matrixStats_0.54.0 backports_1.1.3   
+[37] scales_1.0.0       htmltools_0.3.6    assertthat_0.2.0  
+[40] colorspace_1.3-2   stringi_1.2.4      lazyeval_0.2.1    
+[43] munsell_0.5.0      crayon_1.3.4       R.oo_1.22.0       </code></pre>
 </div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
