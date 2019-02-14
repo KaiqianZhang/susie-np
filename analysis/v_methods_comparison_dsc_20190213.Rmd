@@ -52,7 +52,7 @@ V = sum(alpha*post_mean2)
 
 *Summary:*
 
-- In this simulation studies, all methods converge.
+- In this simulation study, all methods converge.
 
 - Objectives produced are very similar. But `optim` consistently and slightly outperforms the other two.
 
@@ -77,7 +77,7 @@ We have the following options for pve in the simulation.
 unique(dscout$simple_lm.pve)
 ```
 
-When number of signals is 1, two objectives from two replicates are computed. 
+When the number of signals is 1, two objectives from two replicates are computed. 
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n_signal==1,]
 dscout.df.n1o1.summary = aggregate(objective1~method+pve+converged, dscout.df1, mean)
@@ -86,7 +86,7 @@ dscout.df.n1o1.summary
 dscout.df.n1o2.summary
 ```
 
-When number of signals is 2, two objectives from two replicates are computed. 
+When the number of signals is 2, two objectives from two replicates are computed. 
 ```{r}
 dscout.df2 = dscout.df[dscout.df$n_signal==2,]
 dscout.df.n2o1.summary = aggregate(objective1~method+pve+converged, dscout.df2, mean)
@@ -95,7 +95,7 @@ dscout.df.n2o1.summary
 dscout.df.n2o2.summary
 ```
 
-When number of signals is 3, two objectives from two replicates are computed. 
+When the number of signals is 3, two objectives from two replicates are computed. 
 ```{r}
 dscout.df3 = dscout.df[dscout.df$n_signal==3,]
 dscout.df.n3o1.summary = aggregate(objective1~method+pve+converged, dscout.df3, mean)
@@ -104,7 +104,7 @@ dscout.df.n3o1.summary
 dscout.df.n3o2.summary
 ```
 
-When number of signals is 4, two objectives from two replicates are computed. 
+When the number of signals is 4, two objectives from two replicates are computed. 
 ```{r}
 dscout.df4 = dscout.df[dscout.df$n_signal==4,]
 dscout.df.n4o1.summary = aggregate(objective1~method+pve+converged, dscout.df4, mean)
@@ -113,7 +113,7 @@ dscout.df.n4o1.summary
 dscout.df.n4o2.summary
 ```
 
-When number of signals is 5, two objectives from two replicates are computed. 
+When the number of signals is 5, two objectives from two replicates are computed. 
 ```{r}
 dscout.df5 = dscout.df[dscout.df$n_signal==5,]
 dscout.df.n5o1.summary = aggregate(objective1~method+pve+converged, dscout.df5, mean)
