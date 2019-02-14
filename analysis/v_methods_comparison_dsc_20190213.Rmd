@@ -1,5 +1,5 @@
 ---
-title: "SuSiE Estimate Prior Variance Methods Comparison"
+title: "SuSiE Estimate Prior Variance Methods Comparison (DSC)"
 author: "Kaiqian Zhang"
 date: "2/13/2019"
 output: 

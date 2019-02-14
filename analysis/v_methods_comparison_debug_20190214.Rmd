@@ -1,0 +1,178 @@
+---
+title: "SuSiE Estimate Prior Variance Methods Comparison (Debug)"
+author: "Kaiqian Zhang"
+date: "2/14/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+library(susieR)
+library(wavethresh)
+library(microbenchmark)
+library(ggplot2)
+```
+
+Since DSC simulation shows similar results of objectives for three methods, we consider again our previous debug example, where we have higher initial objective than fit objective. We simulate 1000 slightly different `X` matrices and use `resid.y` from our debug example. We apply SuSiE with three prior estimate methods. 
+
+## Results
+
+**Summary**
+
+- We initialize SuSiE from a fit with fixed prior variance. `uniroot` has objective higher than initialization for only 71.3% of the time. But `EM` and `optim` both have objectives higher than initialization all the time in this example.
+
+- We compare objectives obtained from `EM` and `optim` with that from `uniroot`. `EM` objective is higher `uniroot` objective for only 31.1% of the time. But `optim` objective is higher than `uniroot` objective for 85.4% of the time. We also observe that `optim` objective is always larger than `EM` objective but the difference is small from "Histogram of objectives.optim - objectives.em". 
+
+- Microbenchmark shows that `uniroot` takes more time than the other two methods.
+
+## Analysis and code details
+
+### 1000 simulations using debug example
+
+We simulate 1000 `X` matrices and use `resid.y` from the debug example. Then we start from an initialization with a fixed prior variance and apply three methods. 
+
+```{r}
+#' @param x is an n-vector of data
+#' @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 & x[i] <= 1/K){
+        R[i,j] = 1 
+      } else if (j == floor(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}
+```
+
+```{r}
+n = 100
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+W <- t(GenW(n=K, filter.number=1, family="DaubExPhase"))
+R = create_interpolation_matrix(x)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t = tcrossprod(R, W)
+RW_t = RW_t[,-which(colSums(RW_t)==0)]
+```
+
+```{r}
+resid.y = readRDS("/Users/Kaiqian /Desktop/wavelet/susie-np/analysis/resid.RDS")
+s.fix = susie(RW_t, resid.y, L=1)
+```
+
+```{r}
+n = 100
+K = 2^(ceiling(log2(n)))
+X.list = list()
+for (i in 1:1000){
+  set.seed(i)
+  x = sort(runif(n, 0,1))
+  W <- t(GenW(n=K, filter.number=1, family="DaubExPhase"))
+  R = create_interpolation_matrix(x)
+  # tcrossprod(R,W) computes R %*% t(W)
+  RW_t = tcrossprod(R, W)
+  RW_t = RW_t[,-which(colSums(RW_t)==0)]
+  X.list[[i]] = RW_t
+}
+```
+
+```{r}
+s.fix.list = list()
+s.uniroot.list = list()
+s.em.list = list()
+s.optim.list = list()
+for (i in 1:1000) {
+  s.fix = susie(X.list[[i]], resid.y, L=1)
+  s.uniroot = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = 'uniroot', s_init = s.fix, L=1)
+  s.em = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = 'EM', s_init = s.fix, L=1)
+  s.optim = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = 'optim', s_init = s.fix, L=1)
+  
+  s.fix.list[[i]] = s.fix
+  s.uniroot.list[[i]] = s.uniroot
+  s.em.list[[i]] = s.em
+  s.optim.list[[i]] = s.optim
+}
+```
+
+```{r}
+objectives.fix = unlist(lapply(s.fix.list, susie_get_objective))
+objectives.uniroot = unlist(lapply(s.uniroot.list, susie_get_objective))
+objectives.em = unlist(lapply(s.em.list, susie_get_objective))
+objectives.optim = unlist(lapply(s.optim.list, susie_get_objective))
+```
+
+### Whether fit objective is higher than initialization?
+
+`uniroot` only has objective higher than the initialization for 71.3% of the time.
+```{r}
+sum(objectives.uniroot > objectives.fix)/1000
+```
+
+The objective of `EM` is always higher than initialization.
+```{r}
+sum(objectives.em > objectives.fix)/1000
+```
+
+The objective of `optim` is always higher than initialization in this simulation example.
+```{r}
+sum(objectives.optim > objectives.fix)/1000
+```
+
+### Whether fit objectives of `EM` and `optim` are higher than that of `uniroot`? 
+
+The objective of `EM` is only higher than that of `uniroot` for 31.1% of the time.
+```{r}
+sum(objectives.em > objectives.uniroot)/1000
+```
+
+```{r}
+hist(objectives.em-objectives.uniroot)
+```
+
+The objective of `optim` is higher than that of `uniroot` for 85.4% of the time. But the histogram is similar as above. 
+```{r}
+sum(objectives.optim > objectives.uniroot)/1000
+```
+
+```{r}
+hist(objectives.optim-objectives.uniroot)
+```
+
+Even though the objective of `optim` is always higher than that of `EM`, the difference is relatively small. 
+```{r}
+sum(objectives.optim > objectives.em)/1000
+```
+
+```{r}
+hist(objectives.optim - objectives.em, xlim=c(-0.1,0.1))
+```
+
+### Microbenchmark for three methods
+
+With respect to time, `optim` and `EM` outperform `uniroot`. 
+
+```{r}
+uniroot.vs.EM.vs.optim = microbenchmark(
+  uniroot = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = 'uniroot', s_init = s.fix),
+  EM = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = 'EM', s_init = s.fix),
+  optim = susie(X.list[[i]], resid.y, estimate_prior_variance = TRUE, optimV_method = 'optim', s_init = s.fix),
+  times = 50
+)
+```
+
+```{r}
+autoplot(uniroot.vs.EM.vs.optim)
+```
+
+
