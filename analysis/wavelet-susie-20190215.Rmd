@@ -1,0 +1,167 @@
+---
+title: "Wavelet-based SuSiE Analysis 20190215"
+author: "Kaiqian Zhang"
+date: "2/15/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+Previously, we applied L0 trend filtering to SuSiE for solving change point problem. This method, however, failed in the case when two change points in a quick succession. Since columns of `X` constructed by L0 trend filtering are correlated, two effects from the "hard" case cancel with each other. 
+
+We further used wavelets to construct `X` since wavelets are orthogonal. One pain for using wavelets is that it requires the data to be equal-spaced and the number to be a power of two. We used interpolation matrix introduced in the paper [(paper link)](https://papers.nips.cc/paper/8112-wavelet-regression-and-additive-models-for-irregularly-spaced-data.pdf) to adjust this problem. But due to issues with estimating prior variance about SuSiE itself, we initially did not get a good fit. After solving the bug, we now try our previous example using `optimV_method="optim"` and `optimV_method="EM"`.
+
+## Results
+
+We show three examples below. Notice that all data generated are non-equal spaced and the number is not a power of two `n=100`.
+
+**Summary**
+
+- Figure 1 shows susie fit for non-equal spaced `n=100` data points. Red line uses `optim` and blue line uses `EM`. We observe that using `optim` would give us a much better fit. So we use `optim` in the other two examples afterwards. We notice that when `n=100`, the fit from red line is still not perfect. 
+
+- Figure 2 shows another example using non-equal spaced `n=100` data points. The fit is okay but not good enough. 
+
+- Figure 3 shows the "hard" case mentioned in the change point problem. Notice that our data are non-equal spaced and we have `n=100` data points. It seems like using `interpolation matrix + wavelet matrix + optim`, we can solve the "hard" change point problem. 
+
+
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+library(glmnet)
+library(smashr)
+library(MASS)
+library(L0Learn)
+```
+
+```{r}
+#' @param x is an n-vector of data
+#' @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 & x[i] <= 1/K){
+        R[i,j] = 1
+      } else if (j == floor(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}
+```
+
+```{r}
+n = 100
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+beta = c(rep(0,20), rep(3,20), rep(-3,20), rep(5,40))
+set.seed(1)
+y = beta + rnorm(n, sd=0.2)
+```
+
+```{r}
+W <- t(GenW(n=K, filter.number=1, family="DaubExPhase"))
+R = create_interpolation_matrix(x)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t = tcrossprod(R, W)
+```
+
+```{r}
+s.em = susie(RW_t, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'EM')
+```
+
+```{r}
+s.optim = susie(RW_t, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+Objectives obtained by using `EM` and `optim`:
+```{r}
+susie_get_objective(s.em)
+susie_get_objective(s.optim)
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 1")
+lines(x, beta, col="black", lwd=2)
+lines(x, predict(s.optim), col="red", lwd=2)
+lines(x, predict(s.em), col="blue", lwd=2)
+```
+
+```{r}
+n = 100
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+beta = c(rep(0,10), rep(3,30), rep(-7,30), rep(10,30))
+set.seed(1)
+y = beta + rnorm(n, sd=0.1)
+```
+
+```{r}
+W <- t(GenW(n=K, filter.number=1, family="DaubExPhase"))
+R = create_interpolation_matrix(x)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t = tcrossprod(R, W)
+```
+
+```{r}
+s.optim = susie(RW_t, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 2")
+lines(x, beta, col="black", lwd=2)
+lines(x, predict(s.optim), col='red', lwd=2)
+```
+
+
+```{r}
+n = 100
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+beta = c(rep(0,30), rep(7,2), rep(0,100-32))
+set.seed(1)
+y = beta + rnorm(n, sd=0.2)
+```
+
+```{r}
+W <- t(GenW(n=K, filter.number=1, family="DaubExPhase"))
+R = create_interpolation_matrix(x)
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t = tcrossprod(R, W)
+```
+
+```{r}
+s.optim = susie(RW_t, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 3")
+lines(x, beta, col="black", lwd=2)
+lines(x, predict(s.optim), col='red', lwd=2)
+```
+
+
+
+
+
+
+
+
+
+
+
+

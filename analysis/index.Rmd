@@ -23,3 +23,5 @@ Welcome to Kaiqian's research project: susie-np.
 * Please click on [v-methods-comparison-dsc-20190213](v_methods_comparison_dsc_20190213.html) to see my results.
 
 * Please click on [v-methods-comparison-debug-20190214](v_methods_comparison_debug_20190214.html) to see my results.
+
+* Please click on [wavelet-susie-20190215](wavelet-susie-20190215.html) to see my results.
