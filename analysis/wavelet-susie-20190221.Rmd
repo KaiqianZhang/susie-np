@@ -80,11 +80,11 @@ Setup standard deviations for mixtures.
 sd.grid = c(0,10^seq(-2,1,length.out = 19))
 ```
 
-```{r}
+```{r, include=FALSE}
 s.varbvsmix = varbvsmix(X=RW_t.decimated, Z=NULL, y=y, sa=sd.grid^2)
 ```
 
-```{r}
+```{r, include=FALSE}
 s.varbvs = varbvs(X=RW_t.decimated, Z=NULL, y=y)
 ```
 
