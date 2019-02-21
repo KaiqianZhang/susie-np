@@ -77,7 +77,6 @@ RW_t.decimated = RW_t.decimated[,-zero.idx]
 
 Setup standard deviations for mixtures.
 ```{r}
-sd = c(0, 0.1, 0.2, 0.5)
 sd.grid = c(0,10^seq(-2,1,length.out = 19))
 ```
 
