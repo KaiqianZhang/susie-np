@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In this vignette, we tried to apply "interpolation + DWT" using `varbvs` rather than `SuSiE` framework.
 
-## Simulate data and create X from decimated/non-decimated wavelets
+## Simulate data and create X from decimated wavelets
 
 ```{r, warning=FALSE, include=FALSE}
 library(wavethresh)
@@ -72,24 +72,6 @@ zero.idx = which(colSums(RW_t.decimated)==0)
 RW_t.decimated = RW_t.decimated[,-zero.idx]
 ```
 
-Create an undecimated W matrix. W.undecimated is a K by Klog2(K) matrix.
-```{r}
-Haar_matrix <- t(GenW(n=K, filter.number=1, family="DaubExPhase"))
-DWT_W_T <- t(Haar_matrix)
-n_Haar_matrix_inv <- DWT_W_T
-for(i in 1:(K-1)){
-  order <- shift(seq(K),i)
-  Haar_matrix_shifted_inv <- t(Haar_matrix[,order])
-  n_Haar_matrix_inv <- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
-}
-duplicated_columns <- duplicated(t(n_Haar_matrix_inv))
-UDWT_W_T <- n_Haar_matrix_inv[, !duplicated_columns]
-```
-
-```{r}
-RW_t.undecimated = R %*% UDWT_W_T
-zero.idx = which(colSums(RW_t.undecimated)==0)
-RW_t.undecimated = RW_t.undecimated[,-zero.idx]
 ```
 
 ## Apply `varbvs` framework 
@@ -100,11 +82,11 @@ sd = c(0, 0.1, 0.2, 0.5)
 sd.grid = c(0,10^seq(-2,1,length.out = 19))
 ```
 
-```{r}
+```{r, include=FALSE}
 s.varbvsmix = varbvsmix(X=RW_t.decimated, Z=NULL, y=y, sa=sd^2)
 ```
 
-```{r}
+```{r, include=FALSE}
 s.varbvs = varbvs(X=RW_t.decimated, Z=NULL, y=y)
 ```
 
@@ -117,7 +99,7 @@ beta.est = rowSums(s.varbvsmix$alpha * s.varbvsmix$mu)
 yhat = RW_t.decimated %*% beta.est
 ```
 
-Below we just use DWT-based matrix in the regression. The red line is varbvsmix fit, the blue line is varbvs fit, and the green line is SuSiE fit. We notice that SuSiE and varbvs are very similar. varbvs does not solve SuSiE's problem, which is having artifacts around jumps. And we observe that actually varbvsmix fit is shifted, which seems like the problem could be solved by introducing a scaling parameter (as discussed yesterday). But one thing I'm not sure is about my usage on varbvsmix. I set standard deviations for mixtures as 
+Below we just use DWT-based matrix in the regression. The red line is varbvsmix fit, the blue line is varbvs fit, and the green line is SuSiE fit. We notice that SuSiE and varbvs fits are very similar. varbvs does not solve SuSiE's problem, which is having artifacts around jumps. And we observe that actually varbvsmix fit is shifted, which seems like the problem could be solved by introducing a scaling parameter (as discussed yesterday). But one thing I'm not sure is about my usage on varbvsmix. I set standard deviations for mixtures as 
 
 ```
 sd = c(0, 0.1, 0.2, 0.5)
