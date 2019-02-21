@@ -460,7 +460,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/7502be0c29da3d04389c113c6c67f737e9022ccc" target="_blank">7502be0</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/ededd46b546d6bbc2f64e19002f23dbb9e7683bb" target="_blank">ededd46</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -511,6 +511,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/ededd46b546d6bbc2f64e19002f23dbb9e7683bb/analysis/wavelet-susie-20190221.Rmd" target="_blank">ededd46</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-02-21
+</td>
+<td style="text-align:left;">
+update varbvs framework analysis
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/KaiqianZhang/susie-np/5e4e496cada33f8441f8416f966da28277776b44/docs/wavelet-susie-20190221.html" target="_blank">5e4e496</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-02-21
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -644,8 +678,7 @@ RW_t.decimated = RW_t.decimated[,-zero.idx]</code></pre>
 <div id="apply-varbvs-framework" class="section level2">
 <h2>Apply <code>varbvs</code> framework</h2>
 <p>Setup standard deviations for mixtures.</p>
-<pre class="r"><code>sd = c(0, 0.1, 0.2, 0.5)
-sd.grid = c(0,10^seq(-2,1,length.out = 19))</code></pre>
+<pre class="r"><code>sd.grid = c(0,10^seq(-2,1,length.out = 19))</code></pre>
 <pre class="r"><code>s.susie = susie(RW_t.decimated, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;optim&#39;)</code></pre>
 <pre class="r"><code>beta.est = rowSums(s.varbvsmix$alpha * s.varbvsmix$mu)
 yhat = RW_t.decimated %*% beta.est</code></pre>
@@ -676,6 +709,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/KaiqianZhang/susie-np/blob/5e4e496cada33f8441f8416f966da28277776b44/docs/figure/wavelet-susie-20190221.Rmd/unnamed-chunk-11-1.png" target="_blank">5e4e496</a>
+</td>
+<td style="text-align:left;">
+kaiqian
+</td>
+<td style="text-align:left;">
+2019-02-21
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/KaiqianZhang/susie-np/blob/bd8a5ca88149571d7fa5297cff57338c370963be/docs/figure/wavelet-susie-20190221.Rmd/unnamed-chunk-11-1.png" target="_blank">bd8a5ca</a>
