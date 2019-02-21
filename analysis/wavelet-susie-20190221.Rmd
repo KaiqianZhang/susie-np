@@ -72,7 +72,6 @@ zero.idx = which(colSums(RW_t.decimated)==0)
 RW_t.decimated = RW_t.decimated[,-zero.idx]
 ```
 
-```
 
 ## Apply `varbvs` framework 
 
@@ -83,7 +82,7 @@ sd.grid = c(0,10^seq(-2,1,length.out = 19))
 ```
 
 ```{r, include=FALSE}
-s.varbvsmix = varbvsmix(X=RW_t.decimated, Z=NULL, y=y, sa=sd^2)
+s.varbvsmix = varbvsmix(X=RW_t.decimated, Z=NULL, y=y, sa=sd.grid^2)
 ```
 
 ```{r, include=FALSE}
@@ -102,15 +101,13 @@ yhat = RW_t.decimated %*% beta.est
 Below we just use DWT-based matrix in the regression. The red line is varbvsmix fit, the blue line is varbvs fit, and the green line is SuSiE fit. We notice that SuSiE and varbvs fits are very similar. varbvs does not solve SuSiE's problem, which is having artifacts around jumps. And we observe that actually varbvsmix fit is shifted, which seems like the problem could be solved by introducing a scaling parameter (as discussed yesterday). But one thing I'm not sure is about my usage on varbvsmix. I set standard deviations for mixtures as 
 
 ```
-sd = c(0, 0.1, 0.2, 0.5)
 sd.grid = c(0,10^seq(-2,1,length.out = 19))
 ```
 
-and perform varbvsmix using both kinds of sd like
+and perform varbvsmix using this sd.grid
 
 ```
-s.varbvsmix1 = varbvsmix(X=RW_t.decimated, Z=NULL, y=y, sa=sd^2)
-s.varbvsmix2 = varbvsmix(X=RW_t.decimated, Z=NULL, y=y, sa=sd.grid^2)
+s.varbvsmix = varbvsmix(X=RW_t.decimated, Z=NULL, y=y, sa=sd.grid^2)
 ```
 The fits are the same as displayed in the red line below. 
 
