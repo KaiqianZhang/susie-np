@@ -535,10 +535,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree323e91ec49df7e5584f7548d701ee220c3a18368targetblank323e91ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/323e91ec49df7e5584f7548d701ee220c3a18368" target="_blank">323e91e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree5b8f5e3336fe5ab0db8bc3a20977c2a1ccbfeb74targetblank5b8f5e3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/5b8f5e3336fe5ab0db8bc3a20977c2a1ccbfeb74" target="_blank">5b8f5e3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree323e91ec49df7e5584f7548d701ee220c3a18368targetblank323e91ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree5b8f5e3336fe5ab0db8bc3a20977c2a1ccbfeb74targetblank5b8f5e3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -604,6 +604,23 @@ Message
 <tbody>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/4c689425437ee46eb39602734b87ab9fe3a4dcb2/docs/wavelet-susie-20190222.html" target="_blank">4c68942</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-02-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
@@ -649,7 +666,8 @@ create_interpolation_matrix = function(x){
 <pre class="r"><code>n = 128
 K = 2^(ceiling(log2(n)))
 set.seed(1)
-x = sort(runif(n, 0,1))
+#x = sort(runif(n, 0,1))
+x = seq(1,n)/n
 #beta = c(rep(0,20), rep(3,20), rep(-3,20), rep(5,40))
 beta = c(rep(0,10), rep(3,30), rep(-7,30), rep(10,58))
 #beta = c(rep(0,30), rep(7,2), rep(0,100-32))
@@ -670,6 +688,43 @@ lines(x, predict(s.susie.Wt), col=&quot;green&quot;, lwd=2)
 lines(x, predict(s.susie.RWt), col=&quot;blue&quot;, lwd=2)
 lines(x, predict(s.susie.RWt.init), col=&quot;red&quot;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190222.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/4c689425437ee46eb39602734b87ab9fe3a4dcb2/docs/figure/wavelet-susie-20190222.Rmd/unnamed-chunk-10-1.png" target="_blank">4c68942</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-02-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
