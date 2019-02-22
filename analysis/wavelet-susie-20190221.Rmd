@@ -93,9 +93,36 @@ s.susie = susie(RW_t.decimated, y, L=50, estimate_prior_variance = TRUE, optimV_
 ```
 
 ```{r}
-beta.est = rowSums(s.varbvsmix$alpha * s.varbvsmix$mu)
-yhat = RW_t.decimated %*% beta.est
+predict_varbvsmix <- function (X, Z, fit) {
+  b <- rowSums(fit$alpha * fit$mu)
+  return(drop(Z %*% fit$mu.cov + X %*% b))
+}
 ```
+
+Create an undecimated W matrix. W.undecimated is a K by Klog2(K) matrix.
+```{r}
+Haar_matrix <- t(GenW(n=K, filter.number=1, family="DaubExPhase"))
+DWT_W_T <- t(Haar_matrix)
+n_Haar_matrix_inv <- DWT_W_T
+for(i in 1:(K-1)){
+  order <- shift(seq(K),i)
+  Haar_matrix_shifted_inv <- t(Haar_matrix[,order])
+  n_Haar_matrix_inv <- cbind(n_Haar_matrix_inv, Haar_matrix_shifted_inv) #Each column is a basis for sparse regression
+}
+duplicated_columns <- duplicated(t(n_Haar_matrix_inv))
+UDWT_W_T <- n_Haar_matrix_inv[, !duplicated_columns]
+```
+
+```{r}
+RW_t.undecimated = R %*% UDWT_W_T
+zero.idx = which(colSums(RW_t.undecimated)==0)
+RW_t.undecimated = RW_t.undecimated[,-zero.idx]
+```
+
+```{r}
+s.varbvsmix.undecimated = varbvsmix(X=RW_t.undecimated, Z=NULL, y=y, sa=sd.grid^2)
+```
+
 
 Below we just use DWT-based matrix in the regression. The red line is varbvsmix fit, the blue line is varbvs fit, and the green line is SuSiE fit. We notice that SuSiE and varbvs fits are very similar. varbvs does not solve SuSiE's problem, which is having artifacts around jumps. And we observe that actually varbvsmix fit is shifted, which seems like the problem could be solved by introducing a scaling parameter (as discussed yesterday). But one thing I'm not sure is about my usage on varbvsmix. I set standard deviations for mixtures as 
 
@@ -113,9 +140,10 @@ The fits are the same as displayed in the red line below.
 ```{r}
 plot(x, y, pch=20, col="grey", main = "DWT-based varbvsmix, varbvs, and SuSiE fit")
 lines(x, beta, col="black", lwd=2)
-lines(x, yhat, col='red', lwd=2)
+lines(x, predict_varbvsmix(RW_t.decimated, matrix(1,n,1), s.varbvsmix), col='red', lwd=2)
 lines(x, predict(s.varbvs, RW_t.decimated), col='blue', lwd=2)
 lines(x, predict(s.susie), col="green", lwd=2)
+#lines(x, predict_varbvsmix(RW_t.undecimated, matrix(1,n,1), s.varbvsmix.undecimated), col='orange', lwd=2)
 ```
 
 

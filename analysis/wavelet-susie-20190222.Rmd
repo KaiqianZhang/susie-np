@@ -1,0 +1,112 @@
+---
+title: "Wavelet-based SuSiE Analysis 20190222"
+author: "Kaiqian Zhang"
+date: "2/22/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this vignette, we want to investigate whether the unsatisfactory fit of "interpolation + DWT + SuSiE" is due to a local optimum problem. 
+
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+library(smashr)
+library(varbvs)
+```
+
+```{r}
+#' @param x is an n-vector of data
+#' @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 & x[i] <= 1/K){
+        R[i,j] = 1
+      } else if (j == floor(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}
+```
+
+```{r}
+n = 128
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+#beta = c(rep(0,20), rep(3,20), rep(-3,20), rep(5,40))
+beta = c(rep(0,10), rep(3,30), rep(-7,30), rep(10,58))
+#beta = c(rep(0,30), rep(7,2), rep(0,100-32))
+set.seed(1)
+y = beta + rnorm(n, sd=0.2)
+```
+
+```{r}
+R = create_interpolation_matrix(x)
+```
+
+```{r}
+W.decimated = t(GenW(n=K, filter.number=1, family="DaubExPhase"))
+# tcrossprod(R,W) computes R %*% t(W)
+RW_t.decimated = tcrossprod(R, W.decimated)
+
+```
+
+```{r}
+W_t = GenW(n=K, filter.number=1, family="DaubExPhase")
+```
+
+```{r}
+s.susie.Wt = susie(W_t, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+s.susie.RWt = susie(RW_t.decimated, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+s.susie.RWt.init = susie(RW_t.decimated, y, estimate_prior_variance = TRUE, optimV_method = 'optim', s_init = s.susie.Wt)
+```
+
+To investigate whether the unsatisfactory fit is due to a local optimum problem, we want to initialize from the `Wt` fit and see if the `interpolation + Wt` fit would improve. To get a `Wt` fit, I set `n=128` to make the number a power of 2. The following figure shows three fits from SuSiE. The green line is SuSiE fit using `Wt`, which performs the best. The blue line is SuSiE fit using `interpolation + Wt`, even though in this case it is not necessarily to use interpolation. And the red line is SuSiE fit using `interpolation + Wt` with an initialization from `Wt` SuSiE fit. We observe that the line is on top of the blue and does not have an improvement. Therefore, this is not due to a local optimum problem.
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 1")
+lines(x, beta, col="black", lwd=2)
+lines(x, predict(s.susie.Wt), col="green", lwd=2)
+lines(x, predict(s.susie.RWt), col="blue", lwd=2)
+lines(x, predict(s.susie.RWt.init), col="red", lwd=2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
