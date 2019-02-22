@@ -47,7 +47,8 @@ create_interpolation_matrix = function(x){
 n = 128
 K = 2^(ceiling(log2(n)))
 set.seed(1)
-x = sort(runif(n, 0,1))
+#x = sort(runif(n, 0,1))
+x = seq(1,n)/n
 #beta = c(rep(0,20), rep(3,20), rep(-3,20), rep(5,40))
 beta = c(rep(0,10), rep(3,30), rep(-7,30), rep(10,58))
 #beta = c(rep(0,30), rep(7,2), rep(0,100-32))
@@ -90,6 +91,7 @@ lines(x, predict(s.susie.Wt), col="green", lwd=2)
 lines(x, predict(s.susie.RWt), col="blue", lwd=2)
 lines(x, predict(s.susie.RWt.init), col="red", lwd=2)
 ```
+
 
 
 
