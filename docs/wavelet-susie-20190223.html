@@ -9,9 +9,10 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Kaiqian Zhang" />
 
 
-<title>Home</title>
+<title>Wavelet-based SuSiE Analysis 20190223</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +20,11 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -263,7 +268,110 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -311,9 +419,19 @@ div.section {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Home</h1>
+
+<h1 class="title toc-ignore">Wavelet-based SuSiE Analysis 20190223</h1>
+<h4 class="author"><em>Kaiqian Zhang</em></h4>
+<h4 class="date"><em>2/23/2019</em></h4>
 
 </div>
 
@@ -341,7 +459,7 @@ div.section {
 <strong>Last updated:</strong> 2019-02-23
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>susie-np/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -369,6 +487,54 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190114code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190114)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190114code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190114)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
 <a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreeb8d1632c6111ccc41742ac51644afa07f62d9918targetblankb8d1632a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/b8d1632c6111ccc41742ac51644afa07f62d9918" target="_blank">b8d1632</a> </a>
 </p>
 </div>
@@ -390,7 +556,6 @@ Untracked files:
     Untracked:  analysis/wavelet-susie-20190131.Rmd
     Untracked:  data/dsc_em_output.RDS
     Untracked:  docs/figure/wavelet-susie-20190213.Rmd/
-    Untracked:  docs/figure/wavelet-susie-20190223.Rmd/
     Untracked:  figure/
 
 Unstaged changes:
@@ -443,7 +608,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/b8d1632c6111ccc41742ac51644afa07f62d9918/analysis/index.Rmd" target="_blank">b8d1632</a>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b8d1632c6111ccc41742ac51644afa07f62d9918/analysis/wavelet-susie-20190223.Rmd" target="_blank">b8d1632</a>
 </td>
 <td>
 kaiqian
@@ -455,601 +620,6 @@ kaiqian
 correct simulations to make simulated y depend on x
 </td>
 </tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/69c5f0c3faf73be5962518b7a7529bfd4b1e8957/docs/index.html" target="_blank">69c5f0c</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-22
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/5b8f5e3336fe5ab0db8bc3a20977c2a1ccbfeb74/analysis/index.Rmd" target="_blank">5b8f5e3</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-22
-</td>
-<td>
-add analysis using interpolation matrix created from evenly spaced x
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/4c689425437ee46eb39602734b87ab9fe3a4dcb2/docs/index.html" target="_blank">4c68942</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-22
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/323e91ec49df7e5584f7548d701ee220c3a18368/analysis/index.Rmd" target="_blank">323e91e</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-22
-</td>
-<td>
-update 20190221 and add an analysis to investigate whether it is a local optimum problem
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/32614a170e27c8c5ed68d8bb0378c4c5e5dbd43d/docs/index.html" target="_blank">32614a1</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/233484198a9bc3ab7b4e0c32ca683ec46552cd81/docs/index.html" target="_blank">2334841</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/c00f55b1111fa5f48c6a25a2cb833fb167b66fff/docs/index.html" target="_blank">c00f55b</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/5e4e496cada33f8441f8416f966da28277776b44/docs/index.html" target="_blank">5e4e496</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/bd8a5ca88149571d7fa5297cff57338c370963be/docs/index.html" target="_blank">bd8a5ca</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/81b4d8c1d90ecdf6ee75f172f43df98214f93668/docs/index.html" target="_blank">81b4d8c</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/c4225f172bec8cdd70c636785b9da080db77e4f6/analysis/index.Rmd" target="_blank">c4225f1</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-21
-</td>
-<td>
-try varbvs framework
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/f5d520964b58cf2fa8a02729246328a1ff0e67be/docs/index.html" target="_blank">f5d5209</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-20
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/641518ae9f3697e4b2a569006ab7922297e7b348/analysis/index.Rmd" target="_blank">641518a</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-20
-</td>
-<td>
-add interpolation-UDWT-SuSiE analysis
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/f262d06b5e6fd2b24782d7dab39aa2c71e767a91/docs/index.html" target="_blank">f262d06</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-15
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/0b731e5f921da5d84288e84922b32c3b5e7b9a5d/analysis/index.Rmd" target="_blank">0b731e5</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-15
-</td>
-<td>
-add optim+wavelet analysis
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/9af9e349ad6c0c3ac9b2d7ced0c21f16e891df67/docs/index.html" target="_blank">9af9e34</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-14
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/a3eab4f9e3b823edb21f2693ca11df29fbb9dfc5/analysis/index.Rmd" target="_blank">a3eab4f</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-14
-</td>
-<td>
-add debug analysis for comparing three v methods
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/7ba17d0554377a73a7b132a0b471c83fb10e2c7f/docs/index.html" target="_blank">7ba17d0</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-13
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/62080bf9240d5ec6e16f6188d23706813abf0ff6/docs/index.html" target="_blank">62080bf</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-13
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/83dc777fb98139d1a686ac9dce21443c0299a808/docs/index.html" target="_blank">83dc777</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-02-13
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/1b56c42c6c178aac0f719e91063226df52fc62e4/docs/index.html" target="_blank">1b56c42</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-30
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/e62b35b1b4a5e098bd417243cbcbc5458aa646bb/docs/index.html" target="_blank">e62b35b</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-30
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/2f359cf54de3eacedb9fa4279037fd45b0dbf4ab/docs/index.html" target="_blank">2f359cf</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-30
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/5a1d365478d53492b143eee3a25736733d97eea9/analysis/index.Rmd" target="_blank">5a1d365</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-30
-</td>
-<td>
-add 20190130 analysis
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/5c279ff5bd7dd12997c43ac660569e6bb56e28b6/docs/index.html" target="_blank">5c279ff</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-29
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/da3ac2a33356def790657db3a15755c0000a3ed5/analysis/index.Rmd" target="_blank">da3ac2a</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-29
-</td>
-<td>
-add project description and create empty 20190129 analysis
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/39d303558f6f8e1eab9d808d6cc8b95f63e7a6a2/docs/index.html" target="_blank">39d3035</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-28
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/21e6a42c98006a7c587b6f2d27148fdde6ebb977/analysis/index.Rmd" target="_blank">21e6a42</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-28
-</td>
-<td>
-add non-equispaced wavelet-susie analysis
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/8a002a8f86b2ab8df59b7bb5b3292fe78274603f/docs/index.html" target="_blank">8a002a8</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/cd739b250a488812828c87f0c1849440c507a89d/docs/index.html" target="_blank">cd739b2</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-18
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/3ae18cc85a1c8bbc9fe02608ba106ccc6728de9a/docs/index.html" target="_blank">3ae18cc</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-18
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/c4ac8c966f3b5abeadc0c10e467b6248bd73e32c/docs/index.html" target="_blank">c4ac8c9</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-14
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/e130e4718a2ffe34e911837f34df6441788cf27b/analysis/index.Rmd" target="_blank">e130e47</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-14
-</td>
-<td>
-add the link
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/480317d44fa645d624ebb08cb6acae241bcc949f/docs/index.html" target="_blank">480317d</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-14
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/KaiqianZhang/susie-np/blob/e6651c725ebb125a30573d17c9e05df3cb2064ed/analysis/index.Rmd" target="_blank">e6651c7</a>
-</td>
-<td>
-kaiqian
-</td>
-<td>
-2019-01-14
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -1057,23 +627,140 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<p>Welcome to Kaiqian’s research project: susie-np.</p>
-<ul>
-<li><p>Please click on <a href="UDWT.html">wavelet-susie-20190114</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190117.html">wavelet-susie-20190117</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190121.html">wavelet-susie-20190121</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190127.html">wavelet-susie-20190127</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190129.html">wavelet-susie-20190129</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190130.html">wavelet-susie-20190130</a> to see my results.</p></li>
-<li><p>Please click on <a href="v_methods_comparison_dsc_20190213.html">v-methods-comparison-dsc-20190213</a> to see my results.</p></li>
-<li><p>Please click on <a href="v_methods_comparison_debug_20190214.html">v-methods-comparison-debug-20190214</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190215.html">wavelet-susie-20190215</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190217.html">wavelet-susie-20190217</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190221.html">wavelet-susie-20190221</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190222.html">wavelet-susie-20190222</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190222-2.html">wavelet-susie-20190222-2</a> to see my results.</p></li>
-<li><p>Please click on <a href="wavelet-susie-20190223.html">wavelet-susie-20190223</a> to see my results.</p></li>
-</ul>
+<div id="goal" class="section level2">
+<h2>Goal</h2>
+<p>Our goal is to apply wavelets in SuSiE to better solve nonparametric regression problems. We start from the simple change point problem and try to use Harr wavelet here. This idea works pretty well given evenly spaced data and the number is a power of 2. We further want to extend <code>wavelet-based SuSiE</code> to allow for irregularly spaced data and the number is not a power of 2.</p>
+</div>
+<div id="previously" class="section level2">
+<h2>Previously…</h2>
+<p>Given observed data <span class="math inline">\((x_i, y_i)\)</span> for <span class="math inline">\(i = 1, \dots, i\)</span>. We create an interpolation matrix <code>R</code> by using observed data <code>x_i</code>’s. This idea comes from Asad’s paper in 2018. So our framework becomes “interpolation R + discrete wavelet transform W + SuSiE”.</p>
+<p>Previously, we applied this framework on our simulated piecewise constant data. But we always got visual artifacts in the SuSiE fit. This is due to our simulated data <code>y</code> did not depend on <code>x</code>. After correcting our simulation, we notice that this framework has a really decent performance and certainly solves the problem of irregularly spaced data and not a power of 2.</p>
+</div>
+<div id="simulation" class="section level2">
+<h2>Simulation</h2>
+<p>We simulated data <code>y</code> whose underlying trend is piecewise constant and this trend depends on <code>x</code>’s. Let <code>\beta</code> be the underlying trend of <code>y</code>. So we have, for <span class="math inline">\(i = 1, \dots, n\)</span>,</p>
+<p><span class="math display">\[
+\beta_i = 
+\begin{cases} 
+      -2 &amp; x_i &lt; 0.25 \\
+      7 &amp; 0.25\leq x_i &lt; 0.5 \\
+      0 &amp; 0.5\leq x_i &lt; 0.85 \\
+      3 &amp; 0.85 \leq x_i \leq 1.
+\end{cases}
+\]</span> Our <code>x</code>’s are irregularly spaced and we intentionally create large gaps in the <code>x</code>’s. The number of data is <code>n=100</code>.</p>
+</div>
+<div id="result" class="section level2">
+<h2>Result</h2>
+<p>From this minimal simulation example, we notice that “interpolation + DWT + SuSiE” has a nice performance for irregularly spaced data and the number is not a power of 2! Please see the figure below. The black line is the underlying trend and the blue line is the SuSiE fit. The blue line is on top of the black line perfectly.</p>
+</div>
+<div id="code-details" class="section level2">
+<h2>Code details</h2>
+<p>Install packages.</p>
+<p>Create interpolation matrix function:</p>
+<pre class="r"><code>#&#39; @param x is an n-vector of data
+#&#39; @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 &amp; x[i] &lt;= 1/K){
+        R[i,j] = 1
+      } else if (j == floor(K*x[i]) &amp; x[i] &gt; 1/K &amp; x[i] &lt;=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) &amp; x[i] &gt; 1/K &amp; x[i] &lt;=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}</code></pre>
+<p>Underlying trend beta function:</p>
+<pre class="r"><code>f.beta = function(x){
+  n = length(x)
+  beta = numeric(n)
+  for (i in 1:n){
+    if (x[i] &lt; 0.25){
+      beta[i] = -2
+    } else if(x[i] &gt;= 0.25 &amp; x[i] &lt; 0.5){
+      beta[i] = 7
+    } else if(x[i] &gt;= 0.5 &amp; x[i] &lt; 0.85){
+      beta[i] = 0
+    } else{
+      beta[i] = 3
+    }
+  }
+  return(beta)
+}</code></pre>
+<p>Simulate irregularly spaced <code>x</code> and create several large gaps in <code>x</code>’s.</p>
+<pre class="r"><code>n = 100
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0,1))
+
+cutidx1 = which(x&lt;0.3 &amp; x&gt;0.1)
+cutidx2 = which(x&lt;0.7 &amp; x&gt;0.6)
+cutidx3 = which(x&lt;0.9 &amp; x&gt;0.8)
+x1 = x[-c(cutidx1, cutidx2, cutidx3)]
+set.seed(1)
+new1 = runif(length(cutidx1), 0, 0.1)
+set.seed(1)
+new2 = runif(length(cutidx2), 0.3,0.6)
+set.seed(1)
+new3 = runif(length(cutidx3), 0.7, 0.8)
+x.noneven = sort(c(x1, new1, new2, new3))</code></pre>
+<p>Simulate <code>y</code> based on <code>x</code>.</p>
+<pre class="r"><code>set.seed(1)
+y = f.beta(x.noneven) + rnorm(n, sd=0.2)</code></pre>
+<p>Create interpolation matrix <code>R</code> and discrete wavelet transform matrix <code>W</code>.</p>
+<pre class="r"><code>R = create_interpolation_matrix(x.noneven)
+W = t(GenW(n=K, filter.number=1, family=&quot;DaubExPhase&quot;))
+RW_t = tcrossprod(R,W)</code></pre>
+<p>Run SuSiE.</p>
+<pre class="r"><code>s = susie(RW_t, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;optim&#39;)</code></pre>
+<p>Plot the SuSiE fit.</p>
+<pre class="r"><code>plot(x.noneven, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 1: fit for interpolation + DWT + SuSiE&quot;)
+lines(x.noneven, f.beta(x.noneven), col=&quot;black&quot;, lwd=2)
+lines(x.noneven, predict(s), col=&quot;blue&quot;, lwd=2)</code></pre>
+<p><img src="figure/wavelet-susie-20190223.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br> <br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.3 (2017-11-30)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Sierra 10.12.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] susieR_0.6.4.0438   binhf_1.0-3         adlift_1.4-1       
+[4] EbayesThresh_1.4-12 wavethresh_4.6.8    MASS_7.3-51.1      
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.0         knitr_1.21         whisker_0.3-2     
+ [4] magrittr_1.5       workflowr_1.2.0    lattice_0.20-38   
+ [7] stringr_1.3.1      tools_3.4.3        grid_3.4.3        
+[10] xfun_0.4           git2r_0.24.0       matrixStats_0.54.0
+[13] htmltools_0.3.6    yaml_2.2.0         rprojroot_1.3-2   
+[16] digest_0.6.18      Matrix_1.2-15      fs_1.2.6          
+[19] glue_1.3.0         evaluate_0.12      rmarkdown_1.11    
+[22] stringi_1.2.4      compiler_3.4.3     backports_1.1.3   </code></pre>
+</div>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -1089,6 +776,8 @@ footer is added to webpages before the MathJax javascript. -->
 </script>
 
 
+</div>
+</div>
 
 </div>
 
