@@ -34,7 +34,7 @@ $$
 
 * Scheme 2 also works when my data have large gaps. Please see simulation example 3. 
 
-* We can still find very bad fits for using scheme 2. I think this is due to local optimum problem. Please see simulation example 4. I notice that when my data are evenly spaced, I can get a relatively good fit. So I intialize from there to fit my example 4 using scheme 1. The reason I used scheme 1 is that it has the same K as evenly spaced data. I now can get a good fit for example 4. So I hypothesize that SuSiE using scheme 2 is also having a local optimum problem. But I could not find a decent initialization to confirm my hypothesis. 
+* We can still find very bad fits for using scheme 2. I think this is due to local optimum problem. Please see simulation example 4. I notice that when my data are evenly spaced, I can get a relatively good fit. So I initialize from there to fit my example 4 using scheme 1. The reason I used scheme 1 is that it has the same K as evenly spaced data. I now can get a good fit for example 4. So I hypothesize that SuSiE using scheme 2 is also having a local optimum problem. But I could not find a decent initialization to confirm my hypothesis. 
 
 ## Set up
 ```{r, warning=FALSE, include=FALSE}
