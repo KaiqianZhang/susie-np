@@ -212,7 +212,7 @@ lines(x, predict(s), col="red", lwd=2)
 
 ## Simulation example 4
 
-We observe many good fits in our simulations using the new interpolation scheme but we observe the following example that gives us a really bad fit. And I hypothesize that this is due to local optimum problem in SuSiE. Here is the example.
+We observe many good fits in our simulations using the new interpolation scheme but we observe the following example that gives us a really bad fit. And I hypothesize that this is due to the local optimum problem in SuSiE. Here is the example.
 
 ```{r}
 f.beta5 = function(x){
