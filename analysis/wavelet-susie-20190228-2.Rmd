@@ -24,7 +24,7 @@ $$
 * Scheme 2: we set
 
 $$
-m = \lceil 10\%\text{quantiele}(|x_i-x_{i+1}|) \rceil \\
+m = \lceil 10\%\text{quantile}(|x_i-x_{i+1}|) \rceil \\
 K = 2^{\lceil \text{log}_2m \rceil}.
 $$
 
@@ -195,7 +195,7 @@ m = as.numeric(ceiling(1/quantile(sort(abs(diff(x))),0.1)))
 K = 2^(ceiling(log2(m)))
 ```
 
-```{r}
+```{r, warning=FALSE}
 #Create RWt
 R = create_interpolation_matrix(x)
 Wt.DWT = create_Wt_DWT(K)
