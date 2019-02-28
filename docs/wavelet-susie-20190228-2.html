@@ -535,10 +535,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree860c851cbba09a3523f391cfc6171318e742f745targetblank860c851a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/860c851cbba09a3523f391cfc6171318e742f745" target="_blank">860c851</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree89f4e80653bf93d9fdd04ab1d6fe43741127f53etargetblank89f4e80a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/89f4e80653bf93d9fdd04ab1d6fe43741127f53e" target="_blank">89f4e80</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree860c851cbba09a3523f391cfc6171318e742f745targetblank860c851a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree89f4e80653bf93d9fdd04ab1d6fe43741127f53etargetblank89f4e80a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -612,6 +612,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/89f4e80653bf93d9fdd04ab1d6fe43741127f53e/analysis/wavelet-susie-20190228-2.Rmd" target="_blank">89f4e80</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-02-28
+</td>
+<td>
+fix typo
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/0d76fd91886dc777ca27e0144789aeea2fce376c/docs/wavelet-susie-20190228-2.html" target="_blank">0d76fd9</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-02-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/860c851cbba09a3523f391cfc6171318e742f745/analysis/wavelet-susie-20190228-2.Rmd" target="_blank">860c851</a>
 </td>
 <td>
@@ -643,7 +677,7 @@ K = 2^{\lceil \text{log}_2n \rceil}
 <li>Scheme 2: we set</li>
 </ul>
 <p><span class="math display">\[
-m = \lceil 10\%\text{quantiele}(|x_i-x_{i+1}|) \rceil \\
+m = \lceil 10\%\text{quantile}(|x_i-x_{i+1}|) \rceil \\
 K = 2^{\lceil \text{log}_2m \rceil}.
 \]</span></p>
 <div id="results" class="section level2">
@@ -765,6 +799,43 @@ lines(x, f.beta4(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s.previous), col=&quot;blue&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/0d76fd91886dc777ca27e0144789aeea2fce376c/docs/figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-11-1.png" target="_blank">0d76fd9</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="simulation-example-3" class="section level2">
 <h2>Simulation example 3</h2>
@@ -782,103 +853,47 @@ Wt.DWT = create_Wt_DWT(K)
 RWt = R %*% Wt.DWT
 #Run SuSiE
 s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;optim&#39;)</code></pre>
-<pre><code>Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced
-
-Warning in log(max(betahat^2 - shat2, na.rm = TRUE)): NaNs produced</code></pre>
 <pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 2: example with two large gaps in xs&quot;)
 lines(x, f.beta4(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/0d76fd91886dc777ca27e0144789aeea2fce376c/docs/figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-14-1.png" target="_blank">0d76fd9</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="simulation-example-4" class="section level2">
 <h2>Simulation example 4</h2>
@@ -918,6 +933,43 @@ s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;opt
 lines(x, f.beta5(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
+Past versions of unnamed-chunk-18-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/0d76fd91886dc777ca27e0144789aeea2fce376c/docs/figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-18-1.png" target="_blank">0d76fd9</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>I notice that when my data are evenly spaced, I can get a relatively good fit.</p>
 <pre class="r"><code>sd = 0.1
 n = 100
@@ -934,6 +986,43 @@ s.original.even = susie(RWt.original, y, L=50, estimate_prior_variance = TRUE, o
 lines(x, f.beta5(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s.original.even), col=&quot;blue&quot;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-22-1">
+Past versions of unnamed-chunk-22-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-22-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/0d76fd91886dc777ca27e0144789aeea2fce376c/docs/figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-22-1.png" target="_blank">0d76fd9</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Then we initialize from here and fit the simulation example 4. We obtain a nice fit after initialization. We cannot perform this initialization on the new interpolation scheme since K is different in the evenly spaced and irregularly spaced data.</p>
 <pre class="r"><code>sd = 0.1
 n = 100
@@ -950,6 +1039,43 @@ s.original.uneven = susie(RWt.original, y, L=50, estimate_prior_variance = TRUE,
 lines(x, f.beta5(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s.original.uneven), col=&quot;green&quot;, lwd=2)</code></pre>
 <p><img src="figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-26-1">
+Past versions of unnamed-chunk-26-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-26-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/0d76fd91886dc777ca27e0144789aeea2fce376c/docs/figure/wavelet-susie-20190228-2.Rmd/unnamed-chunk-26-1.png" target="_blank">0d76fd9</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-02-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
