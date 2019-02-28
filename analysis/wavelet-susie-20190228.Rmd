@@ -1,0 +1,155 @@
+---
+title: "Wavelet-based SuSiE Analysis 20190228"
+author: "Kaiqian Zhang"
+date: "2/28/2019"
+header-includes:
+   - \usepackage{amsmath}
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this vignette, I will show two very similar simulation examples. But one has a really good performance but the other does not. I initially had a really bad fit for a more complicated version of simulation example 2. I have more change points in my orginal simulation example 2. After observing that, I simplified my example to the current simulation example 2. 
+
+And for simulation example 1, I notice that even if I add more change points on top of it, I can still have a good fit. This is strange to me since I feel like those two simulations are very similar: they both have abrupt jumps within a window of 0.05, but their fit performances are totally different. 
+
+## Set up and functions
+
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+```
+
+Function for creating interpolation matrix `R`:
+```{r}
+#' @param x is an n-vector of data
+#' @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 & x[i] <= 1/K){
+        R[i,j] = 1
+      } else if (j == floor(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}
+```
+
+Function for creating decimated Wt:
+```{r}
+#' @param K is the dimension of decinmated W
+#' @return a K by K matrix, which the transpose of decimated Harr wavelet transform matrix 
+create_Wt_DWT = function(K){
+  return(GenW(n=K, filter.number=1, family="DaubExPhase"))
+}
+```
+
+```{r}
+create_y = function(x, beta.function, n, sd){
+  set.seed(1)
+  return(beta.function(x) + rnorm(n, sd=sd))
+}
+```
+
+## Simulation example 1
+
+```{r}
+f.beta3 = function(x){
+  n = length(x)
+  beta = numeric(n)
+  for (i in 1:n){
+    if (x[i] < 0.5){
+      beta[i] = 0
+    } else if(x[i] >= 0.5 & x[i] < 0.55){
+      beta[i] = 7
+    } else if(x[i] >= 0.55 & x[i] < 0.6){
+      beta[i] = -4
+    } else{
+      beta[i] = 0
+    }
+  }
+  return(beta)
+}
+```
+
+```{r}
+sd = 0.1
+n = 100
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0, 1))
+y = create_y(x, beta.function=f.beta3, n, sd)
+```
+
+```{r}
+#Create RWt
+R = create_interpolation_matrix(x)
+Wt.DWT = create_Wt_DWT(K)
+RWt = R %*% Wt.DWT
+#Run SuSiE
+s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 1: fit for simulation example 1")
+lines(x, f.beta3(x), col="black", lwd=2)
+lines(x, predict(s), col="blue", lwd=2)
+```
+
+## Simulation example 2
+
+```{r}
+f.beta4 = function(x){
+  n = length(x)
+  beta = numeric(n)
+  for (i in 1:n){
+    if (x[i] < 0.6){
+      beta[i] = -3
+    } else if(x[i] >= 0.6 & x[i] < 0.65){
+      beta[i] = 7
+    } else if(x[i] >= 0.65 & x[i] < 0.7){
+      beta[i] = 0
+    } else {
+      beta[i] = 2
+    }
+  }
+  return(beta)
+}
+```
+
+```{r}
+sd = 0.1
+n = 100
+K = 2^(ceiling(log2(n)))
+set.seed(1)
+x = sort(runif(n, 0, 1))
+y = create_y(x, beta.function=f.beta4, n, sd)
+```
+
+```{r}
+#Create RWt
+R = create_interpolation_matrix(x)
+Wt.DWT = create_Wt_DWT(K)
+RWt = R %*% Wt.DWT
+#Run SuSiE
+s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 2: fit for simulation example 2")
+lines(x, f.beta4(x), col="black", lwd=2)
+lines(x, predict(s), col="blue", lwd=2)
+```
