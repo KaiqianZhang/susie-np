@@ -1,0 +1,328 @@
+---
+title: "Wavelet-based SuSiE Analysis 20190228-2"
+author: "Kaiqian Zhang"
+date: "2/28/2019"
+header-includes:
+   - \usepackage{amsmath}
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this vignette, we investigate two interpolation schemes. We have different K's in two schemes.
+
+* Scheme 1: we set 
+
+$$
+n = \text{length}(x) \\
+K = 2^{\lceil \text{log}_2n \rceil}
+$$
+
+* Scheme 2: we set
+
+$$
+m = \lceil 10\%\text{quantiele}(|x_i-x_{i+1}|) \rceil \\
+K = 2^{\lceil \text{log}_2m \rceil}.
+$$
+
+## Results
+
+* Scheme 2 solves my bad fit in the simulation example 2 as I mentioned in the previous analysis.
+
+* Scheme 2 also works when my data have large gaps. Please see simulation example 3. 
+
+* We can still find very bad fits for using scheme 2. I think this is due to local optimum problem. Please see simulation example 4. I notice that when my data are evenly spaced, I can get a relatively good fit. So I intialize from there to fit my example 4 using scheme 1. The reason I used scheme 1 is that it has the same K as evenly spaced data. I now can get a good fit for example 4. So I hypothesize that SuSiE using scheme 2 is also having a local optimum problem. But I could not find a decent initialization to confirm my hypothesis. 
+
+## Set up
+```{r, warning=FALSE, include=FALSE}
+library(wavethresh)
+library(binhf) #Package for shift function
+library(susieR)
+```
+
+Function for interpolation scheme 1:
+```{r}
+#' @param x is an n-vector of data
+#' @return R an n by K interpolation matrix
+create_interpolation_matrix_original = function(x){
+  n = length(x)
+  K = 2^(ceiling(log2(n)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 & x[i] <= 1/K){
+        R[i,j] = 1
+      } else if (j == floor(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}
+```
+
+Function for interpolation scheme 2:
+```{r}
+#' @param x is an n-vector of data
+#' @return R an n by K interpolation matrix
+create_interpolation_matrix = function(x){
+  n = length(x)
+  #m = 10% * abs(x_i - x_{i+1})
+  m = as.numeric(ceiling(1/quantile(sort(abs(diff(x))),0.1)))
+  K = 2^(ceiling(log2(m)))
+  R = matrix(0, n, K)
+  for (i in 1:n){
+    for (j in 1:K){
+      if (j == 1 & x[i] <= 1/K){
+        R[i,j] = 1
+      } else if (j == floor(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = (j+1) - K*x[i]
+      } else if (j == ceiling(K*x[i]) & x[i] > 1/K & x[i] <=1){
+        R[i,j] = K*x[i] - (j-1)
+      } else R[i,j] = 0
+    }
+  }
+  return(R)
+}
+```
+
+Function for creating Wt
+```{r}
+#' @param K is the dimension of decinmated W
+#' @return a K by K matrix, which the transpose of decimated Harr wavelet transform matrix 
+create_Wt_DWT = function(K){
+  return(GenW(n=K, filter.number=1, family="DaubExPhase"))
+}
+```
+
+Function for simulate y
+```{r}
+create_y = function(x, beta.function, n, sd){
+  set.seed(1)
+  return(beta.function(x) + rnorm(n, sd=sd))
+}
+```
+
+Function for creating gaps in x
+```{r}
+create_gaps_x = function(n){
+  set.seed(1)
+  x = sort(runif(n, 0, 1))
+  cutidx1 = which(x>0.2 & x<0.3)
+  cutidx2 = which(x>0.6 & x<0.8)
+  x.cut = x[-c(cutidx1, cutidx2)]
+  set.seed(1)
+  x.add1 = runif(length(cutidx1), 0.8, 0.9)
+  x.add2 = runif(length(cutidx2), 0.3, 0.4)
+  x.res = sort(c(x.cut, x.add1, x.add2))
+}
+```
+
+## Simulation example 2 using interpolation scheme 2 
+
+Back to simulation example 2, by using interpolation scheme 2, we can have a better fit. Red line is the new fit using scheme 2, and the blue line is the previous version. 
+
+```{r}
+f.beta4 = function(x){
+  n = length(x)
+  beta = numeric(n)
+  for (i in 1:n){
+    if (x[i] < 0.6){
+      beta[i] = -3
+    } else if(x[i] >= 0.6 & x[i] < 0.65){
+      beta[i] = 7
+    } else if(x[i] >= 0.65 & x[i] < 0.7){
+      beta[i] = 0
+    } else {
+      beta[i] = 2
+    }
+  }
+  return(beta)
+}
+```
+
+```{r}
+sd = 0.1
+n = 100
+set.seed(1)
+x = sort(runif(n, 0, 1))
+y = create_y(x, beta.function=f.beta4, n, sd)
+m = as.numeric(ceiling(1/quantile(sort(abs(diff(x))),0.1)))
+K = 2^(ceiling(log2(m)))
+```
+
+```{r}
+#Create RWt
+R.previous = create_interpolation_matrix_original(x)
+Wt.DWT.previous = create_Wt_DWT(2^(ceiling(log2(n))))
+RWt.previous = R.previous %*% Wt.DWT.previous
+#Run SuSiE
+s.previous = susie(RWt.previous, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+#Create RWt
+R = create_interpolation_matrix(x)
+Wt.DWT = create_Wt_DWT(K)
+RWt = R %*% Wt.DWT
+#Run SuSiE
+s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 1: fit for simulation example 2")
+lines(x, f.beta4(x), col="black", lwd=2)
+lines(x, predict(s.previous), col="blue", lwd=2)
+lines(x, predict(s), col="red", lwd=2)
+```
+
+## Simulation example 3
+
+Our new interpolation scheme also works when there are large gaps in the data.
+
+```{r}
+sd = 0.1
+n = 100
+set.seed(1)
+x = create_gaps_x(n)
+y = create_y(x, beta.function=f.beta4, n, sd)
+m = as.numeric(ceiling(1/quantile(sort(abs(diff(x))),0.1)))
+K = 2^(ceiling(log2(m)))
+```
+
+```{r}
+#Create RWt
+R = create_interpolation_matrix(x)
+Wt.DWT = create_Wt_DWT(K)
+RWt = R %*% Wt.DWT
+#Run SuSiE
+s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 2: example with two large gaps in xs")
+lines(x, f.beta4(x), col="black", lwd=2)
+lines(x, predict(s), col="red", lwd=2)
+```
+
+## Simulation example 4
+
+We observe many good fits in our simulations using the new interpolation scheme but we observe the following example that gives us a really bad fit. And I hypothesize that this is due to local optimum problem in SuSiE. Here is the example.
+
+```{r}
+f.beta5 = function(x){
+  n = length(x)
+  beta = numeric(n)
+  for (i in 1:n){
+    if (x[i] < 0.1){
+      beta[i] = -3
+    } else if(x[i] >= 0.1 & x[i] < 0.6){
+      beta[i] = 5
+    } else if(x[i] >= 0.6 & x[i] < 0.7){
+      beta[i] = -1
+    } else if(x[i] >= 0.7 & x[i] < 0.9){
+      beta[i] = 3
+    }else{
+      beta[i] = -3
+    }
+  }
+  return(beta)
+}
+```
+
+```{r}
+sd = 0.1
+n = 100
+set.seed(1)
+x = sort(runif(n, 0, 1))
+y = create_y(x, beta.function=f.beta5, n, sd)
+m = as.numeric(ceiling(1/quantile(sort(abs(diff(x))),0.1)))
+K = 2^(ceiling(log2(m)))
+```
+
+```{r}
+#Create RWt
+R = create_interpolation_matrix(x)
+Wt.DWT = create_Wt_DWT(K)
+RWt = R %*% Wt.DWT
+#Run SuSiE
+s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 3: fit for simulation example 4")
+lines(x, f.beta5(x), col="black", lwd=2)
+lines(x, predict(s), col="red", lwd=2)
+```
+
+I notice that when my data are evenly spaced, I can get a relatively good fit.
+
+```{r}
+sd = 0.1
+n = 100
+set.seed(1)
+x = seq(n)/n
+y = create_y(x, beta.function=f.beta5, n, sd)
+```
+
+```{r}
+#Create RWt
+R.original = create_interpolation_matrix_original(x)
+Wt.DWT.original = create_Wt_DWT(2^(ceiling(log2(n))))
+RWt.original = R.original %*% Wt.DWT.original
+```
+
+```{r}
+#Run SuSiE
+s.original.even = susie(RWt.original, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim')
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 4: fit for evenly spaced data")
+lines(x, f.beta5(x), col="black", lwd=2)
+lines(x, predict(s.original.even), col="blue", lwd=2)
+```
+
+Then we initialize from here and fit the simulation example 4. We obtain a nice fit after initialization. We cannot perform this initialization on the new interpolation scheme since K is different in the evenly spaced and irregularly spaced data. 
+
+```{r}
+sd = 0.1
+n = 100
+set.seed(1)
+x = sort(runif(n, 0, 1))
+y = create_y(x, beta.function=f.beta5, n, sd)
+```
+
+```{r}
+#Create RWt
+R.original = create_interpolation_matrix_original(x)
+Wt.DWT.original = create_Wt_DWT(2^(ceiling(log2(n))))
+RWt.original = R.original %*% Wt.DWT.original
+```
+
+```{r}
+#Run SuSiE
+s.original.uneven = susie(RWt.original, y, L=50, estimate_prior_variance = TRUE, optimV_method = 'optim', s_init = s.original.even)
+```
+
+```{r}
+plot(x, y, pch=20, col="grey", main = "Figure 5: initialize from the evenly-spaced fit")
+lines(x, f.beta5(x), col="black", lwd=2)
+lines(x, predict(s.original.uneven), col="green", lwd=2)
+```
+
+
+
+
+
+
+
+
+
+
+
