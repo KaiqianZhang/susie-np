@@ -456,7 +456,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-03-05
+<strong>Last updated:</strong> 2019-03-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -535,10 +535,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreea46561c5d2bd844e8ebcfc1527930c6264132395targetblanka46561ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/a46561c5d2bd844e8ebcfc1527930c6264132395" target="_blank">a46561c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree070acaac73fec40a49b323b7a838d7e565e9aa29targetblank070acaaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/070acaac73fec40a49b323b7a838d7e565e9aa29" target="_blank">070acaa</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreea46561c5d2bd844e8ebcfc1527930c6264132395targetblanka46561ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree070acaac73fec40a49b323b7a838d7e565e9aa29targetblank070acaaa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -607,6 +607,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/070acaac73fec40a49b323b7a838d7e565e9aa29/docs/susie-a-20190305.html" target="_blank">070acaa</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -705,10 +722,10 @@ kaiqian
 </div>
 <pre class="r"><code>res &lt;- susie(X,y,L=10, expand_param = TRUE)</code></pre>
 <pre><code>[1] 0.9824973
-[1] 0.9975539
-[1] 0.9986589
-[1] 0.9986774
-[1] 0.9986527</code></pre>
+[1] 0.9800936
+[1] 0.978778
+[1] 0.9774835
+[1] 0.9761665</code></pre>
 <pre class="r"><code>plot(coef(res),pch = 20)</code></pre>
 <p><img src="figure/susie-a-20190305.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -733,6 +750,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/070acaac73fec40a49b323b7a838d7e565e9aa29/docs/figure/susie-a-20190305.Rmd/unnamed-chunk-4-1.png" target="_blank">070acaa</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-05
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/a46561c5d2bd844e8ebcfc1527930c6264132395/docs/figure/susie-a-20190305.Rmd/unnamed-chunk-4-1.png" target="_blank">a46561c</a>
@@ -840,18 +868,18 @@ s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;opt
 <pre class="r"><code>s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;optim&#39;, expand_param = TRUE)</code></pre>
 <pre><code>[1] 1
 [1] 0.9962905
-[1] 1.008457
-[1] 1.00415
-[1] 1.022357
-[1] 0.9943732
-[1] 1.003174
-[1] 1.006397
-[1] 1.001932
-[1] 1.001828
-[1] 1.000251
-[1] 1.000038
-[1] 1.000005
-[1] 1.000001</code></pre>
+[1] 1.004715
+[1] 1.008887
+[1] 1.031442
+[1] 1.025486
+[1] 1.028923
+[1] 1.035523
+[1] 1.037428
+[1] 1.039405
+[1] 1.039682
+[1] 1.039724
+[1] 1.03973
+[1] 1.039731</code></pre>
 <pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 1&quot;)
 lines(x, f.beta4(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)
@@ -917,11 +945,11 @@ s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;opt
 <pre class="r"><code>s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;optim&#39;, expand_param = TRUE)</code></pre>
 <pre><code>[1] 1
 [1] 1.058718
-[1] 1.003759
-[1] 0.9997388
-[1] 1.000063
-[1] 1.00002
-[1] 1.000026</code></pre>
+[1] 1.062739
+[1] 1.062479
+[1] 1.062545
+[1] 1.062566
+[1] 1.062594</code></pre>
 <pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 2: example with two large gaps in xs&quot;)
 lines(x, f.beta4(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)
@@ -1024,32 +1052,32 @@ s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;opt
 [1] 1</code></pre>
 <pre class="r"><code>s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, optimV_method = &#39;optim&#39;, expand_param = TRUE)</code></pre>
 <pre><code>[1] 0.9889406
-[1] 1.006817
-[1] 1.001412
-[1] 0.9995746
-[1] 0.9946588
-[1] 0.9925244
-[1] 0.9914732
-[1] 0.991082
-[1] 0.9906781
-[1] 0.9926741
-[1] 0.9953199
-[1] 0.9969193
-[1] 0.9975019
-[1] 0.9976243
-[1] 0.9976472
-[1] 0.9976913
-[1] 0.9977666
-[1] 0.9978559
-[1] 0.997945
-[1] 0.9991248
-[1] 0.9987108
-[1] 0.9996877
-[1] 0.9990529
-[1] 0.9998888
-[1] 0.9991651
-[1] 0.9999232
-[1] 1.000318</code></pre>
+[1] 0.9956811
+[1] 0.9970869
+[1] 0.9966636
+[1] 0.9913407
+[1] 0.9839295
+[1] 0.9755423
+[1] 0.9668531
+[1] 0.9578469
+[1] 0.9508239
+[1] 0.9463671
+[1] 0.9434494
+[1] 0.9410932
+[1] 0.9388584
+[1] 0.9366502
+[1] 0.9344879
+[1] 0.9324008
+[1] 0.9304014
+[1] 0.9284893
+[1] 0.9276764
+[1] 0.9264802
+[1] 0.9261905
+[1] 0.925313
+[1] 0.9252098
+[1] 0.9244371
+[1] 0.9243658
+[1] 0.9246594</code></pre>
 <pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 3: fit for simulation example 4&quot;)
 lines(x, f.beta5(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)
