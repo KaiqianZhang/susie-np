@@ -535,10 +535,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree88497537959b56f4865cd2bbe98e6d64289b91a1targetblank8849753a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/88497537959b56f4865cd2bbe98e6d64289b91a1" target="_blank">8849753</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreec10158eaa5efd0e94d97c19fdc11c3481a22668ctargetblankc10158ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/c10158eaa5efd0e94d97c19fdc11c3481a22668c" target="_blank">c10158e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree88497537959b56f4865cd2bbe98e6d64289b91a1targetblank8849753a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreec10158eaa5efd0e94d97c19fdc11c3481a22668ctargetblankc10158ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -613,6 +613,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/c10158eaa5efd0e94d97c19fdc11c3481a22668c/analysis/susie-a-20190307.Rmd" target="_blank">c10158e</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-07
+</td>
+<td>
+write down details for 0307 analysis for susie-a
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/bdc8c3cf39a15218af7dcaf340b1d4705d6c9c33/docs/susie-a-20190307.html" target="_blank">bdc8c3c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/88497537959b56f4865cd2bbe98e6d64289b91a1/analysis/susie-a-20190307.Rmd" target="_blank">8849753</a>
 </td>
 <td>
@@ -632,30 +666,26 @@ upload 0307 analysis for susie-a
 </div>
 </div>
 </div>
-<div id="example-1-minimal-example-from-vignette" class="section level2">
-<h2>Example 1: minimal example from vignette</h2>
-<p>I also print <code>a</code> for each iteration with and without expanding the parameter.</p>
-<pre class="r"><code>set.seed(1)
-n    &lt;- 1000
-p    &lt;- 1000
-beta &lt;- rep(0,p)
-beta[c(1,2,300,400)] &lt;- 1
-X   &lt;- matrix(rnorm(n*p),nrow=n,ncol=p)
-y   &lt;- X %*% beta + rnorm(n)
-res &lt;- susie(X,y,L=10)
-plot(coef(res),pch = 20)</code></pre>
-<p><img src="figure/susie-a-20190307.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>res &lt;- susie(X,y,L=10, expand_parameter = TRUE)</code></pre>
-<pre><code>[1] 0.989701
-[1] 0.9995799
-[1] 0.9999941
-[1] 0.9999999</code></pre>
-<pre class="r"><code>plot(coef(res),pch = 20)</code></pre>
-<p><img src="figure/susie-a-20190307.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This vignette is an initial attempt to try the expanding parameter method. We show the raw implementation and some examples for using <code>expand_parameter=TRUE</code>.</p>
+<div id="implementation-in-susie" class="section level2">
+<h2>Implementation in SuSiE</h2>
+<p>I have a new R file having the function to update <code>ahat</code> and associated values stored in the fit <code>s</code>.</p>
+<pre><code>estimate_a = function(X,Y,s){
+  Xr_L = compute_MXt(s$alpha*s$mu, X)
+  postb2 = s$alpha * s$mu2 #posterior second moment
+  ahat = as.numeric(t(Y)%*%s$Xr / (t(s$Xr)%*%s$Xr - sum(Xr_L^2) + sum(attr(X, &quot;d&quot;)*t(postb2))))
+  print(ahat)
+  s$Xr = s$Xr*ahat
+  s$V = s$V * ahat^2
+  s$mu = s$mu * ahat
+  s$mu2 = s$mu2 * ahat^2
+  return(s)
+}</code></pre>
+<p>And in the main susie function, I just add one line for each iteration:</p>
+<pre><code>if(expand_parameter) s = estimate_a(X,Y,s)</code></pre>
 </div>
-<div id="example-from-wavelets" class="section level2">
-<h2>Example from wavelets</h2>
-<p>New interpolation scheme:</p>
+<div id="examples-from-wavelets" class="section level2">
+<h2>Examples from wavelets</h2>
 <pre class="r"><code>#&#39; @param x is an n-vector of data
 #&#39; @return R an n by K interpolation matrix
 create_interpolation_matrix = function(x){
@@ -697,7 +727,6 @@ create_Wt_DWT = function(K){
   x.add2 = runif(length(cutidx2), 0.3, 0.4)
   x.res = sort(c(x.cut, x.add1, x.add2))
 }</code></pre>
-<p>simulation</p>
 <pre class="r"><code>f.beta4 = function(x){
   n = length(x)
   beta = numeric(n)
@@ -738,37 +767,13 @@ s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 
 [1] 0.9999462
 [1] 0.9999788
 [1] 0.9999921</code></pre>
+<p>The red line does not expand the parameter a and the blue line expands the parameter a.</p>
 <pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 1&quot;)
 lines(x, f.beta4(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)
 lines(x, predict(s.a), col=&quot;blue&quot;, lwd=2)</code></pre>
-<p><img src="figure/susie-a-20190307.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>sd = 0.1
-n = 100
-set.seed(1)
-x = create_gaps_x(n)
-y = create_y(x, beta.function=f.beta4, n, sd)
-m = as.numeric(ceiling(1/quantile(sort(abs(diff(x))),0.1)))
-K = 2^(ceiling(log2(m)))</code></pre>
-<pre class="r"><code>#Create RWt
-R = create_interpolation_matrix(x)
-Wt.DWT = create_Wt_DWT(K)
-RWt = R %*% Wt.DWT
-#Run SuSiE
-s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = &#39;optim&#39;)</code></pre>
-<pre class="r"><code>s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = &#39;optim&#39;, expand_parameter = TRUE)</code></pre>
-<pre><code>[1] 1
-[1] 1.058718
-[1] 1.002066
-[1] 0.9998613
-[1] 1.000055
-[1] 1.00002
-[1] 1.000026</code></pre>
-<pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 2: example with two large gaps in xs&quot;)
-lines(x, f.beta4(x), col=&quot;black&quot;, lwd=2)
-lines(x, predict(s), col=&quot;red&quot;, lwd=2)
-lines(x, predict(s.a), col=&quot;blue&quot;, lwd=2)</code></pre>
-<p><img src="figure/susie-a-20190307.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/susie-a-20190307.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here is the problematic example we have before. The expanded parameter a at each iteration is almost 1. So the fit does not seem to change from the previous fit(i.e. the fit without expanding the parameter a).</p>
 <pre class="r"><code>f.beta5 = function(x){
   n = length(x)
   beta = numeric(n)
@@ -827,11 +832,11 @@ s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 
 [1] 1.000539
 [1] 1.000638
 [1] 1.000574</code></pre>
-<pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 3: fit for simulation example 4&quot;)
+<pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 2: problematic example last time&quot;)
 lines(x, f.beta5(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)
 lines(x, predict(s.a), col=&quot;blue&quot;, lwd=2)</code></pre>
-<p><img src="figure/susie-a-20190307.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/susie-a-20190307.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
