@@ -535,10 +535,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreec10158eaa5efd0e94d97c19fdc11c3481a22668ctargetblankc10158ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/c10158eaa5efd0e94d97c19fdc11c3481a22668c" target="_blank">c10158e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree8795f7c13de9664c08b4e76b2297d4b1711d8a4ctargetblank8795f7ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/8795f7c13de9664c08b4e76b2297d4b1711d8a4c" target="_blank">8795f7c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreec10158eaa5efd0e94d97c19fdc11c3481a22668ctargetblankc10158ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree8795f7c13de9664c08b4e76b2297d4b1711d8a4ctargetblank8795f7ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -613,6 +613,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/8795f7c13de9664c08b4e76b2297d4b1711d8a4c/analysis/susie-a-20190307.Rmd" target="_blank">8795f7c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-07
+</td>
+<td>
+fix typos for 0307 analysis for susie-a
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/e3bb42244e92bc3a6af381649c2c29855ae93c54/docs/susie-a-20190307.html" target="_blank">e3bb422</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-07
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/c10158eaa5efd0e94d97c19fdc11c3481a22668c/analysis/susie-a-20190307.Rmd" target="_blank">c10158e</a>
 </td>
 <td>
@@ -669,7 +703,7 @@ upload 0307 analysis for susie-a
 <p>This vignette is an initial attempt to try the expanding parameter method. We show the raw implementation and some examples for using <code>expand_parameter=TRUE</code>.</p>
 <div id="implementation-in-susie" class="section level2">
 <h2>Implementation in SuSiE</h2>
-<p>I have a new R file having the function to update <code>ahat</code> and associated values stored in the fit <code>s</code>.</p>
+<p>I write a new function to update <code>ahat</code> and associated values stored in the fit <code>s</code>.</p>
 <pre><code>estimate_a = function(X,Y,s){
   Xr_L = compute_MXt(s$alpha*s$mu, X)
   postb2 = s$alpha * s$mu2 #posterior second moment
@@ -755,6 +789,7 @@ Wt.DWT = create_Wt_DWT(K)
 RWt = R %*% Wt.DWT
 #Run SuSiE
 s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = &#39;optim&#39;)</code></pre>
+<p>I print updated parameter <code>a</code> for each iteration.</p>
 <pre class="r"><code>s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = &#39;optim&#39;, expand_parameter = TRUE)</code></pre>
 <pre><code>[1] 1
 [1] 0.9554552
@@ -767,12 +802,49 @@ s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 
 [1] 0.9999462
 [1] 0.9999788
 [1] 0.9999921</code></pre>
-<p>The red line does not expand the parameter a and the blue line expands the parameter a.</p>
+<p>The red line does not expand the parameter <code>a</code> and the blue line expands the parameter <code>a</code>. Since <code>a</code> at each iteration is around 1, the blue line is on top of the red line.</p>
 <pre class="r"><code>plot(x, y, pch=20, col=&quot;grey&quot;, main = &quot;Figure 1&quot;)
 lines(x, f.beta4(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)
 lines(x, predict(s.a), col=&quot;blue&quot;, lwd=2)</code></pre>
 <p><img src="figure/susie-a-20190307.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/e3bb42244e92bc3a6af381649c2c29855ae93c54/docs/figure/susie-a-20190307.Rmd/unnamed-chunk-11-1.png" target="_blank">e3bb422</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here is the problematic example we have before. The expanded parameter a at each iteration is almost 1. So the fit does not seem to change from the previous fit(i.e. the fit without expanding the parameter a).</p>
 <pre class="r"><code>f.beta5 = function(x){
   n = length(x)
@@ -805,6 +877,7 @@ Wt.DWT = create_Wt_DWT(K)
 RWt = R %*% Wt.DWT
 #Run SuSiE
 s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = &#39;optim&#39;)</code></pre>
+<p>Again, I print the updated parameter <code>a</code> at each iteration.</p>
 <pre class="r"><code>s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = &#39;optim&#39;, expand_parameter = TRUE)</code></pre>
 <pre><code>[1] 0.9889406
 [1] 1.007447
@@ -837,6 +910,43 @@ lines(x, f.beta5(x), col=&quot;black&quot;, lwd=2)
 lines(x, predict(s), col=&quot;red&quot;, lwd=2)
 lines(x, predict(s.a), col=&quot;blue&quot;, lwd=2)</code></pre>
 <p><img src="figure/susie-a-20190307.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/e3bb42244e92bc3a6af381649c2c29855ae93c54/docs/figure/susie-a-20190307.Rmd/unnamed-chunk-16-1.png" target="_blank">e3bb422</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
