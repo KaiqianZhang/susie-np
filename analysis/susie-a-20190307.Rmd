@@ -24,30 +24,33 @@ library(wavethresh)
 library(binhf) #Package for shift function
 ```
 
-## Example 1: minimal example from vignette
+This vignette is an initial attempt to try the expanding parameter method. We show the raw implementation and some examples for using `expand_parameter=TRUE`.
 
-I also print `a` for each iteration with and without expanding the parameter. 
-```{r}
-set.seed(1)
-n    <- 1000
-p    <- 1000
-beta <- rep(0,p)
-beta[c(1,2,300,400)] <- 1
-X   <- matrix(rnorm(n*p),nrow=n,ncol=p)
-y   <- X %*% beta + rnorm(n)
-res <- susie(X,y,L=10)
-plot(coef(res),pch = 20)
+## Implementation in SuSiE
+
+I have a new R file having the function to update `ahat` and associated values stored in the fit `s`. 
+
+```
+estimate_a = function(X,Y,s){
+  Xr_L = compute_MXt(s$alpha*s$mu, X)
+  postb2 = s$alpha * s$mu2 #posterior second moment
+  ahat = as.numeric(t(Y)%*%s$Xr / (t(s$Xr)%*%s$Xr - sum(Xr_L^2) + sum(attr(X, "d")*t(postb2))))
+  print(ahat)
+  s$Xr = s$Xr*ahat
+  s$V = s$V * ahat^2
+  s$mu = s$mu * ahat
+  s$mu2 = s$mu2 * ahat^2
+  return(s)
+}
 ```
 
+And in the main susie function, I just add one line for each iteration:
 
-```{r}
-res <- susie(X,y,L=10, expand_parameter = TRUE)
-plot(coef(res),pch = 20)
 ```
+if(expand_parameter) s = estimate_a(X,Y,s)
+```
+## Examples from wavelets
 
-## Example from wavelets
-
-New interpolation scheme:
 ```{r}
 #' @param x is an n-vector of data
 #' @return R an n by K interpolation matrix
@@ -101,7 +104,6 @@ create_gaps_x = function(n){
 }
 ```
 
-simulation
 ```{r}
 f.beta4 = function(x){
   n = length(x)
@@ -143,7 +145,7 @@ s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 
 s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 'optim', expand_parameter = TRUE)
 ```
 
-
+The red line does not expand the parameter a and the blue line expands the parameter a. 
 ```{r}
 plot(x, y, pch=20, col="grey", main = "Figure 1")
 lines(x, f.beta4(x), col="black", lwd=2)
@@ -151,39 +153,7 @@ lines(x, predict(s), col="red", lwd=2)
 lines(x, predict(s.a), col="blue", lwd=2)
 ```
 
-
-```{r}
-sd = 0.1
-n = 100
-set.seed(1)
-x = create_gaps_x(n)
-y = create_y(x, beta.function=f.beta4, n, sd)
-m = as.numeric(ceiling(1/quantile(sort(abs(diff(x))),0.1)))
-K = 2^(ceiling(log2(m)))
-```
-
-```{r}
-#Create RWt
-R = create_interpolation_matrix(x)
-Wt.DWT = create_Wt_DWT(K)
-RWt = R %*% Wt.DWT
-#Run SuSiE
-s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 'optim')
-```
-
-
-```{r}
-s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 'optim', expand_parameter = TRUE)
-```
-
-
-```{r}
-plot(x, y, pch=20, col="grey", main = "Figure 2: example with two large gaps in xs")
-lines(x, f.beta4(x), col="black", lwd=2)
-lines(x, predict(s), col="red", lwd=2)
-lines(x, predict(s.a), col="blue", lwd=2)
-```
-
+Here is the problematic example we have before. The expanded parameter a at each iteration is almost 1. So the fit does not seem to change from the previous fit(i.e. the fit without expanding the parameter a). 
 ```{r}
 f.beta5 = function(x){
   n = length(x)
@@ -229,7 +199,7 @@ s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method 
 ```
 
 ```{r}
-plot(x, y, pch=20, col="grey", main = "Figure 3: fit for simulation example 4")
+plot(x, y, pch=20, col="grey", main = "Figure 2: problematic example last time")
 lines(x, f.beta5(x), col="black", lwd=2)
 lines(x, predict(s), col="red", lwd=2)
 lines(x, predict(s.a), col="blue", lwd=2)
