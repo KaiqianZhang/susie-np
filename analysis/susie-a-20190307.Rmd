@@ -28,7 +28,7 @@ This vignette is an initial attempt to try the expanding parameter method. We sh
 
 ## Implementation in SuSiE
 
-I have a new R file having the function to update `ahat` and associated values stored in the fit `s`. 
+I write a new function to update `ahat` and associated values stored in the fit `s`. 
 
 ```
 estimate_a = function(X,Y,s){
@@ -141,11 +141,12 @@ RWt = R %*% Wt.DWT
 s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 'optim')
 ```
 
+I print updated parameter `a` for each iteration.
 ```{r}
 s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 'optim', expand_parameter = TRUE)
 ```
 
-The red line does not expand the parameter a and the blue line expands the parameter a. 
+The red line does not expand the parameter `a` and the blue line expands the parameter `a`. Since `a` at each iteration is around 1, the blue line is on top of the red line. 
 ```{r}
 plot(x, y, pch=20, col="grey", main = "Figure 1")
 lines(x, f.beta4(x), col="black", lwd=2)
@@ -193,7 +194,7 @@ RWt = R %*% Wt.DWT
 #Run SuSiE
 s = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 'optim')
 ```
-
+Again, I print the updated parameter `a` at each iteration.
 ```{r}
 s.a = susie(RWt, y, L=50, estimate_prior_variance = TRUE, estimate_prior_method = 'optim', expand_parameter = TRUE)
 ```
