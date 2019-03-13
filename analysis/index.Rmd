@@ -47,3 +47,5 @@ Welcome to Kaiqian's research project: susie-np.
 * Please click on [estimate_residual_variance problem in SuSiE?](susie-a-20190309.html) to see my results.
 
 * Please click on [susie-a-20190310](susie-a-20190310.html) to see my results.
+
+* Please click on [susie-residual-20190313](susie-residual-20190313.html) to see my results.
