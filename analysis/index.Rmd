@@ -49,3 +49,5 @@ Welcome to Kaiqian's research project: susie-np.
 * Please click on [susie-a-20190310](susie-a-20190310.html) to see my results.
 
 * Please click on [susie-residual-20190313](susie-residual-20190313.html) to see my results.
+
+* Please click on [susie-residual-20190315](susie-residual-20190315.html) to see my results.
