@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree4fb45eb2a6417cdd08c9fa484f551182e134f374targetblank4fb45eba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/4fb45eb2a6417cdd08c9fa484f551182e134f374" target="_blank">4fb45eb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreecccbd7cb480700c22401e95f577bd50b88e8fc04targetblankcccbd7ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/cccbd7cb480700c22401e95f577bd50b88e8fc04" target="_blank">cccbd7c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree4fb45eb2a6417cdd08c9fa484f551182e134f374targetblank4fb45eba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreecccbd7cb480700c22401e95f577bd50b88e8fc04targetblankcccbd7ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -620,6 +620,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/cccbd7cb480700c22401e95f577bd50b88e8fc04/analysis/susie-symlet-20190327.Rmd" target="_blank">cccbd7c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-27
+</td>
+<td>
+add some titles for 20190327
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/3ceb8a3c7f2d2721682ca5e207e9c0e18104eecd/docs/susie-symlet-20190327.html" target="_blank">3ceb8a3</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/4fb45eb2a6417cdd08c9fa484f551182e134f374/analysis/susie-symlet-20190327.Rmd" target="_blank">4fb45eb</a>
 </td>
 <td>
@@ -639,7 +673,7 @@ plot basis functions for haar and symlet wavelets when n=8
 </div>
 </div>
 </div>
-<p>In this vignette, we plot basis functions for Haar and Symlet.</p>
+<p>In this vignette, we plot basis functions for Haar and Symlet wavelets.</p>
 <pre class="r"><code>#&#39; @param x is an n-vector of data
 #&#39; @return R an n by K interpolation matrix
 create_interpolation_matrix = function(x){
@@ -686,18 +720,98 @@ K = 2^(ceiling(log2(m)))
 R = create_interpolation_matrix(x)
 Wt.symlet = create_Wt_DWT(K, &quot;Symlet&quot;)
 Wt.haar = create_Wt_DWT(K, &quot;Haar&quot;)</code></pre>
+<div id="haar-wavelets" class="section level2">
+<h2>Haar wavelets</h2>
 <pre class="r"><code>op &lt;- par(mfrow = c(2,4))
 for (i in 1:8){
   sfuni &lt;- stepfun(1:7, Wt.haar[,i], f=0)
   plot(sfuni, col=i, lwd=2, main=&quot;Haar wavelts&quot;)
 }</code></pre>
 <p><img src="figure/susie-symlet-20190327.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/3ceb8a3c7f2d2721682ca5e207e9c0e18104eecd/docs/figure/susie-symlet-20190327.Rmd/unnamed-chunk-5-1.png" target="_blank">3ceb8a3</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="symlet-wavelets" class="section level2">
+<h2>Symlet wavelets</h2>
+<p>Here the filter number for Symlet wavelets is 10 and it is periodic.</p>
 <pre class="r"><code>op &lt;- par(mfrow = c(2,4))
 for (i in 1:8){
   sfuni &lt;- stepfun(1:7, Wt.symlet[,i], f=0)
   plot(sfuni, col=i, lwd=2, main=&quot;Symlet wavelts_10&quot;)
 }</code></pre>
 <p><img src="figure/susie-symlet-20190327.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/3ceb8a3c7f2d2721682ca5e207e9c0e18104eecd/docs/figure/susie-symlet-20190327.Rmd/unnamed-chunk-6-1.png" target="_blank">3ceb8a3</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-03-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -738,6 +852,7 @@ loaded via a namespace (and not attached):
 [28] whisker_0.3-2     backports_1.1.3   codetools_0.2-16 
 [31] htmltools_0.3.6   stringi_1.4.3     doParallel_1.0.14
 [34] pscl_1.5.2        truncnorm_1.0-8   SQUAREM_2017.10-1</code></pre>
+</div>
 </div>
 
 
