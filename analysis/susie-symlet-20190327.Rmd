@@ -10,7 +10,7 @@ output:
 ---
 
 
-In this vignette, we plot basis functions for Haar and Symlet.
+In this vignette, we plot basis functions for Haar and Symlet wavelets.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -78,6 +78,7 @@ Wt.haar = create_Wt_DWT(K, "Haar")
 
 ```
 
+## Haar wavelets
 ```{r}
 op <- par(mfrow = c(2,4))
 for (i in 1:8){
@@ -87,7 +88,8 @@ for (i in 1:8){
 ```
 
 
-
+## Symlet wavelets 
+Here the filter number for Symlet wavelets is 10 and it is periodic. 
 ```{r}
 op <- par(mfrow = c(2,4))
 for (i in 1:8){
