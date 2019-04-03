@@ -13,8 +13,35 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Goal 
 
+The goal is to compare the performance of `SuSiE` and `smashr` with respect to different kinds of underlying functions. 
+
+## Method
+
+While using `smashr`, we reflect the data when the number of data is not a power of 2. We simulate 30 datasets with different data points and various pve's. We have the following seven methods.
+
+- **smash_haar**: uses Haar wavelets in `smashr`. 
+
+- **smash_s10**: uses Symlet 10 wavelets (filter.num=10) in `smashr`.
+
+- **smash_s8**: uses Symlet 8 wavelets (filter.num=8) in `smashr`.
+
+- **susie_haar**: uses Haar wavelets in `SuSiE`. Performs `SuSiE` with a fixed residual variance 0.01 as an initialization.
+
+- **susie_haar_MAD**: uses Haar wavelets in `SuSiE`. Performs `SuSiE` with an estimated residual variance using MAD method (Donoho & Johnstone, 1994) as an initialization.
+
+- **susie_s10**: uses Symlet 10 wavelets (filter.num=10) in `SuSiE`. Performs `SuSiE` with a fixed residual variance 0.01 as an initialization.
+
+- **susie_s10_MAD**: uses Symlet 10 wavelets (filter.num=10) in `SuSiE`. Performs `SuSiE` with an estimated residual variance using MAD method as an initialization.
 
 ## Results summary
+
+- Overall, `smash_haar` has the best performance across all methods investigated.
+
+- All methods have an obviously larger mean squared error when the underlying function is `spikes`. 
+
+- `SuSiE` could have a better performance when estimating `blocks` function when pve is very high (e.g. 0.99), or we have more data points.
+
+- Except for `spikes` and `blocks` functions, we have similar performance for all the other four functions (i.e. `angles`, `blip`, `bumps`, and `doppler`) while using `susie_s10_MAD` and `smash_haar`.  
 
 
 ## Analysis details
@@ -28,6 +55,7 @@ names(dscout.df) = c("n", "pve", "scenario", "method", "mse")
 
 ### Suppose we have 100 data points.
 
+Figure for 100 data points and pve is 0.99. `Blocks` and `spikes` are abnormal here. The other four functions have similar performances using `smash_haar` and `susie_s10_MAD`.  
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.99,]
 ggplot(aes(y = mse, x = method), data = dscout.df1) + 
@@ -37,6 +65,7 @@ ggplot(aes(y = mse, x = method), data = dscout.df1) +
   theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
 ```
 
+Figure for 100 data points and pve is 0.95. 
 ```{r}
 dscout.df2 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.95,]
 ggplot(aes(y = mse, x = method), data = dscout.df2) + 
@@ -46,6 +75,7 @@ ggplot(aes(y = mse, x = method), data = dscout.df2) +
   theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
 ```
 
+Figure for 100 data points and pve is 0.9.
 ```{r}
 dscout.df3 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.9,]
 ggplot(aes(y = mse, x = method), data = dscout.df3) + 
@@ -55,6 +85,7 @@ ggplot(aes(y = mse, x = method), data = dscout.df3) +
   theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
 ```
 
+Figure for 100 data points and pve is 0.5.
 ```{r}
 dscout.df4 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.5,]
 ggplot(aes(y = mse, x = method), data = dscout.df4) + 
@@ -66,6 +97,7 @@ ggplot(aes(y = mse, x = method), data = dscout.df4) +
 
 ### Suppose we have 300 data points.
 
+Figure for 300 data points and pve is 0.99.
 ```{r}
 dscout.df5 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.99,]
 ggplot(aes(y = mse, x = method), data = dscout.df5) + 
@@ -75,6 +107,7 @@ ggplot(aes(y = mse, x = method), data = dscout.df5) +
   theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
 ```
 
+Figure for 300 data points and pve is 0.95.
 ```{r}
 dscout.df6 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.95,]
 ggplot(aes(y = mse, x = method), data = dscout.df6) + 
@@ -84,6 +117,7 @@ ggplot(aes(y = mse, x = method), data = dscout.df6) +
   theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
 ```
 
+Figure for 300 data points and pve is 0.9.
 ```{r}
 dscout.df7 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.9,]
 ggplot(aes(y = mse, x = method), data = dscout.df7) + 
@@ -93,6 +127,7 @@ ggplot(aes(y = mse, x = method), data = dscout.df7) +
   theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
 ```
 
+Figure for 300 data points and pve is 0.5.
 ```{r}
 dscout.df8 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.5,]
 ggplot(aes(y = mse, x = method), data = dscout.df8) + 
