@@ -55,3 +55,5 @@ Welcome to Kaiqian's research project: susie-np.
 * Please click on [susie-symlet-20190319](susie-symlet-20190319.html) to see my results.
 
 * Please click on [susie-symlet-20190327](susie-symlet-20190327.html) to see my results.
+
+* Please click on [DSC analysis: susie versus smashr](dsc-susie-smashr-20190403.html) to see my results.

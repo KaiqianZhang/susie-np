@@ -1,0 +1,103 @@
+---
+title: 'DSC analysis: susie versus smash r'
+author: "Kaiqian Zhang"
+date: "4/3/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Goal 
+
+
+## Results summary
+
+
+## Analysis details
+
+```{r}
+library(ggplot2)
+dscout = readRDS("/Users/Kaiqian /Desktop/2019Research/wflowr-repos/wavelet/susie-np/data/susie-np-dscout.RDS")
+dscout.df = data.frame(dscout$simulate.n, dscout$simulate.pve, dscout$simulate.scenario, dscout$analyze, dscout$score.error)
+names(dscout.df) = c("n", "pve", "scenario", "method", "mse")
+```
+
+### Suppose we have 100 data points.
+
+```{r}
+dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.99,]
+ggplot(aes(y = mse, x = method), data = dscout.df1) + 
+  geom_point(aes(color = scenario), shape = 19 ) +
+  geom_line(aes(group = scenario, color=scenario)) +
+  ggtitle("n=100, pve=0.99") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+```
+
+```{r}
+dscout.df2 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.95,]
+ggplot(aes(y = mse, x = method), data = dscout.df2) + 
+  geom_point(aes(color = scenario), shape = 19 ) +
+  geom_line(aes(group = scenario, color=scenario)) +
+  ggtitle("n=100, pve=0.95") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+```
+
+```{r}
+dscout.df3 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.9,]
+ggplot(aes(y = mse, x = method), data = dscout.df3) + 
+  geom_point(aes(color = scenario), shape = 19 ) +
+  geom_line(aes(group = scenario, color=scenario)) +
+  ggtitle("n=100, pve=0.9") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+```
+
+```{r}
+dscout.df4 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.5,]
+ggplot(aes(y = mse, x = method), data = dscout.df4) + 
+  geom_point(aes(color = scenario), shape = 19 ) +
+  geom_line(aes(group = scenario, color=scenario)) +
+  ggtitle("n=100, pve=0.5") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+```
+
+### Suppose we have 300 data points.
+
+```{r}
+dscout.df5 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.99,]
+ggplot(aes(y = mse, x = method), data = dscout.df5) + 
+  geom_point(aes(color = scenario), shape = 19 ) +
+  geom_line(aes(group = scenario, color=scenario)) +
+  ggtitle("n=300, pve=0.99") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+```
+
+```{r}
+dscout.df6 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.95,]
+ggplot(aes(y = mse, x = method), data = dscout.df6) + 
+  geom_point(aes(color = scenario), shape = 19 ) +
+  geom_line(aes(group = scenario, color=scenario)) +
+  ggtitle("n=300, pve=0.95") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+```
+
+```{r}
+dscout.df7 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.9,]
+ggplot(aes(y = mse, x = method), data = dscout.df7) + 
+  geom_point(aes(color = scenario), shape = 19 ) +
+  geom_line(aes(group = scenario, color=scenario)) +
+  ggtitle("n=300, pve=0.9") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+```
+
+```{r}
+dscout.df8 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.5,]
+ggplot(aes(y = mse, x = method), data = dscout.df8) + 
+  geom_point(aes(color = scenario), shape = 19 ) +
+  geom_line(aes(group = scenario, color=scenario)) +
+  ggtitle("n=300, pve=0.5") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+```
