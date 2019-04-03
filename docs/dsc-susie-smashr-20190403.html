@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreec005555dfc301452ea9125073b16fb35d9d0eae8targetblankc005555a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/c005555dfc301452ea9125073b16fb35d9d0eae8" target="_blank">c005555</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree04557b120eb50c9a5f336714812f6620068a4826targetblank04557b1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/04557b120eb50c9a5f336714812f6620068a4826" target="_blank">04557b1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreec005555dfc301452ea9125073b16fb35d9d0eae8targetblankc005555a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree04557b120eb50c9a5f336714812f6620068a4826targetblank04557b1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -622,6 +622,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/04557b120eb50c9a5f336714812f6620068a4826/analysis/dsc-susie-smashr-20190403.Rmd" target="_blank">04557b1</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+<td>
+update analysis for dsc-susie-smashr
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/b6ec91c5615dd7cfefa76f5e06f176105a2b4c04/docs/dsc-susie-smashr-20190403.html" target="_blank">b6ec91c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/c005555dfc301452ea9125073b16fb35d9d0eae8/analysis/dsc-susie-smashr-20190403.Rmd" target="_blank">c005555</a>
 </td>
 <td>
@@ -643,9 +677,29 @@ draft and several figures for dsc analysis on susie versus smashr
 </div>
 <div id="goal" class="section level2">
 <h2>Goal</h2>
+<p>The goal is to compare the performance of <code>SuSiE</code> and <code>smashr</code> with respect to different kinds of underlying functions.</p>
+</div>
+<div id="method" class="section level2">
+<h2>Method</h2>
+<p>While using <code>smashr</code>, we reflect the data when the number of data is not a power of 2. We simulate 30 datasets with different data points and various pve’s. We have the following seven methods.</p>
+<ul>
+<li><p><strong>smash_haar</strong>: uses Haar wavelets in <code>smashr</code>.</p></li>
+<li><p><strong>smash_s10</strong>: uses Symlet 10 wavelets (filter.num=10) in <code>smashr</code>.</p></li>
+<li><p><strong>smash_s8</strong>: uses Symlet 8 wavelets (filter.num=8) in <code>smashr</code>.</p></li>
+<li><p><strong>susie_haar</strong>: uses Haar wavelets in <code>SuSiE</code>. Performs <code>SuSiE</code> with a fixed residual variance 0.01 as an initialization.</p></li>
+<li><p><strong>susie_haar_MAD</strong>: uses Haar wavelets in <code>SuSiE</code>. Performs <code>SuSiE</code> with an estimated residual variance using MAD method (Donoho &amp; Johnstone, 1994) as an initialization.</p></li>
+<li><p><strong>susie_s10</strong>: uses Symlet 10 wavelets (filter.num=10) in <code>SuSiE</code>. Performs <code>SuSiE</code> with a fixed residual variance 0.01 as an initialization.</p></li>
+<li><p><strong>susie_s10_MAD</strong>: uses Symlet 10 wavelets (filter.num=10) in <code>SuSiE</code>. Performs <code>SuSiE</code> with an estimated residual variance using MAD method as an initialization.</p></li>
+</ul>
 </div>
 <div id="results-summary" class="section level2">
 <h2>Results summary</h2>
+<ul>
+<li><p>Overall, <code>smash_haar</code> has the best performance across all methods investigated.</p></li>
+<li><p>All methods have an obviously larger mean squared error when the underlying function is <code>spikes</code>.</p></li>
+<li><p><code>SuSiE</code> could have a better performance when estimating <code>blocks</code> function when pve is very high (e.g. 0.99), or we have more data points.</p></li>
+<li><p>Except for <code>spikes</code> and <code>blocks</code> functions, we have similar performance for all the other four functions (i.e. <code>angles</code>, <code>blip</code>, <code>bumps</code>, and <code>doppler</code>) while using <code>susie_s10_MAD</code> and <code>smash_haar</code>.</p></li>
+</ul>
 </div>
 <div id="analysis-details" class="section level2">
 <h2>Analysis details</h2>
@@ -655,6 +709,7 @@ dscout.df = data.frame(dscout$simulate.n, dscout$simulate.pve, dscout$simulate.s
 names(dscout.df) = c(&quot;n&quot;, &quot;pve&quot;, &quot;scenario&quot;, &quot;method&quot;, &quot;mse&quot;)</code></pre>
 <div id="suppose-we-have-100-data-points." class="section level3">
 <h3>Suppose we have 100 data points.</h3>
+<p>Figure for 100 data points and pve is 0.99. <code>Blocks</code> and <code>spikes</code> are abnormal here. The other four functions have similar performances using <code>smash_haar</code> and <code>susie_s10_MAD</code>.</p>
 <pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n==100 &amp; dscout.df$pve==0.99,]
 ggplot(aes(y = mse, x = method), data = dscout.df1) + 
   geom_point(aes(color = scenario), shape = 19 ) +
@@ -662,6 +717,44 @@ ggplot(aes(y = mse, x = method), data = dscout.df1) +
   ggtitle(&quot;n=100, pve=0.99&quot;) + 
   theme(plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=15))</code></pre>
 <p><img src="figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b6ec91c5615dd7cfefa76f5e06f176105a2b4c04/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-2-1.png" target="_blank">b6ec91c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Figure for 100 data points and pve is 0.95.</p>
 <pre class="r"><code>dscout.df2 = dscout.df[dscout.df$n==100 &amp; dscout.df$pve==0.95,]
 ggplot(aes(y = mse, x = method), data = dscout.df2) + 
   geom_point(aes(color = scenario), shape = 19 ) +
@@ -669,6 +762,44 @@ ggplot(aes(y = mse, x = method), data = dscout.df2) +
   ggtitle(&quot;n=100, pve=0.95&quot;) + 
   theme(plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=15))</code></pre>
 <p><img src="figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b6ec91c5615dd7cfefa76f5e06f176105a2b4c04/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-3-1.png" target="_blank">b6ec91c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Figure for 100 data points and pve is 0.9.</p>
 <pre class="r"><code>dscout.df3 = dscout.df[dscout.df$n==100 &amp; dscout.df$pve==0.9,]
 ggplot(aes(y = mse, x = method), data = dscout.df3) + 
   geom_point(aes(color = scenario), shape = 19 ) +
@@ -676,6 +807,44 @@ ggplot(aes(y = mse, x = method), data = dscout.df3) +
   ggtitle(&quot;n=100, pve=0.9&quot;) + 
   theme(plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=15))</code></pre>
 <p><img src="figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b6ec91c5615dd7cfefa76f5e06f176105a2b4c04/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-4-1.png" target="_blank">b6ec91c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Figure for 100 data points and pve is 0.5.</p>
 <pre class="r"><code>dscout.df4 = dscout.df[dscout.df$n==100 &amp; dscout.df$pve==0.5,]
 ggplot(aes(y = mse, x = method), data = dscout.df4) + 
   geom_point(aes(color = scenario), shape = 19 ) +
@@ -683,9 +852,47 @@ ggplot(aes(y = mse, x = method), data = dscout.df4) +
   ggtitle(&quot;n=100, pve=0.5&quot;) + 
   theme(plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=15))</code></pre>
 <p><img src="figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b6ec91c5615dd7cfefa76f5e06f176105a2b4c04/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-5-1.png" target="_blank">b6ec91c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="suppose-we-have-300-data-points." class="section level3">
 <h3>Suppose we have 300 data points.</h3>
+<p>Figure for 300 data points and pve is 0.99.</p>
 <pre class="r"><code>dscout.df5 = dscout.df[dscout.df$n==300 &amp; dscout.df$pve==0.99,]
 ggplot(aes(y = mse, x = method), data = dscout.df5) + 
   geom_point(aes(color = scenario), shape = 19 ) +
@@ -693,6 +900,44 @@ ggplot(aes(y = mse, x = method), data = dscout.df5) +
   ggtitle(&quot;n=300, pve=0.99&quot;) + 
   theme(plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=15))</code></pre>
 <p><img src="figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b6ec91c5615dd7cfefa76f5e06f176105a2b4c04/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-6-1.png" target="_blank">b6ec91c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Figure for 300 data points and pve is 0.95.</p>
 <pre class="r"><code>dscout.df6 = dscout.df[dscout.df$n==300 &amp; dscout.df$pve==0.95,]
 ggplot(aes(y = mse, x = method), data = dscout.df6) + 
   geom_point(aes(color = scenario), shape = 19 ) +
@@ -700,6 +945,44 @@ ggplot(aes(y = mse, x = method), data = dscout.df6) +
   ggtitle(&quot;n=300, pve=0.95&quot;) + 
   theme(plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=15))</code></pre>
 <p><img src="figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b6ec91c5615dd7cfefa76f5e06f176105a2b4c04/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-7-1.png" target="_blank">b6ec91c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Figure for 300 data points and pve is 0.9.</p>
 <pre class="r"><code>dscout.df7 = dscout.df[dscout.df$n==300 &amp; dscout.df$pve==0.9,]
 ggplot(aes(y = mse, x = method), data = dscout.df7) + 
   geom_point(aes(color = scenario), shape = 19 ) +
@@ -707,13 +990,89 @@ ggplot(aes(y = mse, x = method), data = dscout.df7) +
   ggtitle(&quot;n=300, pve=0.9&quot;) + 
   theme(plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=15))</code></pre>
 <p><img src="figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b6ec91c5615dd7cfefa76f5e06f176105a2b4c04/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-8-1.png" target="_blank">b6ec91c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Figure for 300 data points and pve is 0.5.</p>
 <pre class="r"><code>dscout.df8 = dscout.df[dscout.df$n==300 &amp; dscout.df$pve==0.5,]
 ggplot(aes(y = mse, x = method), data = dscout.df8) + 
   geom_point(aes(color = scenario), shape = 19 ) +
   geom_line(aes(group = scenario, color=scenario)) +
   ggtitle(&quot;n=300, pve=0.5&quot;) + 
   theme(plot.title = element_text(hjust = 0.5, face=&quot;bold&quot;, size=15))</code></pre>
-<img src="figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /> <br> <br>
+<p><img src="figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/b6ec91c5615dd7cfefa76f5e06f176105a2b4c04/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-9-1.png" target="_blank">b6ec91c</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<br> <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
