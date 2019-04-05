@@ -70,7 +70,7 @@ angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: angles") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
 blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
@@ -78,7 +78,7 @@ blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blip") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
 blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
@@ -86,7 +86,7 @@ blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blocks") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
 bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
@@ -94,7 +94,7 @@ bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: bumps") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
 doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
@@ -102,7 +102,7 @@ doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: doppler") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
 spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
@@ -110,7 +110,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: spikes") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
@@ -128,7 +128,7 @@ angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: angles") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
 blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
@@ -136,7 +136,7 @@ blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blip") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
 blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
@@ -144,7 +144,7 @@ blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blocks") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
 bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
@@ -152,7 +152,7 @@ bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: bumps") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
 doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
@@ -160,7 +160,7 @@ doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: doppler") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
 spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
@@ -168,7 +168,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: spikes") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
@@ -183,7 +183,7 @@ angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: angles") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
 blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
@@ -191,7 +191,7 @@ blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blip") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
 blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
@@ -199,7 +199,7 @@ blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blocks") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
 bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
@@ -207,7 +207,7 @@ bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: bumps") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
 doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
@@ -215,7 +215,7 @@ doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: doppler") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
 spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
@@ -223,7 +223,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: spikes") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
@@ -238,7 +238,7 @@ angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: angles") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
 blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
@@ -246,7 +246,7 @@ blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blip") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
 blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
@@ -254,7 +254,7 @@ blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blocks") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
 bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
@@ -262,7 +262,7 @@ bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: bumps") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
 doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
@@ -270,7 +270,7 @@ doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: doppler") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
 spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
@@ -278,7 +278,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: spikes") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
@@ -295,7 +295,7 @@ angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: angles") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
 blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
@@ -303,7 +303,7 @@ blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blip") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
 blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
@@ -311,7 +311,7 @@ blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blocks") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
 bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
@@ -319,7 +319,7 @@ bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: bumps") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
 doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
@@ -327,7 +327,7 @@ doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: doppler") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
 spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
@@ -335,7 +335,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: spikes") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
@@ -350,7 +350,7 @@ angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: angles") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
 blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
@@ -358,7 +358,7 @@ blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blip") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
 blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
@@ -366,7 +366,7 @@ blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blocks") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
 bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
@@ -374,7 +374,7 @@ bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: bumps") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
 doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
@@ -382,7 +382,7 @@ doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: doppler") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
 spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
@@ -390,7 +390,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: spikes") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
@@ -405,7 +405,7 @@ angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: angles") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
 blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
@@ -413,7 +413,7 @@ blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blip") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
 blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
@@ -421,7 +421,7 @@ blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blocks") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
 bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
@@ -429,7 +429,7 @@ bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: bumps") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
 doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
@@ -437,7 +437,7 @@ doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: doppler") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
 spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
@@ -445,7 +445,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: spikes") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
@@ -460,7 +460,7 @@ angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: angles") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
 blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
@@ -468,7 +468,7 @@ blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blip") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
 blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
@@ -476,7 +476,7 @@ blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: blocks") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
 bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
@@ -484,7 +484,7 @@ bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: bumps") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
 doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
@@ -492,7 +492,7 @@ doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: doppler") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
 spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
@@ -500,7 +500,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
   geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
   coord_flip() + 
   ggtitle("scenario: spikes") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1))
 
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
