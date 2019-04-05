@@ -1,7 +1,7 @@
 ---
-title: 'DSC analysis: susie versus smash r'
+title: 'DSC analysis: SuSiE versus smashr'
 author: "Kaiqian Zhang"
-date: "4/3/2019"
+date: "4/5/2019"
 output: 
   workflowr::wflow_html:
     code_folding: hide
@@ -45,10 +45,15 @@ While using `smashr`, we reflect the data when the number of data is not a power
 
 
 ## Analysis details
-
 ```{r}
 library(ggplot2)
-dscout = readRDS("/Users/Kaiqian /Desktop/2019Research/wflowr-repos/wavelet/susie-np/data/susie-np-dscout.RDS")
+library(gridExtra)
+library(ggpubr)
+```
+
+
+```{r}
+dscout = readRDS("/Users/Kaiqian /Desktop/2019Research/wflowr-repos/wavelet/susie-np/data/susie-np-dscout30.RDS")
 dscout.df = data.frame(dscout$simulate.n, dscout$simulate.pve, dscout$simulate.scenario, dscout$analyze, dscout$score.error)
 names(dscout.df) = c("n", "pve", "scenario", "method", "mse")
 ```
@@ -58,81 +63,444 @@ names(dscout.df) = c("n", "pve", "scenario", "method", "mse")
 Figure for 100 data points and pve is 0.99. `Blocks` and `spikes` are abnormal here. The other four functions have similar performances using `smash_haar` and `susie_s10_MAD`.  
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.99,]
-ggplot(aes(y = mse, x = method), data = dscout.df1) + 
-  geom_point(aes(color = scenario), shape = 19 ) +
-  geom_line(aes(group = scenario, color=scenario)) +
-  ggtitle("n=100, pve=0.99") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+
+dscout.df1.angles = dscout.df1[dscout.df1$scenario=="angles",]
+angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: angles") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
+blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blip") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
+blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blocks") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
+bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: bumps") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
+doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: doppler") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
+spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: spikes") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
+
+
+
 
 Figure for 100 data points and pve is 0.95. 
 ```{r}
-dscout.df2 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.95,]
-ggplot(aes(y = mse, x = method), data = dscout.df2) + 
-  geom_point(aes(color = scenario), shape = 19 ) +
-  geom_line(aes(group = scenario, color=scenario)) +
-  ggtitle("n=100, pve=0.95") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.95,]
+
+dscout.df1.angles = dscout.df1[dscout.df1$scenario=="angles",]
+angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: angles") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
+blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blip") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
+blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blocks") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
+bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: bumps") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
+doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: doppler") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
+spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: spikes") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 Figure for 100 data points and pve is 0.9.
 ```{r}
-dscout.df3 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.9,]
-ggplot(aes(y = mse, x = method), data = dscout.df3) + 
-  geom_point(aes(color = scenario), shape = 19 ) +
-  geom_line(aes(group = scenario, color=scenario)) +
-  ggtitle("n=100, pve=0.9") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.9,]
+
+dscout.df1.angles = dscout.df1[dscout.df1$scenario=="angles",]
+angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: angles") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
+blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blip") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
+blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blocks") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
+bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: bumps") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
+doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: doppler") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
+spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: spikes") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 Figure for 100 data points and pve is 0.5.
 ```{r}
-dscout.df4 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.5,]
-ggplot(aes(y = mse, x = method), data = dscout.df4) + 
-  geom_point(aes(color = scenario), shape = 19 ) +
-  geom_line(aes(group = scenario, color=scenario)) +
-  ggtitle("n=100, pve=0.5") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.5,]
+
+dscout.df1.angles = dscout.df1[dscout.df1$scenario=="angles",]
+angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: angles") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
+blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blip") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
+blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blocks") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
+bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: bumps") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
+doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: doppler") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
+spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: spikes") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 ### Suppose we have 300 data points.
 
 Figure for 300 data points and pve is 0.99.
 ```{r}
-dscout.df5 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.99,]
-ggplot(aes(y = mse, x = method), data = dscout.df5) + 
-  geom_point(aes(color = scenario), shape = 19 ) +
-  geom_line(aes(group = scenario, color=scenario)) +
-  ggtitle("n=300, pve=0.99") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+dscout.df1 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.99,]
+
+dscout.df1.angles = dscout.df1[dscout.df1$scenario=="angles",]
+angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: angles") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
+blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blip") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
+blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blocks") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
+bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: bumps") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
+doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: doppler") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
+spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: spikes") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 Figure for 300 data points and pve is 0.95.
 ```{r}
-dscout.df6 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.95,]
-ggplot(aes(y = mse, x = method), data = dscout.df6) + 
-  geom_point(aes(color = scenario), shape = 19 ) +
-  geom_line(aes(group = scenario, color=scenario)) +
-  ggtitle("n=300, pve=0.95") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+dscout.df1 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.95,]
+
+dscout.df1.angles = dscout.df1[dscout.df1$scenario=="angles",]
+angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: angles") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
+blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blip") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
+blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blocks") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
+bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: bumps") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
+doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: doppler") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
+spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: spikes") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 Figure for 300 data points and pve is 0.9.
 ```{r}
-dscout.df7 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.9,]
-ggplot(aes(y = mse, x = method), data = dscout.df7) + 
-  geom_point(aes(color = scenario), shape = 19 ) +
-  geom_line(aes(group = scenario, color=scenario)) +
-  ggtitle("n=300, pve=0.9") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+dscout.df1 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.9,]
+
+dscout.df1.angles = dscout.df1[dscout.df1$scenario=="angles",]
+angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: angles") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
+blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blip") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
+blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blocks") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
+bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: bumps") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
+doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: doppler") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
+spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: spikes") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 Figure for 300 data points and pve is 0.5.
 ```{r}
-dscout.df8 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.5,]
-ggplot(aes(y = mse, x = method), data = dscout.df8) + 
-  geom_point(aes(color = scenario), shape = 19 ) +
-  geom_line(aes(group = scenario, color=scenario)) +
-  ggtitle("n=300, pve=0.5") + 
-  theme(plot.title = element_text(hjust = 0.5, face="bold", size=15))
+dscout.df1 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.5,]
+
+dscout.df1.angles = dscout.df1[dscout.df1$scenario=="angles",]
+angles = ggplot(aes(y=mse, x=method), data=dscout.df1.angles) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: angles") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blip = dscout.df1[dscout.df1$scenario=="blip",]
+blip = ggplot(aes(y=mse, x=method), data=dscout.df1.blip) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blip") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.blocks = dscout.df1[dscout.df1$scenario=="blocks",]
+blocks = ggplot(aes(y=mse, x=method), data=dscout.df1.blocks) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: blocks") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.bumps = dscout.df1[dscout.df1$scenario=="bumps",]
+bumps = ggplot(aes(y=mse, x=method), data=dscout.df1.bumps) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: bumps") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.doppler = dscout.df1[dscout.df1$scenario=="doppler",]
+doppler = ggplot(aes(y=mse, x=method), data=dscout.df1.doppler) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: doppler") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+dscout.df1.spikes = dscout.df1[dscout.df1$scenario=="spikes",]
+spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
+  geom_violin(alpha=0.5, color="black") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("scenario: spikes") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 0, hjust = 1))
+
+ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
