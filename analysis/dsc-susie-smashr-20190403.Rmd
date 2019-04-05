@@ -35,17 +35,14 @@ While using `smashr`, we reflect the data when the number of data is not a power
 
 ## Results summary
 
-- Overall, `smash_haar` has the best performance across all methods investigated.
+- Overall, `smashr` methods are better than `SuSiE` methods. Their mean squre errors have smaller mean and variance. 
 
-- All methods have an obviously larger mean squared error when the underlying function is `spikes`. 
+- When pve is as small as 0.5, `smashr` has an apparent advantage over `SuSiE` in prediction. Please see `Figure for 100 data points and pve is 0.5` and `Figure for 300 data points and pve is 0.5`. 
 
-- `SuSiE` could have a better performance when estimating `blocks` function when pve is very high (e.g. 0.99), or we have more data points.
-
-- Except for `spikes` and `blocks` functions, we have similar performance for all the other four functions (i.e. `angles`, `blip`, `bumps`, and `doppler`) while using `susie_s10_MAD` and `smash_haar`.  
-
+- Most of the time, **susie_s10_MAD** has the best performance among all `SuSiE` methods. 
 
 ## Analysis details
-```{r}
+```{r, include=FALSE}
 library(ggplot2)
 library(gridExtra)
 library(ggpubr)
@@ -60,7 +57,7 @@ names(dscout.df) = c("n", "pve", "scenario", "method", "mse")
 
 ### Suppose we have 100 data points.
 
-Figure for 100 data points and pve is 0.99. `Blocks` and `spikes` are abnormal here. The other four functions have similar performances using `smash_haar` and `susie_s10_MAD`.  
+#### Figures for 100 data points and pve is 0.99.  
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.99,]
 
@@ -115,10 +112,8 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
+#### Figures for 100 data points and pve is 0.95. 
 
-
-
-Figure for 100 data points and pve is 0.95. 
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.95,]
 
@@ -173,7 +168,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
-Figure for 100 data points and pve is 0.9.
+#### Figures for 100 data points and pve is 0.9.
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.9,]
 
@@ -228,7 +223,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
-Figure for 100 data points and pve is 0.5.
+#### Figures for 100 data points and pve is 0.5.
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$pve==0.5,]
 
@@ -285,7 +280,7 @@ ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.l
 
 ### Suppose we have 300 data points.
 
-Figure for 300 data points and pve is 0.99.
+#### Figures for 300 data points and pve is 0.99.
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.99,]
 
@@ -340,7 +335,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
-Figure for 300 data points and pve is 0.95.
+#### Figures for 300 data points and pve is 0.95.
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.95,]
 
@@ -395,7 +390,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
-Figure for 300 data points and pve is 0.9.
+#### Figures for 300 data points and pve is 0.9.
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.9,]
 
@@ -450,7 +445,7 @@ spikes = ggplot(aes(y=mse, x=method), data=dscout.df1.spikes) +
 ggarrange(angles, blip, blocks, bumps, doppler, spikes, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
-Figure for 300 data points and pve is 0.5.
+#### Figures for 300 data points and pve is 0.5.
 ```{r}
 dscout.df1 = dscout.df[dscout.df$n==300 & dscout.df$pve==0.5,]
 
