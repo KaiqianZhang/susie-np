@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Goal 
 
-The goal is to compare the performance of `SuSiE` and `smashr` with respect to different kinds of underlying functions. 
+The goal is to compare performance of `SuSiE` and `smashr` with respect to different kinds of underlying functions. 
 
 ## Method
 
