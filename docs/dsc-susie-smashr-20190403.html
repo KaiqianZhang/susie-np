@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreee762adf66a076a8c9eb9f33a6c429713d9ea1c0atargetblanke762adfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/e762adf66a076a8c9eb9f33a6c429713d9ea1c0a" target="_blank">e762adf</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreee406a8df16dffbaeb21f8feee20f11bc0585c497targetblanke406a8da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/e406a8df16dffbaeb21f8feee20f11bc0585c497" target="_blank">e406a8d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreee762adf66a076a8c9eb9f33a6c429713d9ea1c0atargetblanke762adfa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreee406a8df16dffbaeb21f8feee20f11bc0585c497targetblanke406a8da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -618,6 +618,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/e406a8df16dffbaeb21f8feee20f11bc0585c497/analysis/dsc-susie-smashr-20190403.Rmd" target="_blank">e406a8d</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+<td>
+write results summary for simulation 30 replicates of comparing smashr and susie
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/46b3d69dc28d36d6cbb3f83d1866c7213a466dc3/docs/dsc-susie-smashr-20190403.html" target="_blank">46b3d69</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -764,24 +798,20 @@ draft and several figures for dsc analysis on susie versus smashr
 <div id="results-summary" class="section level2">
 <h2>Results summary</h2>
 <ul>
-<li><p>Overall, <code>smash_haar</code> has the best performance across all methods investigated.</p></li>
-<li><p>All methods have an obviously larger mean squared error when the underlying function is <code>spikes</code>.</p></li>
-<li><p><code>SuSiE</code> could have a better performance when estimating <code>blocks</code> function when pve is very high (e.g. 0.99), or we have more data points.</p></li>
-<li><p>Except for <code>spikes</code> and <code>blocks</code> functions, we have similar performance for all the other four functions (i.e. <code>angles</code>, <code>blip</code>, <code>bumps</code>, and <code>doppler</code>) while using <code>susie_s10_MAD</code> and <code>smash_haar</code>.</p></li>
+<li><p>Overall, <code>smashr</code> methods are better than <code>SuSiE</code> methods. Their mean squre errors have smaller mean and variance.</p></li>
+<li><p>When pve is as small as 0.5, <code>smashr</code> has an apparent advantage over <code>SuSiE</code> in prediction. Please see <code>Figure for 100 data points and pve is 0.5</code> and <code>Figure for 300 data points and pve is 0.5</code>.</p></li>
+<li><p>Most of the time, <strong>susie_s10_MAD</strong> has the best performance among all <code>SuSiE</code> methods.</p></li>
 </ul>
 </div>
 <div id="analysis-details" class="section level2">
 <h2>Analysis details</h2>
-<pre class="r"><code>library(ggplot2)
-library(gridExtra)
-library(ggpubr)</code></pre>
-<pre><code>Loading required package: magrittr</code></pre>
 <pre class="r"><code>dscout = readRDS(&quot;/Users/Kaiqian /Desktop/2019Research/wflowr-repos/wavelet/susie-np/data/susie-np-dscout30.RDS&quot;)
 dscout.df = data.frame(dscout$simulate.n, dscout$simulate.pve, dscout$simulate.scenario, dscout$analyze, dscout$score.error)
 names(dscout.df) = c(&quot;n&quot;, &quot;pve&quot;, &quot;scenario&quot;, &quot;method&quot;, &quot;mse&quot;)</code></pre>
 <div id="suppose-we-have-100-data-points." class="section level3">
 <h3>Suppose we have 100 data points.</h3>
-<p>Figure for 100 data points and pve is 0.99. <code>Blocks</code> and <code>spikes</code> are abnormal here. The other four functions have similar performances using <code>smash_haar</code> and <code>susie_s10_MAD</code>.</p>
+<div id="figures-for-100-data-points-and-pve-is-0.99." class="section level4">
+<h4>Figures for 100 data points and pve is 0.99.</h4>
 <pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n==100 &amp; dscout.df$pve==0.99,]
 
 dscout.df1.angles = dscout.df1[dscout.df1$scenario==&quot;angles&quot;,]
@@ -858,6 +888,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/46b3d69dc28d36d6cbb3f83d1866c7213a466dc3/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-3-1.png" target="_blank">46b3d69</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/d1bab0c516fcfc20ea126577a8238ed8e7752558/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-3-1.png" target="_blank">d1bab0c</a>
 </td>
 <td>
@@ -882,7 +923,9 @@ kaiqian
 </table>
 </div>
 </div>
-<p>Figure for 100 data points and pve is 0.95.</p>
+</div>
+<div id="figures-for-100-data-points-and-pve-is-0.95." class="section level4">
+<h4>Figures for 100 data points and pve is 0.95.</h4>
 <pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n==100 &amp; dscout.df$pve==0.95,]
 
 dscout.df1.angles = dscout.df1[dscout.df1$scenario==&quot;angles&quot;,]
@@ -959,6 +1002,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/46b3d69dc28d36d6cbb3f83d1866c7213a466dc3/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-4-1.png" target="_blank">46b3d69</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/d1bab0c516fcfc20ea126577a8238ed8e7752558/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-4-1.png" target="_blank">d1bab0c</a>
 </td>
 <td>
@@ -983,7 +1037,9 @@ kaiqian
 </table>
 </div>
 </div>
-<p>Figure for 100 data points and pve is 0.9.</p>
+</div>
+<div id="figures-for-100-data-points-and-pve-is-0.9." class="section level4">
+<h4>Figures for 100 data points and pve is 0.9.</h4>
 <pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n==100 &amp; dscout.df$pve==0.9,]
 
 dscout.df1.angles = dscout.df1[dscout.df1$scenario==&quot;angles&quot;,]
@@ -1060,6 +1116,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/46b3d69dc28d36d6cbb3f83d1866c7213a466dc3/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-5-1.png" target="_blank">46b3d69</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/d1bab0c516fcfc20ea126577a8238ed8e7752558/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-5-1.png" target="_blank">d1bab0c</a>
 </td>
 <td>
@@ -1084,7 +1151,9 @@ kaiqian
 </table>
 </div>
 </div>
-<p>Figure for 100 data points and pve is 0.5.</p>
+</div>
+<div id="figures-for-100-data-points-and-pve-is-0.5." class="section level4">
+<h4>Figures for 100 data points and pve is 0.5.</h4>
 <pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n==100 &amp; dscout.df$pve==0.5,]
 
 dscout.df1.angles = dscout.df1[dscout.df1$scenario==&quot;angles&quot;,]
@@ -1161,6 +1230,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/46b3d69dc28d36d6cbb3f83d1866c7213a466dc3/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-6-1.png" target="_blank">46b3d69</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/d1bab0c516fcfc20ea126577a8238ed8e7752558/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-6-1.png" target="_blank">d1bab0c</a>
 </td>
 <td>
@@ -1186,9 +1266,11 @@ kaiqian
 </div>
 </div>
 </div>
+</div>
 <div id="suppose-we-have-300-data-points." class="section level3">
 <h3>Suppose we have 300 data points.</h3>
-<p>Figure for 300 data points and pve is 0.99.</p>
+<div id="figures-for-300-data-points-and-pve-is-0.99." class="section level4">
+<h4>Figures for 300 data points and pve is 0.99.</h4>
 <pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n==300 &amp; dscout.df$pve==0.99,]
 
 dscout.df1.angles = dscout.df1[dscout.df1$scenario==&quot;angles&quot;,]
@@ -1265,6 +1347,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/46b3d69dc28d36d6cbb3f83d1866c7213a466dc3/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-7-1.png" target="_blank">46b3d69</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/d1bab0c516fcfc20ea126577a8238ed8e7752558/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-7-1.png" target="_blank">d1bab0c</a>
 </td>
 <td>
@@ -1289,7 +1382,9 @@ kaiqian
 </table>
 </div>
 </div>
-<p>Figure for 300 data points and pve is 0.95.</p>
+</div>
+<div id="figures-for-300-data-points-and-pve-is-0.95." class="section level4">
+<h4>Figures for 300 data points and pve is 0.95.</h4>
 <pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n==300 &amp; dscout.df$pve==0.95,]
 
 dscout.df1.angles = dscout.df1[dscout.df1$scenario==&quot;angles&quot;,]
@@ -1366,6 +1461,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/46b3d69dc28d36d6cbb3f83d1866c7213a466dc3/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-8-1.png" target="_blank">46b3d69</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/d1bab0c516fcfc20ea126577a8238ed8e7752558/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-8-1.png" target="_blank">d1bab0c</a>
 </td>
 <td>
@@ -1390,7 +1496,9 @@ kaiqian
 </table>
 </div>
 </div>
-<p>Figure for 300 data points and pve is 0.9.</p>
+</div>
+<div id="figures-for-300-data-points-and-pve-is-0.9." class="section level4">
+<h4>Figures for 300 data points and pve is 0.9.</h4>
 <pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n==300 &amp; dscout.df$pve==0.9,]
 
 dscout.df1.angles = dscout.df1[dscout.df1$scenario==&quot;angles&quot;,]
@@ -1467,6 +1575,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/46b3d69dc28d36d6cbb3f83d1866c7213a466dc3/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-9-1.png" target="_blank">46b3d69</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/d1bab0c516fcfc20ea126577a8238ed8e7752558/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-9-1.png" target="_blank">d1bab0c</a>
 </td>
 <td>
@@ -1491,7 +1610,9 @@ kaiqian
 </table>
 </div>
 </div>
-<p>Figure for 300 data points and pve is 0.5.</p>
+</div>
+<div id="figures-for-300-data-points-and-pve-is-0.5." class="section level4">
+<h4>Figures for 300 data points and pve is 0.5.</h4>
 <pre class="r"><code>dscout.df1 = dscout.df[dscout.df$n==300 &amp; dscout.df$pve==0.5,]
 
 dscout.df1.angles = dscout.df1[dscout.df1$scenario==&quot;angles&quot;,]
@@ -1568,6 +1689,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/46b3d69dc28d36d6cbb3f83d1866c7213a466dc3/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-10-1.png" target="_blank">46b3d69</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/d1bab0c516fcfc20ea126577a8238ed8e7752558/docs/figure/dsc-susie-smashr-20190403.Rmd/unnamed-chunk-10-1.png" target="_blank">d1bab0c</a>
 </td>
 <td>
@@ -1617,6 +1749,7 @@ loaded via a namespace (and not attached):
 [29] whisker_0.3-2    backports_1.1.3  scales_1.0.0     htmltools_0.3.6 
 [33] assertthat_0.2.1 colorspace_1.4-1 labeling_0.3     stringi_1.4.3   
 [37] lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4    </code></pre>
+</div>
 </div>
 </div>
 </div>
