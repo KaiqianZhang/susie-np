@@ -1,0 +1,105 @@
+---
+title: "susie-tf-MAD-20190411"
+author: "Kaiqian Zhang"
+date: "4/11/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(susieR)
+library(wavethresh)
+```
+
+## Goal
+
+In this vignette, we investigate whether using MAD to estimate residual varaince and then initialize from there would be helpful in solving trend filtering problems. Specifically, we only consider change points problem here. One hard problem for SuSiE to detect change points is that when the data have two change points with quick succession, SuSiE could not identify the change points because SuSiE is stuck with a local optimum. Normally, a suitable initialization can save SuSiE from this curse. We try to use MAD to estimate residual variance for the data. Then we use this estimated residual variance to obtain a SuSiE fit as an initialization. Finally, we initialize from this fit and perform SuSiE again to fit the data.       
+
+## Results summary
+
+- When the simulated data have small variance, e.g. `sd=0.1`, and the change points are relatively large compared to other points, MAD method proposed can detect change points. Please see scenario 1 for details.
+
+- When the simulated data have relatively larger variance, e.g. `sd=1`, MAD method does not work. Please see scenario 2 for details.
+
+- When the simulated data have relatively larger variance, e.g. `sd=1`, if we fit SuSiE with a vary small and fixed residual variance 0.01 and initialize from there, we can "kind of" detect change points. Please see scenario 2 for details.
+
+
+```{r}
+estimate_residual_variance_MAD = function(y){
+  n = length(y)
+  y_reflect = c(y, rev(y))
+  J = floor(log2(2*n))
+  y_reflect = y_reflect[1:2^J]
+  y_reflect = c(y_reflect, rev(y_reflect))
+  ywd <- wd(y_reflect, filter.number=1, family="DaubExPhase")
+  wc_d = accessD(ywd, level=J-1)
+  est.resid = (median(abs(wc_d))/0.6745)^2
+  return(est.resid)
+}
+```
+
+## Scenario 1 
+
+In scenario 1, we simulated 1000 data points, all of which come from `rnorm(mean=0,sd=0.1)` except for two change points from `rnorm(mean=8, sd=0.1)`. In this scenario, the underlying residual variance is as small as 0.01. 
+
+This figure is the `susie_trendfilter` fit without using MAD method proposed. 
+```{r}
+set.seed(1)
+n=1000
+mu = c(rep(0,500),rep(8,2),rep(0, 1000-502))
+y = mu + rnorm(n, sd=0.1)
+s = susie_trendfilter(y, 0, L=10)
+plot(y,col="grey", pch=20, main="sd=0.1 data without using MAD initialization")
+lines(mu,col=1,lwd=2)
+lines(predict(s),col=2,lwd=2)
+```
+
+This figure presents `susie_trendfilter` fit with MAD method proposed. We observe that MAD method helps to find change points. 
+```{r}
+fixed.res = estimate_residual_variance_MAD(y)
+fixed.s = susie_trendfilter(y,0,L=10, estimate_residual_variance=FALSE, residual_variance=fixed.res)
+s = susie_trendfilter(y,0,L=10, s_init = fixed.s)
+plot(y,col="grey", pch=20, main="sd=0.1 data using MAD initialization")
+lines(mu,col=1,lwd=2)
+lines(predict(s),col=2,lwd=2)
+```
+
+## Scenario 2
+
+In scenario 2, we simulated 1000 data points, all of which come from `rnorm(mean=0,sd=1)` except for two change points from `rnorm(mean=8, sd=1)`. Notice that in this scenario, the underlying residual variance is 1. In this case, MAD method could not detect change points either.
+
+This figure shows a `susie_trendfilter` fit without using MAD method. 
+```{r}
+set.seed(1)
+n=1000
+mu = c(rep(0,500),rep(8,2),rep(0, 1000-502))
+y = mu + rnorm(n, sd=1)
+s = susie_trendfilter(y, 0, L=10)
+plot(y,col="grey", pch=20, main="sd=1 data without using MAD initialization")
+lines(mu,col=1,lwd=2)
+lines(predict(s),col=2,lwd=2)
+```
+
+This figure illustrates a `susie_trendfilter` fit using MAD method. MAD method does not identify change points in this scenario.  
+```{r}
+fixed.res = estimate_residual_variance_MAD(y)
+fixed.s = susie_trendfilter(y,0,L=10, estimate_residual_variance=FALSE, residual_variance=fixed.res)
+s = susie_trendfilter(y,0,L=10, s_init = fixed.s)
+plot(y,col="grey", pch=20, main="sd=1 data using MAD initialization")
+lines(mu,col=1,lwd=2)
+lines(predict(s),col=2,lwd=2)
+```
+
+In this fit, we first fit a `susie_trendfilter` with a very small fixed residual variance 0.01. And then we initialize from there to obtain a `susie_trendfilter` fit presented in the figure below. This method can "kind of" detect change points.  
+```{r}
+fixed.s = susie_trendfilter(y,0,L=100, estimate_residual_variance=FALSE, residual_variance=0.01)
+s = susie_trendfilter(y,0,L=10, s_init = fixed.s)
+plot(y,col="grey", pch=20, main="sd=1 data using fixed residual variance = 0.01 initialization")
+lines(mu,col=1,lwd=2)
+lines(predict(s),col=2,lwd=2)
+```
