@@ -1,0 +1,306 @@
+---
+title: "susie-tf-MAD-20190416"
+author: "Kaiqian Zhang"
+date: "4/16/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(ggplot2)
+library(gridExtra)
+library(ggpubr)
+```
+
+```{r}
+dscout = readRDS("data/susie-tf-dscout.RDS")
+dscout.df = data.frame(dscout$simulate.n, dscout$simulate.residual_variance, dscout$simulate.change_value, dscout$analyze, dscout$score.error)
+names(dscout.df) = c("n", "residual_variance", "change_point", "method", "mse")
+```
+
+## Introduction
+
+In this vignette, we use DSC to investigate performance of `susie_trendfilter` with MAD initialization method in the application of change point problems. Specifically, we are interested in one hard change point problem, where two data points are in an abrupt succession. We have shown this scenario below in the Fig 1, which has most of simulated data around the base value $0$ except two data points around a change point value $M$. 
+
+We want to compare three methods:
+
+- **susie_tf**: uses trendfiltering method implemented in SuSiE, i.e. calls `susie_trendfilter` directly.
+
+- **susie_tf_MAD**: uses MAD method to estimate a residual variance, fits `susie_trendfilter` with this estimated residual variance, initializes from this fit and then fits `susie_trendfilter` again with the initialization.
+
+- **susie_tf_smallresid**: uses a fixed residual variance 0.01 to fit `susie_trendfilter` first, and then initialize from this fit to perform `susie_trendfilter` again with this initialization. 
+
+```{r}
+set.seed(1)
+n=100
+mu = c(rep(0,50),rep(8,2),rep(0, 100-52))
+y = mu + rnorm(n, sd=0.5)
+plot(y,col="grey", pch=20, main="Fig 1: simulated data", yaxt='n')
+abline(h=8, col="blue", lty=2, lwd=3)
+text(14, 7.5, "change point value = M", offset=0.01)
+abline(h=0, col="orange", lty=2, lwd=3)
+text(8, 0.5, "base value = 0", offset=0.01)
+```
+
+## Simulation details
+
+There are several variables we allow for varying in the simulation. More details can also be seen from the [DSC script](https://github.com/stephenslab/dsc-smooth-gaussian/blob/master/susie-tf.dsc). We have the following different variables in the simulation:
+
+- **n**: the number of data points. We have 100, 300, 500, 1000, or 2000 data points.
+
+- **residual_variance**: residual variance for the ground truth data. We allow for 0.01, 0.05, 0.1, 0.5, 1. 
+
+- **change_point_value**: change points value that is different from base value 0. We allow for 3, 5, 10, 15, 30, 100. Note that we set base value 0 for all cases. 
+
+## Results summary
+
+- `susie_tf` cannot identify change points in this hard problem for all cases. 
+
+- Generally speaking, when residual variance for ground truth is as small as 0.01, `susie_tf_MAD` and `susie_tf_smallresid` can identify change points.
+
+- When we have more data points, and when change point value is not far away from base value `0`, `susie_tf_MAD` and `susie_tf_smallresid` sometimes cannot identify change points.
+
+- When we have larger residual variance and change point value is not far away from base value `0`, `susie_tf_MAD` and `susie_tf_smallresid` fail to detect change points. But `susie_tf_smallresid` have a slightly better performance in those hard cases. 
+
+## Results details
+
+### Residual variance 0.01
+
+Given residual variance of ground truth is 0.01, `susie_tf_MAD` and `susie_tf_smallresid` can detect the change points when we have 100 data points. 
+
+**This plot has 100 data points and residual variance is 0.01.** 
+```{r}
+dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$residual_variance==0.01,]
+
+dscout.df1.cp3 = dscout.df1[dscout.df1$change_point==3,]
+cp3 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp3) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 3") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1),   axis.text.y=element_blank())
+
+dscout.df1.cp5 = dscout.df1[dscout.df1$change_point==5,]
+cp5 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp5) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 5") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp10 = dscout.df1[dscout.df1$change_point==10,]
+cp10 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp10) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 10") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp15 = dscout.df1[dscout.df1$change_point==15,]
+cp15 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp15) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 15") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp30 = dscout.df1[dscout.df1$change_point==30,]
+cp30 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp30) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 30") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp100 = dscout.df1[dscout.df1$change_point==100,]
+cp100 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp100) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 100") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+ggarrange(cp3, cp5, cp10, cp15, cp30, cp100, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
+```
+
+However, we observe that when we have more data points, e.g. 1000, `susie_tf_MAD` and `susie_tf_smallresid` sometimes cannot identify change points when the change value is close to the base value 0. The following plot shows that when change point value is 3, both methods mentioned above sometimes cannot detect change points. 
+
+**This plot has 1000 data points and residual variance is 0.01.**
+```{r}
+dscout.df1 = dscout.df[dscout.df$n==1000 & dscout.df$residual_variance==0.01,]
+
+dscout.df1.cp3 = dscout.df1[dscout.df1$change_point==3,]
+cp3 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp3) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 3") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1),   axis.text.y=element_blank())
+
+dscout.df1.cp5 = dscout.df1[dscout.df1$change_point==5,]
+cp5 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp5) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 5") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp10 = dscout.df1[dscout.df1$change_point==10,]
+cp10 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp10) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 10") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp15 = dscout.df1[dscout.df1$change_point==15,]
+cp15 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp15) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 15") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp30 = dscout.df1[dscout.df1$change_point==30,]
+cp30 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp30) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 30") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp100 = dscout.df1[dscout.df1$change_point==100,]
+cp100 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp100) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 100") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+ggarrange(cp3, cp5, cp10, cp15, cp30, cp100, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
+```
+
+
+### Residual variance 1
+
+When we increase residual variance, e.g to 1, `susie_tf_MAD` and `susie_tf_smallresid` start to fail to detect change points unless the change value is relatively large to base value 0. In the following simulation result, we observe that only when change point value is 30 0r 100, these two methods can both identify change points. Further, `susie_tf_smallresid` has a slightly better performance than `susie_tf_MAD` since it can always detect change points when change point value is 15.  
+
+**This plot has 100 data points and residual variance is 1.**
+```{r}
+dscout.df1 = dscout.df[dscout.df$n==100 & dscout.df$residual_variance==1,]
+
+dscout.df1.cp3 = dscout.df1[dscout.df1$change_point==3,]
+cp3 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp3) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 3") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1),   axis.text.y=element_blank())
+
+dscout.df1.cp5 = dscout.df1[dscout.df1$change_point==5,]
+cp5 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp5) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 5") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp10 = dscout.df1[dscout.df1$change_point==10,]
+cp10 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp10) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 10") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp15 = dscout.df1[dscout.df1$change_point==15,]
+cp15 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp15) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 15") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp30 = dscout.df1[dscout.df1$change_point==30,]
+cp30 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp30) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 30") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp100 = dscout.df1[dscout.df1$change_point==100,]
+cp100 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp100) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 100") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+ggarrange(cp3, cp5, cp10, cp15, cp30, cp100, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
+```
+
+Given resiudal variance is 1, similarly, when we have more data points, e.g. 1000, `susie_tf_MAD` and `susie_tf_smallresid` could not detect change points when the change value is small. 
+
+**This plot has 1000 data points and residual variance is 1.**
+```{r}
+dscout.df1 = dscout.df[dscout.df$n==1000 & dscout.df$residual_variance==1,]
+
+dscout.df1.cp3 = dscout.df1[dscout.df1$change_point==3,]
+cp3 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp3) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 3") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1),   axis.text.y=element_blank())
+
+dscout.df1.cp5 = dscout.df1[dscout.df1$change_point==5,]
+cp5 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp5) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 5") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp10 = dscout.df1[dscout.df1$change_point==10,]
+cp10 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp10) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 10") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp15 = dscout.df1[dscout.df1$change_point==15,]
+cp15 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp15) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 15") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp30 = dscout.df1[dscout.df1$change_point==30,]
+cp30 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp30) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 30") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+dscout.df1.cp100 = dscout.df1[dscout.df1$change_point==100,]
+cp100 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp100) +
+  geom_violin(alpha=0.5, color="grey") + 
+  geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+  coord_flip() + 
+  ggtitle("change point value 100") + 
+  theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+
+ggarrange(cp3, cp5, cp10, cp15, cp30, cp100, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
+```
+
+
+
