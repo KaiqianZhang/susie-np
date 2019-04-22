@@ -1,0 +1,101 @@
+---
+title: "SuSiE for Nonparametric Regression"
+author: "Kaiqian Zhang"
+date: "4/22/2019"
+header-includes:
+   - \usepackage{dsfont}
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1 Introduction
+
+We consider a nonparametric regression problem for estimating a regression function $f$, from observations $\{(x_i, y_i): i=1,2,\dots, n\}$, with $x_i$ and $y_i \in \mathbb{R}$, and $y_i = f(x_i) + \epsilon_i$ for $i = 1,2,\dots,n$, where $\epsilon_i$ are independent, mean $0$, and Gaussian distributed random variables. A popular approach for estimating $f$ is to use linear combinations of a pre-specified set of basis functions, e.g., polynomials, splines, and wavelets. Here, we are interested in two types of basis functions: trend filtering (Kim et al., 2009) and wavelets (Daubechies, 1992). The weights, or coefficients, in such a linear combination are usually determined using some form of penalized regression. For this work, we consider using a sparse regression framework [SuSiE](https://stephenslab.github.io/susieR/), which is a fast Bayesian sparse regression method newly developed by [Stephens lab](https://github.com/stephenslab).
+
+In this summary, we present some efforts have been done in applying SuSiE in nonparametric regression problems, specifically using basis functions of trend filtering and wavelets. In Section 2 we present trend filtering-based SuSiE and its application in solving change points problem. In Section 3 we introduce Haar wavelet-based SuSiE as well as decimated and undecimated versions. In Section 4 we further establish a more general Haar wavelet-based SuSiE method, which allows the number of data points to be not a power of $2$. In Section 5 we consider another family of wavelets Symlet and present results from simulation studies related. In Section 6 we discuss one estimating residual variance problem of SuSiE found throughout the work and how we can address this problem by using MAD method.
+
+## 2 Trend filtering-based SuSiE
+
+Nonparametric regression with trend filtering basis is defined mathematically as follows. For a given integer $k \geq 0$, the kth order trend filtering is defined by a penalized least squares optimization problem,
+$$
+\begin{align}
+\hat{\boldsymbol{b}} = \underset{\boldsymbol{b}}{\mathrm{argmin}} \frac{1}{2}|| \boldsymbol{y}- \boldsymbol{b}||_2^2 + \frac{n^k}{k!}\lambda||D_{k+1} \boldsymbol{b}||_1,
+\end{align}
+$$
+where $\boldsymbol{y} = [y_1, y_2, \dots y_n]^T$ is an n vector of observations, $\lambda$ is a tuning parameter, and $D_{k+1}$ is the discrete difference operator of order $k$. When order $k=0$, $D$ is defined
+$$
+\begin{align}\label{D1}
+D_{1} = \begin{bmatrix} 
+    -1 & 1 & 0 & \dots & 0 & 0\\
+    0 & -1 & 1 & \dots & 0 & 0\\
+    \vdots & \ddots & \\
+    0 & 0 & 0 & \dots & -1 & 1\\
+    \end{bmatrix}
+    \in \mathbb{R}^{(n-1)\times n}.
+\end{align}
+$$
+In this case, components of trend filtering estimate form a piecewise constant structure, with break points corresponding to the nonzero entries of $D_{1}\hat{\boldsymbol{b}} = (\hat{b}_2 - \hat{b}_1, \dots, \hat{b}_n - \hat{b}_{n-1})$ (Tibshirani, 2014). And when $k\geq 1$, the operator $D_{k+1}$ is defined recursively,
+
+$$
+\begin{align}
+D_{k+1} = D_{1} \cdot D_{k} \in \mathbb{R}^{(n-k-1)\times n},
+\end{align}
+$$
+where the dot product is matrix multiplication. Notice that $D_1$ in the equation above is the $(n-k-1)\times (n-k)$ version of $D_1$ matrix as described before.
+
+Now we want to transform the trend filtering problem into a sparse regression problem. Let $\boldsymbol{\beta}=D_{k+1}\boldsymbol{b}$. Then if $D_{k+1}$ were invertibe, we could write $\boldsymbol{b} = (D_{k+1})^{-1}\boldsymbol{\beta}$ and the above problem would become
+
+$$
+\begin{align}
+\hat{\boldsymbol{\beta}} = \underset{\boldsymbol{\beta}}{\mathrm{argmin}} \frac{1}{2}||\boldsymbol{y}- (D_{k+1})^{-1}\boldsymbol{\beta}||_2^2 + \frac{n^k}{k!}\lambda||\boldsymbol{\beta}||_1.
+\end{align}
+$$
+We can consider this a sparse regression with $\ell_1$ regularization problem, where the design matrix is $(D_{k+1})^{-1}$. We also know that given a deisgn matrix $X$ and a vector of observations $\boldsymbol{y}$, SuSiE performs sparse regression to estimate coefficients $\boldsymbol{\beta}$. Therefore, trend filtering-based SuSiE is just substituting the design matrix $X$ with $(D_{k+1})^{-1}$. Implementation details and tricks associated can be seen from `SuSiE Derivation` (Overleaf) and [`susieR` package](https://github.com/stephenslab/susieR/blob/master/R/trend_filtering_multiplication.R). And notice that we use Haar wavelets in the `susie_trendfilter` implementation. 
+
+We tried `susie_trendfilter` on some [minimal examples](https://stephenslab.github.io/susieR/articles/trend_filtering.html) and discovered that trend filtering-based SuSiE performs well in estimating piecewise constant functions, i.e., change points detection problem, except in one scenario when two change points are in a quick succession. We later used [MAD method](https://kaiqianzhang.github.io/susie-np/susie-tf-MAD-20190411.html), which will be discussed in Section 6, to help soothe the problem. More details of simulation studies associated are [here](https://kaiqianzhang.github.io/susie-np/susie-tf-MAD-20190416.html). [FIXME: maybe new dsc analysis]
+
+## 3 Decimated/Undecimated wavelet transform
+
+Now we consider wavelets and start with some background of wavelets. Wavelets are a system of orthonormal basis functions for $L^2([0,1])$. The bases are generated by translations and dilations of special functions $\phi(.)$ and $\psi(.)$ called the father and mother wavelet. So for any $j_0\geq 0$, a funcrion $f\in L^2([0,1])$ can be written as 
+
+$$
+f(x) = \sum_{k=0}^{2^{j_0}-1}\alpha_{j_0k}\phi_{j_0k}(x) + \sum_{j=j_0}^{\infty}\sum_{k=0}^{2^j-1}\beta_{jk}\psi_{jk}(x)
+$$
+where 
+$$
+\phi_{jk}(x) = 2^{j/2}\phi(2^jx-k), \text{ } \psi_{jk}(x) = 2^{j/2}\psi(2^jx-k).
+$$
+The coefficients $\alpha_{j_0k}$ and $\beta_{jk}$ are called the father and mother wavelets, respectively. The index $j$ is called the resolution level and $j_0$ is the minimum resolution level. Different choices of $\phi$ and $\psi$ generate various wavelet families, e.g., Haar wavelets, Symlet wavelets. 
+
+We often truncate the above expression for some $J$ such that
+$$
+f(x) = \sum_{k=0}^{2^{j_0}-1}\alpha_{j_0k}\phi_{j_0k}(x) + \sum_{j=j_0}^{J}\sum_{k=0}^{2^j-1}\beta_{jk}\psi_{jk}(x)
+$$
+We would consider truncated version wavelets hereafter. For any vector $\boldsymbol{f} = [f(1/n), f(2/n), \dots, f(n/n)]^T$ with $n = 2^J$ for some $J$, we can write a linear combination such that 
+$$
+\boldsymbol{f} = W^T \boldsymbol{d},
+$$
+where $\boldsymbol{d} = (\alpha_{j_00}, \dots, \alpha_{2^{j_0}-1}, \beta_{j_00}, \beta_{j_01}, \dots, \beta_{J2^{J}-1})^T$ is the vector of wavelet coefficients, and the rows of $W$ are basis functions evaluated at $x_i = i/n$. By orthogonality, 
+$$
+\boldsymbol{d} = W\boldsymbol{f}.
+$$
+This transformation from $\boldsymbol{f}$ to its wavelet coefficients via multiplication by $W$ is known as the discrete/decimated wavelet transform (DWT). 
+
+
+## References
+
+- Kim M, et al. (2009) Phosphorylation of the yeast Rpb1 C-terminal domain at serines 2, 5, and 7. J Biol Chem 284(39):26421-6.
+
+- Daubechies, I. (1992) Ten Lectures on Wavelets. SIAM, Philadelphia. 
+
+- Tibshirani, R. J. (2014). Adaptive piecewise polynomial estimation via trend filtering.The Annalsof Statistics  42(1), 285–323.
+
+- Haris, A., Simon, N., & Shojaie, A. (2018). Wavelet regression and additive models for irregularly spaced data. NeurIPS.
+
+
+

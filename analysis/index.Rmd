@@ -61,3 +61,5 @@ Welcome to Kaiqian's research project: susie-np.
 * Please click on [susie-tf-MAD-20190411](susie-tf-MAD-20190411.html) to see my results.
 
 * Please click on [susie-tf-MAD-20190416](susie-tf-MAD-20190416.html) to see my results.
+
+* Please click on [SuSiE for Nonparametric Regression](susie-np-summary-20190422.html) to see summary for this `susie-np` project.
