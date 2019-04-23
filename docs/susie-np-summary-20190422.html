@@ -12,7 +12,7 @@
 <meta name="author" content="Kaiqian Zhang" />
 
 
-<title>SuSiE for Nonparametric Regression</title>
+<title>SuSiE for Nonparametric Regression Summary</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -435,7 +435,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">SuSiE for Nonparametric Regression</h1>
+<h1 class="title toc-ignore">SuSiE for Nonparametric Regression Summary</h1>
 <h4 class="author">Kaiqian Zhang</h4>
 <h4 class="date">4/22/2019</h4>
 
@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree8be86c147a8e8f7bc4f45caaf7d4257c82a39aeatargetblank8be86c1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/8be86c147a8e8f7bc4f45caaf7d4257c82a39aea" target="_blank">8be86c1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreebad5cf7a7b3d6a5799a5302123b69387fea45727targetblankbad5cf7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/bad5cf7a7b3d6a5799a5302123b69387fea45727" target="_blank">bad5cf7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree8be86c147a8e8f7bc4f45caaf7d4257c82a39aeatargetblank8be86c1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreebad5cf7a7b3d6a5799a5302123b69387fea45727targetblankbad5cf7a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -627,6 +627,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/bad5cf7a7b3d6a5799a5302123b69387fea45727/analysis/susie-np-summary-20190422.Rmd" target="_blank">bad5cf7</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-22
+</td>
+<td>
+almost finish the first three parts
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/4c2b38f24624199d79ef9f076259bf5d1ca089d0/docs/susie-np-summary-20190422.html" target="_blank">4c2b38f</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/8be86c147a8e8f7bc4f45caaf7d4257c82a39aea/analysis/susie-np-summary-20190422.Rmd" target="_blank">8be86c1</a>
 </td>
 <td>
@@ -648,7 +682,7 @@ start my summary for susie-np
 </div>
 <div id="introduction" class="section level2">
 <h2>1 Introduction</h2>
-<p>We consider a nonparametric regression problem for estimating a regression function <span class="math inline">\(f\)</span>, from observations <span class="math inline">\(\{(x_i, y_i): i=1,2,\dots, n\}\)</span>, with <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i \in \mathbb{R}\)</span>, and <span class="math inline">\(y_i = f(x_i) + \epsilon_i\)</span> for <span class="math inline">\(i = 1,2,\dots,n\)</span>, where <span class="math inline">\(\epsilon_i\)</span> are independent, mean <span class="math inline">\(0\)</span>, and Gaussian distributed random variables. A popular approach for estimating <span class="math inline">\(f\)</span> is to use linear combinations of a pre-specified set of basis functions, e.g., polynomials, splines, and wavelets. Here, we are interested in two types of basis functions: trend filtering (Kim et al., 2009) and wavelets (Daubechies, 1992). The weights, or coefficients, in such a linear combination are usually determined using some form of penalized regression. For this work, we consider using a sparse regression framework <a href="https://stephenslab.github.io/susieR/">SuSiE</a>, which is a fast Bayesian sparse regression method newly developed by <a href="https://github.com/stephenslab">Stephens lab</a>.</p>
+<p>We consider a nonparametric regression problem for estimating a regression function <span class="math inline">\(f\)</span>, from observations <span class="math inline">\(\{(x_i, y_i): i=1,2,\dots, n\}\)</span>, with <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i \in \mathbb{R}\)</span>, and <span class="math inline">\(y_i = f(x_i) + \epsilon_i\)</span> for <span class="math inline">\(i = 1,2,\dots,n\)</span>, where <span class="math inline">\(\epsilon_i\)</span> are independent, mean <span class="math inline">\(0\)</span>, and Gaussian distributed random variables. A popular approach for estimating <span class="math inline">\(f\)</span> is to use linear combinations of a pre-specified set of basis functions, e.g., polynomials, splines, and wavelets. Here, we are interested in two types of basis functions: trend filtering (<a href="https://web.stanford.edu/~boyd/papers/pdf/l1_trend_filter.pdf">Kim et al., 2009</a>) and wavelets (<a href="https://jqichina.files.wordpress.com/2012/02/ten-lectures-of-waveletsefbc88e5b08fe6b3a2e58d81e8aeb2efbc891.pdf">Daubechies, 1992</a>). The weights, or coefficients, in such a linear combination are usually determined using some form of penalized regression. For this work, we consider using a sparse regression framework <a href="https://stephenslab.github.io/susieR/">SuSiE</a>, which is a fast Bayesian sparse regression method newly developed by <a href="https://github.com/stephenslab">Stephens lab</a>.</p>
 <p>In this summary, we present some efforts have been done in applying SuSiE in nonparametric regression problems, specifically using basis functions of trend filtering and wavelets. In Section 2 we present trend filtering-based SuSiE and its application in solving change points problem. In Section 3 we introduce Haar wavelet-based SuSiE as well as decimated and undecimated versions. In Section 4 we further establish a more general Haar wavelet-based SuSiE method, which allows the number of data points to be not a power of <span class="math inline">\(2\)</span>. In Section 5 we consider another family of wavelets Symlet and present results from simulation studies related. In Section 6 we discuss one estimating residual variance problem of SuSiE found throughout the work and how we can address this problem by using MAD method.</p>
 </div>
 <div id="trend-filtering-based-susie" class="section level2">
@@ -667,7 +701,7 @@ D_{1} = \begin{bmatrix}
     \end{bmatrix}
     \in \mathbb{R}^{(n-1)\times n}.
 \end{align}
-\]</span> In this case, components of trend filtering estimate form a piecewise constant structure, with break points corresponding to the nonzero entries of <span class="math inline">\(D_{1}\hat{\boldsymbol{b}} = (\hat{b}_2 - \hat{b}_1, \dots, \hat{b}_n - \hat{b}_{n-1})\)</span> (Tibshirani, 2014). And when <span class="math inline">\(k\geq 1\)</span>, the operator <span class="math inline">\(D_{k+1}\)</span> is defined recursively,</p>
+\]</span> In this case, components of trend filtering estimate form a piecewise constant structure, with break points corresponding to the nonzero entries of <span class="math inline">\(D_{1}\hat{\boldsymbol{b}} = (\hat{b}_2 - \hat{b}_1, \dots, \hat{b}_n - \hat{b}_{n-1})\)</span> (<a href="http://www.stat.cmu.edu/~ryantibs/papers/trendfilter.pdf">Tibshirani, 2014</a>). And when <span class="math inline">\(k\geq 1\)</span>, the operator <span class="math inline">\(D_{k+1}\)</span> is defined recursively,</p>
 <p><span class="math display">\[
 \begin{align}
 D_{k+1} = D_{1} \cdot D_{k} \in \mathbb{R}^{(n-k-1)\times n},
@@ -681,29 +715,39 @@ D_{k+1} = D_{1} \cdot D_{k} \in \mathbb{R}^{(n-k-1)\times n},
 \]</span> We can consider this a sparse regression with <span class="math inline">\(\ell_1\)</span> regularization problem, where the design matrix is <span class="math inline">\((D_{k+1})^{-1}\)</span>. We also know that given a deisgn matrix <span class="math inline">\(X\)</span> and a vector of observations <span class="math inline">\(\boldsymbol{y}\)</span>, SuSiE performs sparse regression to estimate coefficients <span class="math inline">\(\boldsymbol{\beta}\)</span>. Therefore, trend filtering-based SuSiE is just substituting the design matrix <span class="math inline">\(X\)</span> with <span class="math inline">\((D_{k+1})^{-1}\)</span>. Implementation details and tricks associated can be seen from <code>SuSiE Derivation</code> (Overleaf) and <a href="https://github.com/stephenslab/susieR/blob/master/R/trend_filtering_multiplication.R"><code>susieR</code> package</a>. And notice that we use Haar wavelets in the <code>susie_trendfilter</code> implementation.</p>
 <p>We tried <code>susie_trendfilter</code> on some <a href="https://stephenslab.github.io/susieR/articles/trend_filtering.html">minimal examples</a> and discovered that trend filtering-based SuSiE performs well in estimating piecewise constant functions, i.e., change points detection problem, except in one scenario when two change points are in a quick succession. We later used <a href="https://kaiqianzhang.github.io/susie-np/susie-tf-MAD-20190411.html">MAD method</a>, which will be discussed in Section 6, to help soothe the problem. More details of simulation studies associated are <a href="https://kaiqianzhang.github.io/susie-np/susie-tf-MAD-20190416.html">here</a>. [FIXME: maybe new dsc analysis]</p>
 </div>
-<div id="decimatedundecimated-wavelet-transform" class="section level2">
-<h2>3 Decimated/Undecimated wavelet transform</h2>
+<div id="decimated-and-undecimated-wavelet-transform-dwt-and-udwt" class="section level2">
+<h2>3 Decimated and undecimated wavelet transform (DWT and UDWT)</h2>
 <p>Now we consider wavelets and start with some background of wavelets. Wavelets are a system of orthonormal basis functions for <span class="math inline">\(L^2([0,1])\)</span>. The bases are generated by translations and dilations of special functions <span class="math inline">\(\phi(.)\)</span> and <span class="math inline">\(\psi(.)\)</span> called the father and mother wavelet. So for any <span class="math inline">\(j_0\geq 0\)</span>, a funcrion <span class="math inline">\(f\in L^2([0,1])\)</span> can be written as</p>
 <p><span class="math display">\[
 f(x) = \sum_{k=0}^{2^{j_0}-1}\alpha_{j_0k}\phi_{j_0k}(x) + \sum_{j=j_0}^{\infty}\sum_{k=0}^{2^j-1}\beta_{jk}\psi_{jk}(x)
 \]</span> where <span class="math display">\[
 \phi_{jk}(x) = 2^{j/2}\phi(2^jx-k), \text{ } \psi_{jk}(x) = 2^{j/2}\psi(2^jx-k).
-\]</span> The coefficients <span class="math inline">\(\alpha_{j_0k}\)</span> and <span class="math inline">\(\beta_{jk}\)</span> are called the father and mother wavelets, respectively. The index <span class="math inline">\(j\)</span> is called the resolution level and <span class="math inline">\(j_0\)</span> is the minimum resolution level. Different choices of <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\psi\)</span> generate various wavelet families, e.g., Haar wavelets, Symlet wavelets.</p>
+\]</span> The coefficients <span class="math inline">\(\alpha_{j_0k}\)</span> and <span class="math inline">\(\beta_{jk}\)</span> are called the father and mother wavelets, respectively. The index <span class="math inline">\(j\)</span> is called the resolution level and <span class="math inline">\(j_0\)</span> is the minimum resolution level. Different choices of <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\psi\)</span> generate various wavelet families, e.g., Haar wavelets and Symlet wavelets.</p>
 <p>We often truncate the above expression for some <span class="math inline">\(J\)</span> such that <span class="math display">\[
 f(x) = \sum_{k=0}^{2^{j_0}-1}\alpha_{j_0k}\phi_{j_0k}(x) + \sum_{j=j_0}^{J}\sum_{k=0}^{2^j-1}\beta_{jk}\psi_{jk}(x)
 \]</span> We would consider truncated version wavelets hereafter. For any vector <span class="math inline">\(\boldsymbol{f} = [f(1/n), f(2/n), \dots, f(n/n)]^T\)</span> with <span class="math inline">\(n = 2^J\)</span> for some <span class="math inline">\(J\)</span>, we can write a linear combination such that <span class="math display">\[
 \boldsymbol{f} = W^T \boldsymbol{d},
 \]</span> where <span class="math inline">\(\boldsymbol{d} = (\alpha_{j_00}, \dots, \alpha_{2^{j_0}-1}, \beta_{j_00}, \beta_{j_01}, \dots, \beta_{J2^{J}-1})^T\)</span> is the vector of wavelet coefficients, and the rows of <span class="math inline">\(W\)</span> are basis functions evaluated at <span class="math inline">\(x_i = i/n\)</span>. By orthogonality, <span class="math display">\[
 \boldsymbol{d} = W\boldsymbol{f}.
-\]</span> This transformation from <span class="math inline">\(\boldsymbol{f}\)</span> to its wavelet coefficients via multiplication by <span class="math inline">\(W\)</span> is known as the discrete/decimated wavelet transform (DWT).</p>
+\]</span> This transformation from <span class="math inline">\(\boldsymbol{f}\)</span> to its wavelet coefficients via multiplication by <span class="math inline">\(W\)</span> is known as the discrete/decimated wavelet transform (DWT). The DWT can be computed in <span class="math inline">\(O(n)\)</span> operations via Mallat’s pyramid algorithm (<a href="https://www.di.ens.fr/~mallat/papiers/MallatTheory89.pdf">Mallat, 1989</a>). Implementation for this has not been realized in SuSiE yet.</p>
+<p>We often use DWT for removing noise from signals and images, which we called denoising. Such denoising usually involves three steps:</p>
+<ul>
+<li><p>Use DWT to transform noisy data into an orthogonal domain, i.e., wavelet coefficients.</p></li>
+<li><p>Apply soft or thresholding to the wavelet coefficients, thereby suppressing those coefficients smaller than a certain amplitude.</p></li>
+<li><p>Transform back to the original domain.</p></li>
+</ul>
+<p>Such denoising, however, sometimes exhibits visual artifacts, e.g., <a href="https://en.wikipedia.org/wiki/Gibbs_phenomenon">Gibbs phenomena</a> in the neighborhood of discontinuity. Coifman and Donoho (<a href="https://web.stanford.edu/dept/statistics/cgi-bin/donoho/wp-content/uploads/2018/08/TIDeNoise.pdf">1995</a>) attributed this peculiar manner to the lack of translation invariance of the wavelet basis. One method for solving this problem is to use undecimated wavelet transform (UDWT) in the denoising. The intuition is for a range of shifts, one shifts the data, denoises the shifted data, and then unshifts the de-noised data. Doing this for each of a range of shifts, and averaging the several results so obtained, produces a reconstruction subject to far weaker Gibbs phenomena than thresholding based denoising using traditional DWT. Cycle-Spinning over the range of all circulant shifts can be accomplished in order n log2(n) time; it is equivalent to denoising using the undecimated or stationary wavelet transform. And a raw implementation for creating a UDWT matrix can be found <a href="https://kaiqianzhang.github.io/susie-np/wavelet-susie-20190117.html">here</a>.</p>
+<p>Finally, we introduce wavelet-based SuSiE, which has a similar idea as trend filtering-based SuSiE in Section 2.</p>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
 <ul>
-<li><p>Kim M, et al. (2009) Phosphorylation of the yeast Rpb1 C-terminal domain at serines 2, 5, and 7. J Biol Chem 284(39):26421-6.</p></li>
+<li><p>Kim M, et al. (2009) Phosphorylation of the yeast Rpb1 C-terminal domain at serines 2, 5, and 7. J Biol Chem 284(39): 26421-6.</p></li>
 <li><p>Daubechies, I. (1992) Ten Lectures on Wavelets. SIAM, Philadelphia.</p></li>
 <li><p>Tibshirani, R. J. (2014). Adaptive piecewise polynomial estimation via trend filtering.The Annalsof Statistics 42(1), 285–323.</p></li>
 <li><p>Haris, A., Simon, N., &amp; Shojaie, A. (2018). Wavelet regression and additive models for irregularly spaced data. NeurIPS.</p></li>
+<li><p>G. Mallat, St’ephane. (1989). A Theory of Multiresolution Signal Decomposition: The Wavelet Representation. IEEE Transactions on Pattern Analysis and Machine Intelligence - PAMI. 11.</p></li>
+<li><p>Coifman R.R., Donoho D.L. (1995) Translation-Invariant De-Noising. In: Antoniadis A., Oppenheim G. (eds) Wavelets and Statistics. Lecture Notes in Statistics, vol 103. Springer, New York, NY</p></li>
 </ul>
 <br> <br>
 <p>
