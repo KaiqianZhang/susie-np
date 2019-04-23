@@ -462,7 +462,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-04-22
+<strong>Last updated:</strong> 2019-04-23
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -541,10 +541,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreebad5cf7a7b3d6a5799a5302123b69387fea45727targetblankbad5cf7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/bad5cf7a7b3d6a5799a5302123b69387fea45727" target="_blank">bad5cf7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree66b6d1aaaa1d885b3198127afc944cf0ad6d7507targetblank66b6d1aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/KaiqianZhang/susie-np/tree/66b6d1aaaa1d885b3198127afc944cf0ad6d7507" target="_blank">66b6d1a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptreebad5cf7a7b3d6a5799a5302123b69387fea45727targetblankbad5cf7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomKaiqianZhangsusienptree66b6d1aaaa1d885b3198127afc944cf0ad6d7507targetblank66b6d1aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -627,6 +627,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/KaiqianZhang/susie-np/blob/66b6d1aaaa1d885b3198127afc944cf0ad6d7507/analysis/susie-np-summary-20190422.Rmd" target="_blank">66b6d1a</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-23
+</td>
+<td>
+finish section 4
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KaiqianZhang/susie-np/14ccb3bf8abc4857ebe9102ccfe5e0ae09133d73/docs/susie-np-summary-20190422.html" target="_blank">14ccb3b</a>
+</td>
+<td>
+kaiqian
+</td>
+<td>
+2019-04-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/KaiqianZhang/susie-np/blob/bad5cf7a7b3d6a5799a5302123b69387fea45727/analysis/susie-np-summary-20190422.Rmd" target="_blank">bad5cf7</a>
 </td>
 <td>
@@ -683,7 +717,7 @@ start my summary for susie-np
 <div id="introduction" class="section level2">
 <h2>1 Introduction</h2>
 <p>We consider a nonparametric regression problem for estimating a regression function <span class="math inline">\(f\)</span>, from observations <span class="math inline">\(\{(x_i, y_i): i=1,2,\dots, n\}\)</span>, with <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i \in \mathbb{R}\)</span>, and <span class="math inline">\(y_i = f(x_i) + \epsilon_i\)</span> for <span class="math inline">\(i = 1,2,\dots,n\)</span>, where <span class="math inline">\(\epsilon_i\)</span> are independent, mean <span class="math inline">\(0\)</span>, and Gaussian distributed random variables. A popular approach for estimating <span class="math inline">\(f\)</span> is to use linear combinations of a pre-specified set of basis functions, e.g., polynomials, splines, and wavelets. Here, we are interested in two types of basis functions: trend filtering (<a href="https://web.stanford.edu/~boyd/papers/pdf/l1_trend_filter.pdf">Kim et al., 2009</a>) and wavelets (<a href="https://jqichina.files.wordpress.com/2012/02/ten-lectures-of-waveletsefbc88e5b08fe6b3a2e58d81e8aeb2efbc891.pdf">Daubechies, 1992</a>). The weights, or coefficients, in such a linear combination are usually determined using some form of penalized regression. For this work, we consider using a sparse regression framework <a href="https://stephenslab.github.io/susieR/">SuSiE</a>, which is a fast Bayesian sparse regression method newly developed by <a href="https://github.com/stephenslab">Stephens lab</a>.</p>
-<p>In this summary, we present some efforts have been done in applying SuSiE in nonparametric regression problems, specifically using basis functions of trend filtering and wavelets. In Section 2 we present trend filtering-based SuSiE and its application in solving change points problem. In Section 3 we introduce Haar wavelet-based SuSiE as well as decimated and undecimated versions. In Section 4 we further establish a more general Haar wavelet-based SuSiE method, which allows the number of data points to be not a power of <span class="math inline">\(2\)</span>. In Section 5 we consider another family of wavelets Symlet and present results from simulation studies related. In Section 6 we discuss one estimating residual variance problem of SuSiE found throughout the work and how we can address this problem by using MAD method.</p>
+<p>In this summary, we present some efforts have been done in applying SuSiE in nonparametric regression problems, specifically using basis functions of trend filtering and wavelets. In Section 2 we present trend filtering-based SuSiE and its application in solving change points problem. In Section 3 we introduce Haar wavelet-based SuSiE as well as decimated and undecimated versions. In Section 4 we further establish a more general Haar wavelet-based SuSiE method, which allows irregularly spaced data and the number to be not a power of <span class="math inline">\(2\)</span>. In Section 5 we consider another family of wavelets Symlet and present results from simulation studies related. In Section 6 we discuss one estimating residual variance problem of SuSiE found throughout the work and how we can address this problem by using MAD method.</p>
 </div>
 <div id="trend-filtering-based-susie" class="section level2">
 <h2>2 Trend filtering-based SuSiE</h2>
@@ -717,6 +751,8 @@ D_{k+1} = D_{1} \cdot D_{k} \in \mathbb{R}^{(n-k-1)\times n},
 </div>
 <div id="decimated-and-undecimated-wavelet-transform-dwt-and-udwt" class="section level2">
 <h2>3 Decimated and undecimated wavelet transform (DWT and UDWT)</h2>
+<div id="introduction-to-wavelets-and-discrete-wavelet-transform-dwt" class="section level3">
+<h3>3.1 Introduction to wavelets and discrete wavelet transform (DWT)</h3>
 <p>Now we consider wavelets and start with some background of wavelets. Wavelets are a system of orthonormal basis functions for <span class="math inline">\(L^2([0,1])\)</span>. The bases are generated by translations and dilations of special functions <span class="math inline">\(\phi(.)\)</span> and <span class="math inline">\(\psi(.)\)</span> called the father and mother wavelet. So for any <span class="math inline">\(j_0\geq 0\)</span>, a funcrion <span class="math inline">\(f\in L^2([0,1])\)</span> can be written as</p>
 <p><span class="math display">\[
 f(x) = \sum_{k=0}^{2^{j_0}-1}\alpha_{j_0k}\phi_{j_0k}(x) + \sum_{j=j_0}^{\infty}\sum_{k=0}^{2^j-1}\beta_{jk}\psi_{jk}(x)
@@ -724,30 +760,79 @@ f(x) = \sum_{k=0}^{2^{j_0}-1}\alpha_{j_0k}\phi_{j_0k}(x) + \sum_{j=j_0}^{\infty}
 \phi_{jk}(x) = 2^{j/2}\phi(2^jx-k), \text{ } \psi_{jk}(x) = 2^{j/2}\psi(2^jx-k).
 \]</span> The coefficients <span class="math inline">\(\alpha_{j_0k}\)</span> and <span class="math inline">\(\beta_{jk}\)</span> are called the father and mother wavelets, respectively. The index <span class="math inline">\(j\)</span> is called the resolution level and <span class="math inline">\(j_0\)</span> is the minimum resolution level. Different choices of <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\psi\)</span> generate various wavelet families, e.g., Haar wavelets and Symlet wavelets.</p>
 <p>We often truncate the above expression for some <span class="math inline">\(J\)</span> such that <span class="math display">\[
-f(x) = \sum_{k=0}^{2^{j_0}-1}\alpha_{j_0k}\phi_{j_0k}(x) + \sum_{j=j_0}^{J}\sum_{k=0}^{2^j-1}\beta_{jk}\psi_{jk}(x)
+f(x) = \sum_{k=0}^{2^{j_0}-1}\alpha_{j_0k}\phi_{j_0k}(x) + \sum_{j=j_0}^{J}\sum_{k=0}^{2^j-1}\beta_{jk}\psi_{jk}(x).
 \]</span> We would consider truncated version wavelets hereafter. For any vector <span class="math inline">\(\boldsymbol{f} = [f(1/n), f(2/n), \dots, f(n/n)]^T\)</span> with <span class="math inline">\(n = 2^J\)</span> for some <span class="math inline">\(J\)</span>, we can write a linear combination such that <span class="math display">\[
 \boldsymbol{f} = W^T \boldsymbol{d},
 \]</span> where <span class="math inline">\(\boldsymbol{d} = (\alpha_{j_00}, \dots, \alpha_{2^{j_0}-1}, \beta_{j_00}, \beta_{j_01}, \dots, \beta_{J2^{J}-1})^T\)</span> is the vector of wavelet coefficients, and the rows of <span class="math inline">\(W\)</span> are basis functions evaluated at <span class="math inline">\(x_i = i/n\)</span>. By orthogonality, <span class="math display">\[
 \boldsymbol{d} = W\boldsymbol{f}.
 \]</span> This transformation from <span class="math inline">\(\boldsymbol{f}\)</span> to its wavelet coefficients via multiplication by <span class="math inline">\(W\)</span> is known as the discrete/decimated wavelet transform (DWT). The DWT can be computed in <span class="math inline">\(O(n)\)</span> operations via Mallat’s pyramid algorithm (<a href="https://www.di.ens.fr/~mallat/papiers/MallatTheory89.pdf">Mallat, 1989</a>). Implementation for this has not been realized in SuSiE yet.</p>
-<p>We often use DWT for removing noise from signals and images, which we called denoising. Such denoising usually involves three steps:</p>
+</div>
+<div id="wavelet-based-susie" class="section level3">
+<h3>3.2 Wavelet-based SuSiE</h3>
+<p>Given a short introduction of wavelets, we now present wavelet-based SuSiE, which has a similar idea as trend filtering-based SuSiE in Section 2. A nonparametric regression problem in the wavelets context is <span class="math display">\[
+\begin{align}
+\hat{\boldsymbol{b}} = \underset{\boldsymbol{b}}{\mathrm{argmin}} \frac{1}{2}|| \boldsymbol{y}- \boldsymbol{b}||_2^2 + \lambda||W \boldsymbol{b}||_1,
+\end{align}
+\]</span> where <span class="math inline">\(\boldsymbol{y} = [y_1, y_2, \dots y_n]^T\)</span> is an n vector of observations, <span class="math inline">\(\lambda\)</span> is a tuning parameter, and <span class="math inline">\(W\)</span> is the DWT matrix described before. Let <span class="math inline">\(\boldsymbol{\beta} = W\boldsymbol{b}\)</span>. Then <span class="math inline">\(\boldsymbol{b} = W^T\boldsymbol{\beta}\)</span> since <span class="math inline">\(W\)</span> is orthogonal. The above problem similarly becomes <span class="math display">\[
+\begin{align}
+\hat{\boldsymbol{\beta}} = \underset{\boldsymbol{\beta}}{\mathrm{argmin}} \frac{1}{2}||\boldsymbol{y}- W^T\boldsymbol{\beta}||_2^2 +\lambda||\boldsymbol{\beta}||_1.
+\end{align}
+\]</span> Therefore, wavelet-based SuSiE uses design matrix <span class="math inline">\(W^T\)</span> and observations <span class="math inline">\(\boldsymbol{y}\)</span> to estimate <span class="math inline">\(\boldsymbol{\beta}\)</span>.</p>
+</div>
+<div id="undecimated-wavelet-transform-udwt" class="section level3">
+<h3>3.3 Undecimated wavelet transform (UDWT)</h3>
+<p>We previously introduce the concept of DWT and often use DWT for removing noise from signals and images, which we call denoising. Such denoising usually involves three steps:</p>
 <ul>
 <li><p>Use DWT to transform noisy data into an orthogonal domain, i.e., wavelet coefficients.</p></li>
-<li><p>Apply soft or thresholding to the wavelet coefficients, thereby suppressing those coefficients smaller than a certain amplitude.</p></li>
+<li><p>Apply soft or hard thresholding to the wavelet coefficients, thereby suppressing those coefficients smaller than a certain amplitude.</p></li>
 <li><p>Transform back to the original domain.</p></li>
 </ul>
-<p>Such denoising, however, sometimes exhibits visual artifacts, e.g., <a href="https://en.wikipedia.org/wiki/Gibbs_phenomenon">Gibbs phenomena</a> in the neighborhood of discontinuity. Coifman and Donoho (<a href="https://web.stanford.edu/dept/statistics/cgi-bin/donoho/wp-content/uploads/2018/08/TIDeNoise.pdf">1995</a>) attributed this peculiar manner to the lack of translation invariance of the wavelet basis. One method for solving this problem is to use undecimated wavelet transform (UDWT) in the denoising. The intuition is for a range of shifts, one shifts the data, denoises the shifted data, and then unshifts the de-noised data. Doing this for each of a range of shifts, and averaging the several results so obtained, produces a reconstruction subject to far weaker Gibbs phenomena than thresholding based denoising using traditional DWT. Cycle-Spinning over the range of all circulant shifts can be accomplished in order n log2(n) time; it is equivalent to denoising using the undecimated or stationary wavelet transform. And a raw implementation for creating a UDWT matrix can be found <a href="https://kaiqianzhang.github.io/susie-np/wavelet-susie-20190117.html">here</a>.</p>
-<p>Finally, we introduce wavelet-based SuSiE, which has a similar idea as trend filtering-based SuSiE in Section 2.</p>
+<p>Such denoising, however, sometimes exhibits visual artifacts, e.g., <a href="https://en.wikipedia.org/wiki/Gibbs_phenomenon">Gibbs phenomena</a> in the neighborhood of discontinuity. Coifman and Donoho (<a href="https://web.stanford.edu/dept/statistics/cgi-bin/donoho/wp-content/uploads/2018/08/TIDeNoise.pdf">1995</a>) attributed this peculiar manner to the lack of translation invariance of the wavelet basis. One method for solving this problem is to use undecimated wavelet transform (UDWT) in the denoising. The intuition is for a range of shifts, one shifts the data, denoises the shifted data, and then unshifts the denoised data. Doing this for each of a range of shifts, and averaging the several results so obtained, produces a reconstruction subject to far weaker Gibbs phenomena than thresholding based denoising using traditional DWT. Cycle-Spinning over the range of all circulant shifts can be accomplished in order n log2(n) time; it is equivalent to denoising using the undecimated or stationary wavelet transform.</p>
+<p>One decent denoising method using UDWT is <a href="https://github.com/stephenslab/smashr">smashr</a> (<a href="https://arxiv.org/abs/1605.07787">Xing and Stephens, 2016</a>), which will be used to compare with wavelet-based SuSiE later in the simulation studies. We tried minimal examples on wavelet-based SuSiE with UDWT basis but <a href="https://kaiqianzhang.github.io/susie-np/wavelet-susie-20190117.html">results</a> are not well as expected.</p>
+</div>
+</div>
+<div id="wavelet-based-susie-for-irregularly-spaced-data" class="section level2">
+<h2>4 Wavelet-based SuSiE for irregularly spaced data</h2>
+<p>Given that we have n observations <span class="math inline">\(\{(x_i, y_i): i=1,2,\dots, n\}\)</span>, <span class="math inline">\(W\)</span> in the Section 3.2 is an n by n matrix. One pain for using wavelets here is we require:</p>
+<ul>
+<li><p><span class="math inline">\(n\)</span> is a power of 2, i.e., <span class="math inline">\(n=2^J\)</span> for some <span class="math inline">\(J\)</span>;</p></li>
+<li><p><span class="math inline">\(x_i\)</span>’s have to be equally spaced, i.e., <span class="math inline">\(x_i = \frac{i}{n}\)</span> for <span class="math inline">\(i=1,2,\dots,n\)</span>.</p></li>
+</ul>
+<p>Haris et al. (<a href="https://papers.nips.cc/paper/8112-wavelet-regression-and-additive-models-for-irregularly-spaced-data.pdf">2018</a>) proposed an n by K interpolation matrix <span class="math inline">\(R\)</span> to help solve this issue. The <span class="math inline">\((i,j)\)</span>th entry of <span class="math inline">\(R\)</span> is</p>
+<p><span class="math display">\[
+R_{ij}:=
+ \begin{cases} 
+      1 &amp; j=1, x_i \leq 1/K \\
+      (j+1)-Kx_i &amp; j = \lfloor K x_i \rfloor, x_i \in (1/K,1] \\
+      Kx_i - (j-1) &amp; j = \lceil Kx_i \rceil, x_i \in (1/K,1] \\
+      0 &amp; \text{otherwise},
+   \end{cases}
+\]</span> where <span class="math inline">\(K = 2^{\lceil log_2 n \rceil}\)</span>, i.e., K is the smallest power of <span class="math inline">\(2\)</span> number that is greater than n.</p>
+<p>Then the sparse regression we want to solve becomes</p>
+<p><span class="math display">\[
+\hat{\beta} = \underset{\beta}{\mathrm{argmin}} \frac{1}{2}||y- RW^T\beta||_2^2 + \lambda||\beta||_1,
+\]</span> where <span class="math inline">\(\boldsymbol{y} = [y_1, y_2, \dots y_n]^T\)</span> is an n vector of observations, <span class="math inline">\(\lambda\)</span> is a tuning parameter, <span class="math inline">\(R\)</span> is an n by K matrix, <span class="math inline">\(W\)</span> is a K by K matrix from Haar DWT with K bases, and <span class="math inline">\(\boldsymbol{\beta}\)</span> is a K by 1 column vector.</p>
+<p><a href="https://kaiqianzhang.github.io/susie-np/wavelet-susie-20190228.html">Initial analysis</a> for this interpolated wavelet-based SuSiE renders both good and bad fits, which motivate us to modify the interpoation scheme. To obtain a more robust interpolation scheme that is not greatly affected by a huge gap between neighboring <span class="math inline">\(x_i\)</span>, we choose K such that <span class="math display">\[
+m = \lceil 10\%\text{quantile}(|x_i-x_{i+1}|) \rceil \\
+K = 2^{\lceil \text{log}_2m \rceil}.
+\]</span> With a robust interpolation scheme, we obtained <a href="https://kaiqianzhang.github.io/susie-np/wavelet-susie-20190228-2.html">better fits</a> for most examples, but still observed poor fits due to converging to a local optimum issue preserved in SuSiE.</p>
+</div>
+<div id="symlet-wavelet-based-susie" class="section level2">
+<h2>5 Symlet wavelet-based SuSiE</h2>
+</div>
+<div id="estimate-residual-variance-mad-method" class="section level2">
+<h2>6 Estimate residual variance: MAD method</h2>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
 <ul>
-<li><p>Kim M, et al. (2009) Phosphorylation of the yeast Rpb1 C-terminal domain at serines 2, 5, and 7. J Biol Chem 284(39): 26421-6.</p></li>
+<li><p>Kim, S.-J., Koh, K., Boyd, S. and Gorinevsky, D. (2009). l1 trend filtering. SIAM Rev. 51 339–360.</p></li>
 <li><p>Daubechies, I. (1992) Ten Lectures on Wavelets. SIAM, Philadelphia.</p></li>
 <li><p>Tibshirani, R. J. (2014). Adaptive piecewise polynomial estimation via trend filtering.The Annalsof Statistics 42(1), 285–323.</p></li>
 <li><p>Haris, A., Simon, N., &amp; Shojaie, A. (2018). Wavelet regression and additive models for irregularly spaced data. NeurIPS.</p></li>
 <li><p>G. Mallat, St’ephane. (1989). A Theory of Multiresolution Signal Decomposition: The Wavelet Representation. IEEE Transactions on Pattern Analysis and Machine Intelligence - PAMI. 11.</p></li>
-<li><p>Coifman R.R., Donoho D.L. (1995) Translation-Invariant De-Noising. In: Antoniadis A., Oppenheim G. (eds) Wavelets and Statistics. Lecture Notes in Statistics, vol 103. Springer, New York, NY</p></li>
+<li><p>Coifman R.R., Donoho D.L. (1995) Translation-Invariant De-Noising. In: Antoniadis A., Oppenheim G. (eds) Wavelets and Statistics. Lecture Notes in Statistics, vol 103. Springer, New York, NY.</p></li>
+<li><p>Xing Z. and Stephens M. (2016). Smoothing via adaptive shrinkage (smash): denoising poisson and heteroskedastic Gaussian signals. arXiv preprint arXiv:1605.07787.</p></li>
 </ul>
 <br> <br>
 <p>
