@@ -91,17 +91,17 @@ In this vignette, we want to investigate whether it is worthwhile to set `MAD es
 
 ## Simulation details
 
-There are several variables we allow for varying in the simulation. More details can also be seen from the [DSC script](https://github.com/stephenslab/dsc-smooth-gaussian/blob/master/susie-tf.dsc). And how we simulate data can been seen from the [R code (function `simulate_tf_order0`)](https://github.com/stephenslab/dsc-smooth-gaussian/blob/master/code/simulate.R) We have the following different variables in the simulation:
+There are several variables we allow for varying in the simulation. More details can also be seen from the [DSC script](https://github.com/stephenslab/dsc-smooth-gaussian/blob/master/susie-tf.dsc). And how we simulate data can been seen from the [R code (function `simulate_tf_order0`)](https://github.com/stephenslab/dsc-smooth-gaussian/blob/master/code/simulate.R). We have the following three different variables in the simulation:
 
 - **n**: the number of data points. We have 100, 300, 500, 1000, or 2000 data points.
 
 - **cp_num**: the number of change points. We have 1, 3, 5, 10, 15, 30 or 50 change points.
 
-- **residual_variance**: residual variance for the ground truth data. We allow for 0.01, 0.05, 0.1, 0.5, 1. 
+- **residual_variance**: residual variance for the ground truth data. We allow for 0.01, 0.05, 0.1, 0.5, and 1. 
 
 ## Results summary
 
-- Given 100 data points and various residual variances, `susie_tf_MAD` and `susie_tf_smallresid` have better performance than `susie_tf`.
+- Given 100 data points and various residual variances, `susie_tf_MAD` and `susie_tf_smallresid` have better performances than `susie_tf`.
 
 - After increasing the number of data points, three methods have essentially the same performance.
 
@@ -126,17 +126,17 @@ plot_dscout(n=100, residual_variance=1)
 
 ### Given 1000 data points
 
-Given 1000 data points and assume residual variance is 0.01, three methods have roughly same performance. 
+Given 1000 data points and assume residual variance is 0.01, three methods have roughly the same performance. 
 ```{r}
 plot_dscout(n=1000, residual_variance=0.01)
 ```
 
-Given 1000 data points and assume residual variance is 0.1, three methods have roughly same performance.
+Given 1000 data points and assume residual variance is 0.1, three methods have roughly the same performance.
 ```{r}
 plot_dscout(n=1000, residual_variance=0.1)
 ```
 
-Given 1000 data points and assume residual variance is 1, three methods have roughly same performance.
+Given 1000 data points and assume residual variance is 1, three methods have roughly the same performance.
 ```{r}
 plot_dscout(n=1000, residual_variance=1)
 ```
