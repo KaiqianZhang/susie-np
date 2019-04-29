@@ -8,9 +8,9 @@ output:
 
 Welcome to Kaiqian's research project: susie-np.
 
-## Project Summary
+## Project summary
 
-Here is the [summary of the project](susie-np-summary-20190422.html) so far. 
+Here is the [project summary](susie-np-summary-20190422.html). 
 
 ## Related material
 
@@ -24,30 +24,30 @@ Here is the [summary of the project](susie-np-summary-20190422.html) so far.
 
 * Trend filtering papers:
 
-  + [L1 Trend Filtering](https://web.stanford.edu/~boyd/papers/pdf/l1_trend_filter.pdf)
+    + [L1 Trend Filtering](https://web.stanford.edu/~boyd/papers/pdf/l1_trend_filter.pdf)
   
-  + [Ten Lecture of Wavelets](https://jqichina.files.wordpress.com/2012/02/ten-lectures-of-waveletsefbc88e5b08fe6b3a2e58d81e8aeb2efbc891.pdf)
+    + [Ten Lecture of Wavelets](https://jqichina.files.wordpress.com/2012/02/ten-lectures-of-waveletsefbc88e5b08fe6b3a2e58d81e8aeb2efbc891.pdf)
   
-  + [Adaptive Piecewise Polynomial Estimation via Trend Filtering](http://www.stat.cmu.edu/~ryantibs/papers/trendfilter.pdf)
+    + [Adaptive Piecewise Polynomial Estimation via Trend Filtering](http://www.stat.cmu.edu/~ryantibs/papers/trendfilter.pdf)
 
 * Wavelets papers:
 
-  + [A Theory for Multiresolution Signal Decomposition:
+    + [A Theory for Multiresolution Signal Decomposition:
 The Wavelet Representation ](https://www.di.ens.fr/~mallat/papiers/MallatTheory89.pdf)
 
-  + [Translation-Invariant De-Noising](https://web.stanford.edu/dept/statistics/cgi-bin/donoho/wp-content/uploads/2018/08/TIDeNoise.pdf)
+    + [Translation-Invariant De-Noising](https://web.stanford.edu/dept/statistics/cgi-bin/donoho/wp-content/uploads/2018/08/TIDeNoise.pdf)
   
-  + [Flexible signal denoising via flexible empirical Bayes shrinkage](https://arxiv.org/abs/1605.07787)
+    + [Flexible signal denoising via flexible empirical Bayes shrinkage](https://arxiv.org/abs/1605.07787)
   
-  + [Wavelet regression and additive models for
+    + [Wavelet regression and additive models for
 irregularly spaced data](https://papers.nips.cc/paper/8112-wavelet-regression-and-additive-models-for-irregularly-spaced-data.pdf)
 
-  + [Wavelet Estimators in Nonparametric Regression: A
+    + [Wavelet Estimators in Nonparametric Regression: A
 Comparative Simulation Study](http://www.mas.ucy.ac.cy/~fanis/Papers/jssv06i06.pdf)
 
-  + [Ideal Spatial Adaptation by Wavelet Shrinkage](http://statweb.stanford.edu/~imj/WEBLIST/1994/isaws.pdf)
+    + [Ideal Spatial Adaptation by Wavelet Shrinkage](http://statweb.stanford.edu/~imj/WEBLIST/1994/isaws.pdf)
 
-## Detialed analyses 
+## Detailed analyses 
 
 * Please click on [wavelet-susie-20190114](UDWT.html) to see my results.
 
