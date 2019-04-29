@@ -1,0 +1,143 @@
+---
+title: "susie-tf-MAD-20190429"
+author: "Kaiqian Zhang"
+date: "4/29/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(ggplot2)
+library(gridExtra)
+library(ggpubr)
+```
+
+```{r}
+dscout = readRDS("data/susie-tf-general-dscout.RDS")
+dscout.df = data.frame(dscout$simulate.n, dscout$simulate.cp_num, dscout$simulate.residual_variance, dscout$analyze, dscout$score.error)
+names(dscout.df) = c("n", "cp_num", "residual_variance", "method", "mse")
+```
+
+```{r}
+plot_dscout = function(n, residual_variance){
+  dscout.df1 = dscout.df[dscout.df$n==n & dscout.df$residual_variance==residual_variance,]
+
+  dscout.df1.cp1 = dscout.df1[dscout.df1$cp_num==1,]
+  cp1 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp1) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("1 change point") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1),   axis.text.y=element_blank())
+  
+  dscout.df1.cp3 = dscout.df1[dscout.df1$cp_num==3,]
+  cp3 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp3) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("3 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  dscout.df1.cp5 = dscout.df1[dscout.df1$cp_num==5,]
+  cp5 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp5) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("5 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  dscout.df1.cp10 = dscout.df1[dscout.df1$cp_num==10,]
+  cp10 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp10) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("10 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  dscout.df1.cp15 = dscout.df1[dscout.df1$cp_num==15,]
+  cp15 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp15) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("15 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  dscout.df1.cp30 = dscout.df1[dscout.df1$cp_num==30,]
+  cp30 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp30) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("30 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  ggarrange(cp1, cp3, cp5, cp10, cp15, cp30, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
+}
+```
+
+## Introduction
+
+In this vignette, we want to investigate whether it is worthwhile to set `MAD estimate` as default in `susie_trendfilter`. Note that since we incline to apply `susie_trendfilter` in change points problem, we only consider estimating piecewise constant functions here. We performed DSC simulations on estimating various piecewise constant functions and want to compare the following three methods:
+
+- **susie_tf**: uses trendfiltering method implemented in SuSiE, i.e. calls `susie_trendfilter` directly.
+
+- **susie_tf_MAD**: uses MAD method to estimate a residual variance, fits `susie_trendfilter` with this estimated residual variance, initializes from this fit and then fits `susie_trendfilter` again with the initialization.
+
+- **susie_tf_smallresid**: uses a fixed residual variance 0.01 to fit `susie_trendfilter` first, and then initialize from this fit to perform `susie_trendfilter` again with this initialization.
+
+## Simulation details
+
+There are several variables we allow for varying in the simulation. More details can also be seen from the [DSC script](https://github.com/stephenslab/dsc-smooth-gaussian/blob/master/susie-tf.dsc). And how we simulate data can been seen from the [R code (function `simulate_tf_order0`)](https://github.com/stephenslab/dsc-smooth-gaussian/blob/master/code/simulate.R) We have the following different variables in the simulation:
+
+- **n**: the number of data points. We have 100, 300, 500, 1000, or 2000 data points.
+
+- **cp_num**: the number of change points. We have 1, 3, 5, 10, 15, 30 or 50 change points.
+
+- **residual_variance**: residual variance for the ground truth data. We allow for 0.01, 0.05, 0.1, 0.5, 1. 
+
+## Results summary
+
+- Given 100 data points and various residual variances, `susie_tf_MAD` and `susie_tf_smallresid` have better performance than `susie_tf`.
+
+- After increasing the number of data points, three methods have essentially the same performance.
+
+## Results details
+
+### Given 100 data points
+
+Given 100 data points and assume residual variance is 0.01, `susie_tf_MAD` and `susie_tf_smallresid` are better than `susie_tf`.
+```{r}
+plot_dscout(n=100, residual_variance=0.01)
+```
+
+Given 100 data points and assume residual variance is 0.1, `susie_tf_MAD` and `susie_tf_smallresid` are better than `susie_tf`.
+```{r}
+plot_dscout(n=100, residual_variance=0.1)
+```
+
+Given 100 data points and assume residual variance is 1, `susie_tf_MAD` and `susie_tf_smallresid` are better than `susie_tf`.
+```{r}
+plot_dscout(n=100, residual_variance=1)
+```
+
+### Given 1000 data points
+
+Given 1000 data points and assume residual variance is 0.01, three methods have roughly same performance. 
+```{r}
+plot_dscout(n=1000, residual_variance=0.01)
+```
+
+Given 1000 data points and assume residual variance is 0.1, three methods have roughly same performance.
+```{r}
+plot_dscout(n=1000, residual_variance=0.1)
+```
+
+Given 1000 data points and assume residual variance is 1, three methods have roughly same performance.
+```{r}
+plot_dscout(n=1000, residual_variance=1)
+```
+
