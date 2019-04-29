@@ -26,7 +26,7 @@ Here is the [project summary](susie-np-summary-20190422.html).
 
     + [L1 Trend Filtering](https://web.stanford.edu/~boyd/papers/pdf/l1_trend_filter.pdf)
   
-    + [Ten Lecture of Wavelets](https://jqichina.files.wordpress.com/2012/02/ten-lectures-of-waveletsefbc88e5b08fe6b3a2e58d81e8aeb2efbc891.pdf)
+    + [Ten Lectures of Wavelets](https://jqichina.files.wordpress.com/2012/02/ten-lectures-of-waveletsefbc88e5b08fe6b3a2e58d81e8aeb2efbc891.pdf)
   
     + [Adaptive Piecewise Polynomial Estimation via Trend Filtering](http://www.stat.cmu.edu/~ryantibs/papers/trendfilter.pdf)
 
