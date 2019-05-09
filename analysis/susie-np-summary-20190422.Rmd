@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Abstract
 
-We build on top of the sparse regression framework [SuSiE](https://stephenslab.github.io/susieR/) to investigate nonparametric regression problems. We establish two extensions of SuSiE: trend filtering-based SuSiE and wavelet-based SuSiE. Our trend filtering-based SuSiE along with using MAD estimtor for initializations overall has a reasonably decent performance in detecting change points. But note that the problem of stucking with a local optimum can still happen in some cases. The wavelet-based SuSiE explores possible ways to robustly perform interpolation and solves the pain when data are irregularly-spaced and the length is not a power of two. This method, however, still cannot compare to `smashr` in terms of prediction. 
+We build on top of the sparse regression framework [SuSiE](https://stephenslab.github.io/susieR/) to investigate nonparametric regression problems. We establish two extensions of SuSiE: trend filtering-based SuSiE and wavelet-based SuSiE. Our trend filtering-based SuSiE uses a MAD estimator, where we first perform trend filtering-based SuSiE with a fixed residual variance estimated from MAD method, initialize from this SuSiE fit, and then run trend filtering-based SuSiE again. This method overall has a reasonable performance in detecting change points. But note that a local optimum problem can still happen in some cases. The wavelet-based SuSiE explores possible ways to robustly perform interpolation and solves the pain when data are irregularly-spaced and the length is not a power of two. This method, however, still cannot compare to `smashr` in terms of prediction. 
 
 ## 1 Introduction
 
