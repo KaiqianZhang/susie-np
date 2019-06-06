@@ -166,7 +166,7 @@ Further, we performed large-scale simulation studies using Dynamic Statistical C
 
 Throughout the work, we are not only making progress on SuSiE's application in nonparametric regression, but also improving SuSiE itself. For instance, we changed our method in estimating prior variance from `uniroot` to `optim` by DSC [simulation results](https://kaiqianzhang.github.io/susie-np/v_methods_comparison_dsc_20190213.html). Recently, we also found from [analysis](https://kaiqianzhang.github.io/susie-np/wavelet-susie-20190129.html) that a fixed residual variance might perform better than updating residual variance in the algorithm. This inspired us to estimate a robust residual variance beforehand. 
 
-Here we use a robust estimator MAD to estimate residual variance. Donoho & Johnstone ([1994](http://statweb.stanford.edu/~imj/WEBLIST/1994/isaws.pdf)) considered estimating $\sigma$ in the wavelet domain and suggested a robust estimate that is based only on the empirical wavelet coefficients at the finest resolution level. The reason for considering only the finest level is that corresponing empirical wavelet
+Here we use a robust estimator MAD to estimate residual variance. Donoho & Johnstone ([1994](http://statweb.stanford.edu/~imj/WEBLIST/1994/isaws.pdf)) considered estimating $\sigma$ in the wavelet domain and suggested a robust estimate that is based only on the empirical wavelet coefficients at the finest resolution level. The reason for considering only the finest level is that corresponding empirical wavelet
 coefficients tend to consist mostly of noise. Donoho & Johnstone ([1994](http://statweb.stanford.edu/~imj/WEBLIST/1994/isaws.pdf)) proposed a robust estimate of the noise level $\sigma$ (based on the median absolute deviation) given by
 
 $$
