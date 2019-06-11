@@ -99,7 +99,7 @@ estimate_mad_residual_variance_original = function(y){
 }
 ```
 
-- **estimate_tf_MAD_revised**: uses `susie_trendfilter` with revised MAD implementation, which is
+- **susie_tf_MAD_revised**: uses `susie_trendfilter` with revised MAD implementation, which is
 
 ```
 estimate_mad_residual_variance_revised = function(y){
