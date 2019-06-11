@@ -130,7 +130,7 @@ More details can also be seen from the [DSC script](https://github.com/stephensl
 
 - The revised MAD implementation, by DSC results, should replace the original one because of simplicity and improved performance.
 
-## Results details
+## Results detail
 
 ### Given 100 data points
 
