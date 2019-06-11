@@ -107,5 +107,10 @@ Comparative Simulation Study](http://www.mas.ucy.ac.cy/~fanis/Papers/jssv06i06.p
 
 * Please click on [susie-tf-MAD-20190509](susie-tf-MAD-20190509.html) to see my results.
 
+* Please click on [DSC for MAD methods comparison](mad-comparison-20190611.html) to see my results.
+
+
+
+
 
 

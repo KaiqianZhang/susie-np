@@ -1,0 +1,189 @@
+---
+title: "DSC for MAD methods comparison"
+author: "Kaiqian Zhang"
+date: "6/11/2019"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(ggplot2)
+library(gridExtra)
+library(ggpubr)
+```
+
+```{r}
+dscout = readRDS("~/Library/Mobile Documents/com~apple~CloudDocs/git/research/2019/wavelet/susie-np/data/mad-dscout.RDS")
+dscout.df = data.frame(dscout$simulate.n, dscout$simulate.cp_num, dscout$simulate.residual_sd, dscout$analyze, dscout$score.error)
+names(dscout.df) = c("n", "cp_num", "residual_sd", "method", "mse")
+```
+
+```{r}
+plot_dscout = function(n, residual_sd){
+  dscout.df1 = dscout.df[dscout.df$n==n & dscout.df$residual_sd==residual_sd,]
+
+  dscout.df1.cp1 = dscout.df1[dscout.df1$cp_num==1,]
+  cp1 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp1) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("1 change point") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1),   axis.text.y=element_blank())
+  
+  dscout.df1.cp3 = dscout.df1[dscout.df1$cp_num==3,]
+  cp3 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp3) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("3 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  dscout.df1.cp5 = dscout.df1[dscout.df1$cp_num==5,]
+  cp5 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp5) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("5 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  dscout.df1.cp10 = dscout.df1[dscout.df1$cp_num==10,]
+  cp10 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp10) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("10 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  dscout.df1.cp15 = dscout.df1[dscout.df1$cp_num==15,]
+  cp15 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp15) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("15 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  dscout.df1.cp30 = dscout.df1[dscout.df1$cp_num==30,]
+  cp30 = ggplot(aes(y=mse, x=method), data=dscout.df1.cp30) +
+    geom_violin(alpha=0.5, color="grey") + 
+    geom_jitter(alpha=0.5, aes(color=method), position = position_jitter(width = 0.1)) + 
+    coord_flip() + 
+    ggtitle("30 change points") + 
+    theme(plot.title = element_text(hjust = 0.5, face="bold", size=10), axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y=element_blank())
+  
+  ggarrange(cp1, cp3, cp5, cp10, cp15, cp30, ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
+}
+```
+
+## Introduction
+
+In this vignette, we compare two implemented MAD methods in `susie_trendfilter`. Our goal is to investigate whether the change made in the latter implementation has a better performance in detecting change points, which is essentially the application of `susie_trendfilter`. Two MAD implementations are illustrated below. 
+
+- **susie_tf_MAD_original**: uses `susie_trendfilter` with orginal MAD implementation, which is 
+
+```
+estimate_mad_residual_variance_original = function(y){
+  n = length(y)
+  y_reflect = c(y, rev(y))
+  J = floor(log2(2*n))
+  y_reflect = y_reflect[1:2^J]
+  y_reflect = c(y_reflect, rev(y_reflect))
+  ywd = wd(y_reflect, filter.number=1, family="DaubExPhase")
+  wc_d = accessD(ywd, level=J-1)
+  est_resid = (median(abs(wc_d))/0.6745)^2
+  return(est_resid)
+}
+```
+
+- **estimate_tf_MAD_revised**: uses `susie_trendfilter` with revised MAD implementation, which is
+
+```
+estimate_mad_residual_variance_revised = function(y){
+  return(0.5*(median(abs(diff(y))/0.6745)^2))
+}
+```
+Also, we add a baseline method for comparison:
+
+- **susie_tf**: uses `susie_trendfilter` only without MAD. 
+
+## Simulation details
+
+We restrict change points values between 0 and 1, and allow for the following variables:
+
+- **n**: the number of data points. We have 100, 300, 500, 1000, or 2000 data points.
+
+- **cp_num**: the number of change points. We have 1, 3, 5, 10, 15, 30 or 50 change points.
+
+- **residual_sd**: residual standard deviation for the ground truth data. We allow for 0.001, 0.01, 0.02, 0.03, 0.05, and 0.1.
+
+More details can also be seen from the [DSC script](https://github.com/stephenslab/dsc-smooth-gaussian/blob/master/susie-mad-diff.dsc). And how we simulate data can been seen from the [R code (function `simulate_tf_order0`)](https://github.com/stephenslab/dsc-smooth-gaussian/blob/master/code/simulate.R).
+
+## Results summary
+
+- Given 100 data points, the revised implementation overall has a better performance than the original one.
+
+- Given 1000 data points, we cannot observe much difference between the two implementations.
+
+- The revised MAD implementation, by DSC results, should replace the original one because of simplicity and improved performance.
+
+## Results details
+
+### Given 100 data points
+
+Given 100 data points and assume residual standard deviation is 0.001.
+```{r}
+plot_dscout(n=100, residual_sd=0.001)
+```
+
+Given 100 data points and assume residual standard deviation is 0.01.
+```{r}
+plot_dscout(n=100, residual_sd=0.01)
+```
+
+Given 100 data points and assume residual standard deviation is 0.05.
+```{r}
+plot_dscout(n=100, residual_sd=0.05)
+```
+
+Given 100 data points and assume residual standard deviation is 0.1.
+```{r}
+plot_dscout(n=100, residual_sd=0.1)
+```
+
+### Given 1000 data points
+
+Given 1000 data points and assume residual standard deviation is 0.001.
+```{r}
+plot_dscout(n=1000, residual_sd=0.001)
+```
+
+Given 1000 data points and assume residual standard deviation is 0.01.
+```{r}
+plot_dscout(n=1000, residual_sd=0.01)
+```
+
+Given 1000 data points and assume residual standard deviation is 0.05.
+```{r}
+plot_dscout(n=1000, residual_sd=0.05)
+```
+
+Given 1000 data points and assume residual standard deviation is 0.1.
+```{r}
+plot_dscout(n=1000, residual_sd=0.1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
