@@ -18,7 +18,7 @@ library(ggpubr)
 ```
 
 ```{r}
-dscout = readRDS("~/Library/Mobile Documents/com~apple~CloudDocs/git/research/2019/wavelet/susie-np/data/mad-dscout.RDS")
+dscout = readRDS("data/mad-dscout.RDS")
 dscout.df = data.frame(dscout$simulate.n, dscout$simulate.cp_num, dscout$simulate.residual_sd, dscout$analyze, dscout$score.error)
 names(dscout.df) = c("n", "cp_num", "residual_sd", "method", "mse")
 ```
